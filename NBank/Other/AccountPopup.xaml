@@ -1,0 +1,62 @@
+﻿<Window x:Class="NBank.Other.AccountPopup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NBank.Other"
+        mc:Ignorable="d"
+        x:Name="frmAccountPopup"
+        Loaded="frmAccountPopup_Loaded"
+        PreviewKeyDown="frmAccountPopup_PreviewKeyDown"
+       ResizeMode="NoResize"
+        Title="Party List" WindowStartupLocation="CenterScreen"  SizeToContent="Width">
+    <Window.Resources>
+        <Style x:Key="StyleButton" TargetType="Button">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Padding" Value="5,5,5,5" />
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style x:Key="StyleTextBox" TargetType="TextBox">
+            <Setter Property="Width" Value="250"></Setter>
+            <Setter Property="Padding" Value="5,5,5,5"></Setter>
+        </Style>
+        
+    </Window.Resources>
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+              
+
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Account Name:"></Label>
+            <TextBox Grid.Row="0" Grid.Column="2" Text="" Style="{StaticResource StyleTextBox}" x:Name="txtAccountName" TextChanged="txtAccountName_TextChanged" ></TextBox>
+          
+        </Grid>
+
+        <ListView Grid.Row="2" Grid.Column="0" x:Name="lvAccountList" PreviewKeyDown="lvAccountList_PreviewKeyDown" PreviewMouseDoubleClick="lvAccountList_PreviewMouseDoubleClick" >
+            
+        </ListView>
+        <DockPanel  Grid.Row="4" Grid.Column="0">
+            <Button  x:Name="btnClose" Click="btnClose_Click" Content="_Close" Style="{StaticResource StyleButton}" HorizontalAlignment="Right"/>
+        </DockPanel>
+    </Grid>
+</Window>

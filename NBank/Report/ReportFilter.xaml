@@ -1,0 +1,346 @@
+﻿<Window x:Class="NBank.Report.ReportFilter"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NBank.Report"
+        mc:Ignorable="d"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        x:Name="frmReportFilter"
+        Loaded="frmReportFilter_Loaded"
+        Title="Reports" WindowStartupLocation="CenterScreen" SizeToContent="Width"  Background="#fbf6db"  >
+    <Window.Resources>
+        <Style x:Key="StyleDatePicker" TargetType="DatePicker">
+            <Setter Property="SelectedDate" Value="{x:Static sys:DateTime.Now}" />
+            <Setter Property="SelectedDateFormat" Value="Short"></Setter>
+            <Setter Property="Width" Value="150" />
+
+        </Style>
+        <Style x:Key="StyleTextBox" TargetType="TextBox">
+            <Setter Property="Width" Value="300" />
+            <Setter Property="MaxLines" Value="1" />
+
+        </Style>
+        <Style x:Key="StyleTextBoxMaxlength100" BasedOn="{StaticResource StyleTextBox}" TargetType="TextBox">
+            <Setter Property="MaxLength" Value="100"></Setter>
+        </Style>
+        <Style x:Key="StyleTextBoxMaxlength20" BasedOn="{StaticResource StyleTextBox}" TargetType="TextBox">
+            <Setter Property="MaxLength" Value="20"></Setter>
+        </Style>
+
+
+
+        <Style x:Key="RightAligned" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+        <Style x:Key="StyleComboBox" TargetType="ComboBox">
+            <Setter Property="Width" Value="150" />
+        </Style>
+
+    </Window.Resources>
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <!--Main First Row-->
+        <Grid  Grid.Row="0" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="5"></RowDefinition>
+
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="5"></RowDefinition>
+
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="5"></RowDefinition>
+
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="5"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+
+            </Grid.ColumnDefinitions>
+
+            <!--1st Row-->
+            <Label Grid.Row="0" Grid.Column="0" Content="From Date:"></Label>
+            <DatePicker Grid.Row="0" Grid.Column="2" x:Name="dtpStartDate" Style="{StaticResource StyleDatePicker}" ></DatePicker>
+
+            <Label Grid.Row="0" Grid.Column="4" Content="To Date:"></Label>
+            <DatePicker Grid.Row="0" Grid.Column="6" x:Name="dtpEndDate" Style="{StaticResource StyleDatePicker}" ></DatePicker>
+
+            <Label Grid.Row="0" Grid.Column="8" Content="Date Type:"></Label>
+            <ComboBox Grid.Row="0" Grid.Column="10" x:Name="cmbDateType" Style="{StaticResource StyleComboBox}" ></ComboBox>
+
+
+            <Label Grid.Row="0" Grid.Column="12" Content="Company:"></Label>
+            <ComboBox Grid.Row="0" Grid.Column="14" x:Name="cmbCompanyName" Style="{StaticResource StyleComboBox}"  SelectionChanged="cmbCompanyName_SelectionChanged" ></ComboBox>
+
+            <Label Grid.Row="0" Grid.Column="16" Content="Project:"></Label>
+            <ComboBox Grid.Row="0" Grid.Column="18" x:Name="cmbProjectName" Style="{StaticResource StyleComboBox}"></ComboBox>
+
+            <!--2nd Row-->
+            <Label Grid.Row="2" Grid.Column="0" Content="Bank:" ></Label>
+            <ComboBox Grid.Row="2" Grid.Column="2" x:Name="cmbBankName" Style="{StaticResource StyleComboBox}" ></ComboBox>
+
+            <Label Grid.Row="2" Grid.Column="4" Content="Type:"></Label>
+            <ComboBox Grid.Row="2" Grid.Column="6" x:Name="cmbTypeName" Style="{StaticResource StyleComboBox}" ></ComboBox>
+
+            <Label Grid.Row="2" Grid.Column="8" Content="Sub Type:" ></Label>
+            <ComboBox Grid.Row="2" Grid.Column="10" x:Name="cmbSubTypeName" Style="{StaticResource StyleComboBox}" ></ComboBox>
+
+            <Label Grid.Row="2" Grid.Column="12" Content="Parameter:" ></Label>
+            <ComboBox Grid.Row="2" Grid.Column="14" x:Name="cmbParameterName" Style="{StaticResource StyleComboBox}" ></ComboBox>
+
+            <Label Grid.Row="2" Grid.Column="16" Content="Status:" ></Label>
+            <ComboBox Grid.Row="2" Grid.Column="18" x:Name="cmbChequeStatus" Style="{StaticResource StyleComboBox}" ></ComboBox>
+
+            <!--3rd Row-->
+            <Label Grid.Row="4" Grid.Column="0" Content="I/D:" ></Label>
+            <ComboBox Grid.Row="4" Grid.Column="2" x:Name="cmbChequeTypeName" Style="{StaticResource StyleComboBox}" ></ComboBox>
+
+            <Label Grid.Row="4" Grid.Column="4" Content="Cheque No.:"></Label>
+            <TextBox Grid.Row="4" Grid.Column="6" x:Name="txtChequeNo" MaxLength="20" ></TextBox>
+
+            <Label Grid.Row="4" Grid.Column="8" Content="Party Name:"></Label>
+            <TextBox Grid.Row="4" Grid.Column="10" x:Name="txtPartyName" Width="150" Style="{StaticResource StyleTextBox}" PreviewKeyDown="txtPartyName_PreviewKeyDown" PreviewGotKeyboardFocus="txtPartyName_PreviewGotKeyboardFocus" ></TextBox>
+
+            <Label Grid.Row="4" Grid.Column="12" Content="SubName:"></Label>
+            <TextBox Grid.Row="4" Grid.Column="14" x:Name="txtAccountSubName" Width="150" Style="{StaticResource StyleTextBox}" ></TextBox>
+
+            <Label Grid.Row="4" Grid.Column="16" Content="ERP ID:"></Label>
+            <TextBox Grid.Row="4" Grid.Column="18" x:Name="txtERPID" Width="150" Style="{StaticResource StyleTextBox}" ></TextBox>
+
+
+            <!--4th Row-->
+            <Label Grid.Row="6" Grid.Column="0" Content="Report Type:"></Label>
+            <ComboBox Grid.Row="6" Grid.Column="2" x:Name="cmbReportTypeName" Style="{StaticResource StyleComboBox}" ></ComboBox>
+
+            <Label Grid.Row="6" Grid.Column="4" Content="Group BY:"></Label>
+            <ComboBox Grid.Row="6" Grid.Column="6" x:Name="cmbGroupBy" Style="{StaticResource StyleComboBox}" ></ComboBox>
+
+            <Label Grid.Row="6" Grid.Column="8" Content="Print Narration:"></Label>
+            <CheckBox  Grid.Row="6" Grid.Column="10" x:Name="chkPrintNarration"></CheckBox>
+
+            <Label Grid.Row="6" Grid.Column="12" Content="Print SubName:"></Label>
+            <CheckBox  Grid.Row="6" Grid.Column="14" x:Name="chkPrintSubName"></CheckBox>
+
+
+
+
+
+            <!--<Button Grid.Row="6" Grid.Column="8" Content="_Search" x:Name="btnSearch" Click="btnSearch_Click" ></Button>-->
+            <Grid Grid.Row="6" Grid.Column="12"  Grid.ColumnSpan="8">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+
+                </Grid.ColumnDefinitions>
+                <Button Grid.Row="0" Grid.Column="2" Content="_Search" x:Name="btnSearch" Click="btnSearch_Click"  ></Button>
+                <Button Grid.Row="0" Grid.Column="4" Content="_Print" x:Name="btnPrint" Click="btnPrint_Click" ></Button>
+                <Button Grid.Row="0" Grid.Column="6" Content="_Export" x:Name="btnExport" Click="btnExport_Click" />
+                <Button Grid.Row="0" Grid.Column="10" Content="_Close" x:Name="btnClose" Click="btnClose_Click" ></Button>
+                <Button Grid.Row="0" Grid.Column="8" Content="_Reset" x:Name="btnReset" Click="btnReset_Click"></Button>
+            </Grid>
+        </Grid>
+
+        <!--2nd Row-->
+        <Grid Grid.Row="2" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="5"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <DataGrid Grid.Row="0" Grid.Column="0"
+                    x:Name="dgReportFilter" 
+                  AutoGenerateColumns="False"   
+                  SelectionMode="Single" 
+                  SelectionUnit="FullRow" 
+                  Width="auto" 
+                  Height="auto"
+                  CanUserAddRows="false"
+                  CanUserReorderColumns="False"
+                  IsReadOnly="True"
+                      MouseDoubleClick="dgReportFilter_MouseDoubleClick"
+                      SelectionChanged="dgReportFilter_SelectionChanged"
+                  >
+                <DataGrid.Columns>
+
+                    <DataGridTextColumn Header="Entry Date"     Binding="{Binding ChequeEntryDate, StringFormat=\{0:dd/MM/yyyy\}}"     />
+                    <DataGridTextColumn Header="Party Name"     Binding="{Binding Path=AccountName}"  Width="180" />
+                    <DataGridTextColumn Header="I/D"            Binding="{Binding Path=ChequeTypeName}" />
+                    <DataGridTextColumn Header="Co."            Binding="{Binding Path=CompanyShortName}" Width="180" />
+                    <DataGridTextColumn Header="ERP ID"         Binding="{Binding Path=ERPID}" Width="80" />
+                    <DataGridTextColumn Header="BankCode"       Binding="{Binding Path=BankCode}" Width="100" />
+                    <DataGridTextColumn Header="Cheque No."     Binding="{Binding Path=ChequeNo}"  ElementStyle="{StaticResource RightAligned}"  />
+                    <DataGridTextColumn Header="Prj.Short Name" Binding="{Binding Path=ProjectShortName}" Width="180" />
+                    <DataGridTextColumn Header="Status"         Binding="{Binding Path=ChequeStatusName}"  />
+                    <DataGridTextColumn Header="Issue Date"     Binding="{Binding ChequeIssueDate, StringFormat=\{0:dd/MM/yyyy\}}"  />
+                    <DataGridTextColumn Header="Clear Date"     Binding="{Binding ChequeClearDate, StringFormat=\{0:dd/MM/yyyy\}}"  />
+                    <!--<DataGridTextColumn Header="Cheque Amount"  Binding="{Binding Path=ChequeAmount}" ElementStyle="{StaticResource RightAligned}"/>
+                    <DataGridTextColumn Header="TDS Amount"  Binding="{Binding Path=ChequeAmountTDS}" ElementStyle="{StaticResource RightAligned}"/>-->
+                    <DataGridTextColumn Header="Net Amount"  Binding="{Binding Path=NetAmount}" ElementStyle="{StaticResource RightAligned}"/>
+
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+        <!--3rd Row-->
+        <Grid Grid.Row="4" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <!--Type Sub Type and Para meter-->
+            <Grid Grid.Row="0" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="5"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Content="Type:"></Label>
+                <Label Grid.Row="0" Grid.Column="2"  x:Name="lblTypeName" Style="{StaticResource StyleDisplayLabel}"></Label>
+
+                <Label Grid.Row="0" Grid.Column="4" Content="SubType:"></Label>
+                <Label Grid.Row="0" Grid.Column="6"  x:Name="lblSubTypeName" Style="{StaticResource StyleDisplayLabel}"></Label>
+
+                <Label Grid.Row="0" Grid.Column="8" Content="Parameter:"></Label>
+                <Label Grid.Row="0" Grid.Column="10"  x:Name="lblParameterName" Style="{StaticResource StyleDisplayLabel}"></Label>
+
+                <Label Grid.Row="0" Grid.Column="12" Content="Account SubName:"></Label>
+                <Label Grid.Row="0" Grid.Column="14" x:Name="lblAccountSubName" Style="{StaticResource StyleDisplayLabel}"></Label>
+
+                <Label Grid.Row="0" Grid.Column="16" Content="Total Net Amount:"></Label>
+                <Label Grid.Row="0" Grid.Column="18" x:Name="lblTotalNetAmount" Style="{StaticResource StyleDisplayLabel}"  HorizontalContentAlignment="Right"></Label>
+
+
+                <Label Grid.Row="2" Grid.Column="0" Content="Issue Date:"></Label>
+                <Label Grid.Row="2" Grid.Column="2"  x:Name="lblChequeIssueDate" Style="{StaticResource StyleDisplayLabel}"></Label>
+
+                <Label Grid.Row="2" Grid.Column="4" Content="Clear Date:"></Label>
+                <Label Grid.Row="2" Grid.Column="6"  x:Name="lblChequeClearDate" Style="{StaticResource StyleDisplayLabel}"></Label>
+
+                <Label Grid.Row="2" Grid.Column="8" Content="Status Name:"></Label>
+                <Label Grid.Row="2" Grid.Column="10"  x:Name="lblChequeStatusName" Style="{StaticResource StyleDisplayLabel}"></Label>
+            </Grid>
+        </Grid>
+
+        <!--4th Row-->
+        <Grid Grid.Row="6" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Narration:"></Label>
+
+
+            <Label Grid.Row="0" Grid.Column="2" Style="{StaticResource StyleDisplayLabel}" Width="900" >
+                <TextBlock  x:Name="lblNaration" TextWrapping="WrapWithOverflow" ></TextBlock>
+            </Label>
+
+        </Grid>
+
+        <!--5th Row-->
+        <StatusBar Grid.Row="8" Grid.Column="0">
+            <StatusBarItem>
+                <TextBlock Name="lblStatus" />
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+
+</Window>

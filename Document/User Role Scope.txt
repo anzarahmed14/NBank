@@ -1,0 +1,9 @@
+Date:04-Aug-2017
+
+Work to be done as below:-
+1.	Master for User Creation
+2.	User can be given rights for View, Add, Edit, Delete for Masters
+3.	User can be given rights for View, Add, Edit, Delete for Transactions
+4.	User can be given rights to View Reports
+
+Existing data of nbank will be migrated to new Nbank software.

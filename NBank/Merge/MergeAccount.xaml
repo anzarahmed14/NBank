@@ -1,0 +1,59 @@
+﻿<Window x:Class="NBank.Merge.MergeAccount"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NBank.Merge"
+        mc:Ignorable="d"
+        Title="Merge Account"
+        Height="auto" Width="500"
+         x:Name="frmMergeAccount"
+         WindowStartupLocation="CenterScreen"
+        Loaded="frmMergeAccount_Loaded"
+        >
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Gray" />
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="Red"/>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"></ColumnDefinition>
+            <ColumnDefinition Width="5"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock  Grid.Row="0" Grid.ColumnSpan="3" TextWrapping="WrapWithOverflow" x:Name="lblWarningText"  >
+            This is Critical Data Operation
+<LineBreak/>
+Ensure there is no other user presently logged in
+
+
+        </TextBlock>
+        
+        <Label Grid.Row="2" Grid.Column="0" Content="From Account Name"></Label>
+        <ComboBox Grid.Row="2" Grid.Column="2" x:Name="cmbFromAccountName"></ComboBox>
+
+        <Label Grid.Row="4" Grid.Column="0" Content="To Account Name"></Label>
+        <ComboBox Grid.Row="4" Grid.Column="2" x:Name="cmbToAccountName"></ComboBox>
+
+        <StackPanel Grid.Row="6" Grid.ColumnSpan="3" Width="100" HorizontalAlignment="Right" >
+            <Button Content="_Merge" x:Name="btnMeregeAccount" Click="btnMeregeAccount_Click" ></Button>
+        </StackPanel>
+        
+    </Grid>
+</Window>

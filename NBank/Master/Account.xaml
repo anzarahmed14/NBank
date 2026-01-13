@@ -1,0 +1,180 @@
+﻿<Window x:Class="NBank.Master.Account"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NBank.Master"
+        mc:Ignorable="d"
+        Loaded="Window_Loaded"
+        Title="Account Master"  
+        WindowStartupLocation="CenterScreen" 
+        SizeToContent="Height" 
+        Height="auto"  
+        Width="460" 
+      
+        Background="#fbf6db"
+        x:Name="frmAccountMaster"
+        KeyDown="frmAccountMaster_KeyDown"
+        >
+    <Window.Resources>
+        <Style x:Key="StyleNormalTextBoxWidth" TargetType="TextBox">
+            <Setter Property="Width" Value="300" />
+            <Setter Property="MaxLines" Value="1" />
+        </Style>
+
+        <Style x:Key="StyleNormalComboBoxWidth" TargetType="ComboBox">
+            <Setter Property="Width" Value="300" />
+
+        </Style>
+
+        <Style x:Key="StyleTextBoxMaxlength10" BasedOn="{StaticResource StyleNormalTextBoxWidth}" TargetType="TextBox">
+            <Setter Property="MaxLength" Value="10"></Setter>
+        </Style>
+
+        <Style x:Key="StyleTextBoxMaxlength20" BasedOn="{StaticResource StyleNormalTextBoxWidth}" TargetType="TextBox">
+            <Setter Property="MaxLength" Value="20"></Setter>
+        </Style>
+
+        <Style x:Key="StyleTextBoxMaxlength50" BasedOn="{StaticResource StyleNormalTextBoxWidth}" TargetType="TextBox">
+            <Setter Property="MaxLength" Value="50"></Setter>
+        </Style>
+
+        <Style x:Key="StyleTextBoxMaxlength100" BasedOn="{StaticResource StyleNormalTextBoxWidth}" TargetType="TextBox">
+            <Setter Property="MaxLength" Value="100"></Setter>
+        </Style>
+
+    </Window.Resources>
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="5"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Label x:Name="lblAccountName" Grid.Row="0" Grid.Column="0" Content="Account Name:" Style="{StaticResource StyleRequiredFieldLabel}"></Label>
+        <TextBox x:Name="txtAccountName" Grid.Row="0" Grid.Column="2" MaxLines="1" Style="{StaticResource StyleTextBoxMaxlength100}"></TextBox>
+
+        <Label x:Name="lblAccountShortName" Grid.Row="2" Grid.Column="0" Content="Account Short Name:"></Label>
+        <TextBox x:Name="txtAccountShortName" Grid.Row="2" Grid.Column="2" Style="{StaticResource StyleTextBoxMaxlength100}"></TextBox>
+
+        <Label x:Name="lblAddress1" Grid.Row="4" Grid.Column="0" Content="Address1:"></Label>
+        <TextBox x:Name="txtAddress1" Grid.Row="4" Grid.Column="2"  Style="{StaticResource StyleTextBoxMaxlength100}"></TextBox>
+
+        <Label x:Name="lblAddress2" Grid.Row="6" Grid.Column="0" Content="Address2:"></Label>
+        <TextBox x:Name="txtAddress2" Grid.Row="6" Grid.Column="2"  Style="{StaticResource StyleTextBoxMaxlength100}"></TextBox>
+
+        <Label x:Name="lblAddress3" Grid.Row="8" Grid.Column="0" Content="Address3:"></Label>
+        <TextBox x:Name="txtAddress3" Grid.Row="8" Grid.Column="2"  Style="{StaticResource StyleTextBoxMaxlength100}"></TextBox>
+
+        <Label x:Name="lblCityName" Grid.Row="10" Grid.Column="0" Content="City Name:"></Label>
+        <TextBox x:Name="txtCityName" Grid.Row="10" Grid.Column="2" Style="{StaticResource StyleTextBoxMaxlength20}"></TextBox>
+
+        <Label x:Name="lblPinCode" Grid.Row="12" Grid.Column="0" Content="Pin Code:"></Label>
+        <TextBox x:Name="txtPinCode" Grid.Row="12" Grid.Column="2" Style="{StaticResource StyleTextBoxMaxlength20}"></TextBox>
+
+        <Label x:Name="lblStateID" Grid.Row="14" Grid.Column="0" Content="State Name:" Style="{StaticResource StyleRequiredFieldLabel}"></Label>
+        <!--<TextBox x:Name="txtStateID" Grid.Row="14" Grid.Column="2"  Style="{StaticResource StyleTextBoxMaxlength20}"></TextBox>-->
+        <ComboBox x:Name="cmbState"  Grid.Row="14" Grid.Column="2" IsEditable="True"   ItemsSource="{Binding Teams}"   Style="{StaticResource StyleNormalComboBoxWidth}"
+ IsReadOnly="True"
+                  
+  >
+         
+        </ComboBox>
+
+        <Label x:Name="lblCSTNo" Grid.Row="16" Grid.Column="0" Content="CST No.:"></Label>
+        <TextBox x:Name="txtCSTNo" Grid.Row="16" Grid.Column="2"  Style="{StaticResource StyleTextBoxMaxlength20}"></TextBox>
+
+        <Label x:Name="lblVATNo" Grid.Row="18" Grid.Column="0" Content="VAT No.:"></Label>
+        <TextBox x:Name="txtVATNo" Grid.Row="18" Grid.Column="2"  Style="{StaticResource StyleTextBoxMaxlength20}"></TextBox>
+
+        <Label x:Name="lblPANNo" Grid.Row="20" Grid.Column="0" Content="Pan No.:"></Label>
+        <TextBox x:Name="txtPANNo" Grid.Row="20" Grid.Column="2"  Style="{StaticResource StyleTextBoxMaxlength20}"></TextBox>
+
+        <Label x:Name="lblContactNo1" Grid.Row="22" Grid.Column="0" Content="Contact No. 1:"></Label>
+        <TextBox x:Name="txtContactNo1" Grid.Row="22" Grid.Column="2"  Style="{StaticResource StyleTextBoxMaxlength20}"></TextBox>
+
+
+        <Label x:Name="lblContactNo2" Grid.Row="24" Grid.Column="0" Content="Contact No. 2:"></Label>
+        <TextBox x:Name="txtContactNo2" Grid.Row="24" Grid.Column="2"  Style="{StaticResource StyleTextBoxMaxlength20}"></TextBox>
+
+        <Label x:Name="lblFaxNo" Grid.Row="26" Grid.Column="0" Content="Fax No.:"></Label>
+        <TextBox x:Name="txtFaxNo" Grid.Row="26" Grid.Column="2"  Style="{StaticResource StyleTextBoxMaxlength10}"></TextBox>
+
+        <Label x:Name="lblContactPersonName" Grid.Row="28" Grid.Column="0" Content="Contact Person Name:"></Label>
+        <TextBox x:Name="txtContactPersonName" Grid.Row="28" Grid.Column="2"  Style="{StaticResource StyleTextBoxMaxlength20}"></TextBox>
+
+        <Label x:Name="lblNotes" Grid.Row="30" Grid.Column="0" Content="Notes:"></Label>
+        <TextBox x:Name="txtNotes" Grid.Row="30" Grid.Column="2"  Style="{StaticResource StyleTextBoxMaxlength100}"></TextBox>
+
+        <Label x:Name="lblOpeningBalance" Grid.Row="32" Grid.Column="0" Content="Opening Balance:"></Label>
+        <TextBox x:Name="txtOpeningBalance" Grid.Row="32" Grid.Column="2"   Style="{StaticResource StyleTextBoxMaxlength10}"  PreviewTextInput="txtOpeningBalance_PreviewTextInput"></TextBox>
+
+        <Label Grid.Row="34" Grid.Column="0" Content="Is Active:" x:Name="lblIsActive"></Label>
+        <CheckBox Grid.Row="34" Grid.Column="2" x:Name="chkIsActive" ></CheckBox>
+        
+        <Grid  Grid.Row="36"  Grid.ColumnSpan="3" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Row="0" Grid.Column="1" x:Name="btnSave" Content="_Save"  Click="btnSave_Click"></Button>
+            <Button Grid.Row="0" Grid.Column="4" x:Name="btnClose" Content="_Close"  Click="btnClose_Click"></Button>
+        </Grid>
+
+        <StatusBar Grid.Row="38" Grid.ColumnSpan="3">
+            <StatusBarItem>
+                <TextBlock Name="lblStatus" />
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>
+

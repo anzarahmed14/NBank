@@ -1,0 +1,223 @@
+﻿<Window x:Class="NBank.Transaction.ChequeEntryList"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NBank.Transaction"
+        mc:Ignorable="d"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        x:Name="frmChequeEntryList"
+        Loaded="frmChequeEntryList_Loaded"
+        Title="Cheque Entry List"  WindowStartupLocation="CenterScreen"  Height="600"  Background="#fbf6db">
+    <Window.Resources>
+       
+     
+        <Style x:Key="StyleTextBox" TargetType="TextBox">
+            <Setter Property="Width" Value="100"></Setter>
+            <Setter Property="Padding" Value="5,5,5,5"></Setter>
+        </Style>
+       
+
+        <!--Grid Text Box RightAligned-->
+        <Style x:Key="RightAligned" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="Background" Value="Black"></Setter>
+        </Style>
+
+       
+
+    </Window.Resources>
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <!--Firts Row-->
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="5"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+
+
+
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" x:Name="lblFromDate" Content="From Date:"></Label>
+            <DatePicker  Grid.Row="0" Grid.Column="2" x:Name="dtpFromDate" Text="From Date:" />
+
+            <Label Grid.Row="0" Grid.Column="4" x:Name="lblToDate" Content="To Date:"></Label>
+            <DatePicker  Grid.Row="0" Grid.Column="6" x:Name="dtpToDate" Text="To Date:" ></DatePicker>
+
+     
+            <Label  Grid.Row="0" Grid.Column="8" x:Name="lblChequeNo" Content="Cheque No.:"></Label>
+            <TextBox  Grid.Row="0" Grid.Column="10" x:Name="txtChequeNo" Text="" Style="{StaticResource StyleTextBox}"></TextBox>
+
+            <Button Grid.Row="0" Grid.Column="14" x:Name="btnGo" Content="_GO" Click="btnGo_Click" ></Button>
+
+            <Button Grid.Row="0" Grid.Column="12" x:Name="btnCS" Content="C_h" Click="btnCS_Click" ></Button>
+
+
+            <Button Grid.Row="0" Grid.Column="16" x:Name="btnAdd" Content="_Add" Click="btnAdd_Click" ></Button>
+
+            <Button Grid.Row="0" Grid.Column="18" x:Name="btnEdit" Content="_Edit"  Click="btnEdit_Click" ></Button>
+
+            <Button Grid.Row="0" Grid.Column="22" x:Name="btnClose" Content="_Close"  Click="btnClose_Click" ></Button>
+       </Grid>
+
+        <Grid Grid.Row="2" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <DataGrid Grid.Row="0" Grid.Column="0"
+                    x:Name="dgChequeEntryList" 
+                  AutoGenerateColumns="False"   
+                  SelectionMode="Single" 
+                  SelectionUnit="FullRow" 
+                  Width="auto" 
+                  Height="auto"
+                  CanUserAddRows="false"
+                  CanUserReorderColumns="False"
+                  IsReadOnly="True" 
+                  MouseDoubleClick="dgChequeEntryList_MouseDoubleClick"
+                 SelectionChanged="dgChequeEntryList_SelectionChanged"
+                 >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Entry Date"     Binding="{Binding ChequeEntryDate, StringFormat=\{0:dd/MM/yyyy\}}"     />
+                    <DataGridTextColumn Header="Party Name"     Binding="{Binding Path=AccountName}" />
+                    <DataGridTextColumn Header="I/D"            Binding="{Binding Path=ChequeTypeName}"  />
+                    <DataGridTextColumn Header="Co."            Binding="{Binding Path=CompanyShortName}"  />
+                    <DataGridTextColumn Header="ERP ID"         Binding="{Binding Path=ERPID}" Width="80" />
+                    <DataGridTextColumn Header="Bank Name"      Binding="{Binding Path=BankName}"  />
+                    <DataGridTextColumn Header="Chq. No."       Binding="{Binding Path=ChequeNo}"   />
+                    <DataGridTextColumn Header="Proj."          Binding="{Binding Path=ProjectName}"   />
+                    <DataGridTextColumn Header="St."            Binding="{Binding Path=ChequeStatusName}"  />
+                    <DataGridTextColumn Header="Issue Dt."      Binding="{Binding ChequeIssueDate, StringFormat=\{0:dd/MM/yyyy\}}"  />
+                    <DataGridTextColumn Header="Clrng.Dt."      Binding="{Binding ChequeClearDate, StringFormat=\{0:dd/MM/yyyy\}}"  />
+                    <DataGridTextColumn Header="Amount"         Binding="{Binding Path=ChequeAmount}"   >
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Right" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                  
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+       
+        <Grid Grid.Row="4" Grid.Column="0" Background="#fbf6db" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="5"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="5"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+
+
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" x:Name="lblPartyName" Content="Party Name:"></Label>
+                <Label Grid.Row="0" Grid.Column="2" x:Name="lblPartyNameValue" Content="" Style="{StaticResource StyleDisplayLabel}"></Label>
+
+                <Label Grid.Row="0" Grid.Column="4" Content="Total:"></Label>
+                <Label Grid.Row="0" Grid.Column="6" x:Name="lblNetAmountValue" HorizontalAlignment="Right" Content=""
+                       Style="{StaticResource StyleDisplayLabel}" HorizontalContentAlignment="Right"  ></Label>
+                
+                <Label Grid.Row="2" Grid.Column="0" x:Name="lblNarration" Content="Narration:"></Label>
+                <Label Grid.Row="2" Grid.Column="2"  Style="{StaticResource StyleDisplayLabel}" >
+                    <TextBlock  x:Name="lblNarrationValue" TextWrapping="WrapWithOverflow"></TextBlock>
+                </Label>
+               
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="5" Grid.Column="0"  Background="#fbf6db"></Grid>
+        <Grid Grid.Row="6" Grid.Column="0" Background="#fbf6db"  >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                
+                <Label Grid.Row="0" Grid.Column="0" x:Name="lblType" Content="Type:" Width="72"></Label>
+                <Label Grid.Row="0" Grid.Column="2" x:Name="lblTypeValue" Style="{StaticResource StyleDisplayLabelWith}" ></Label>
+
+                <Label Grid.Row="0" Grid.Column="4" x:Name="lblSubType" Content="SubType:"></Label>
+                <Label Grid.Row="0" Grid.Column="6" x:Name="lblSubTypeValue" Style="{StaticResource StyleDisplayLabelWith}" ></Label>
+
+                <Label Grid.Row="0" Grid.Column="8" x:Name="lblParameter" Content="Parameter:"></Label>
+                <Label Grid.Row="0" Grid.Column="10" x:Name="lblParameterValue" Style="{StaticResource StyleDisplayLabelWith}" ></Label>
+                
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="8" Grid.Column="0" >
+            <StatusBar>
+                <StatusBarItem>
+                    <TextBlock Name="lblStatus" />
+                </StatusBarItem>
+            </StatusBar>
+        </Grid>
+
+    </Grid>
+</Window>

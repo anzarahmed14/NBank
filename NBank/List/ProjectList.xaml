@@ -1,0 +1,129 @@
+﻿<Window x:Class="NBank.List.ProjectList"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NBank.List"
+        mc:Ignorable="d"
+     
+        WindowStyle="None"
+        Loaded="Window_Loaded"
+        WindowStartupLocation="CenterScreen"
+        Title="MainWindow"  Height="600" 
+       
+        Width="520" 
+        MaxHeight="600"
+        Background="#fbf6db"
+        
+        >
+   
+    <Grid Margin="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <!--Firts Columns-->
+        <Grid Grid.Row="0" Grid.Column="0" Style="{StaticResource StyleGridFormTitle}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition  Width="auto"></ColumnDefinition>
+                <ColumnDefinition  Width="*"></ColumnDefinition>
+                <ColumnDefinition  Width="auto"></ColumnDefinition>
+                <ColumnDefinition  Width="5"></ColumnDefinition>
+                <ColumnDefinition  Width="auto"></ColumnDefinition>
+                <ColumnDefinition  Width="5"></ColumnDefinition>
+                <ColumnDefinition  Width="auto"></ColumnDefinition>
+                <ColumnDefinition  Width="5"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Project List" Style="{StaticResource FormTitle}"></Label>
+
+            <Button Grid.Row="0" Grid.Column="2"   Style="{StaticResource Min}" x:Name="btnControlMinimize" Click="btnControlMinimize_Click">
+                <Button.Background>
+                    <ImageBrush ImageSource="/NBank;component/Images/icons8-Minimize Window-26.png"/>
+                </Button.Background>
+            </Button>
+            <Button Grid.Row="0" Grid.Column="4"    Style="{StaticResource Max}" x:Name="btnControlMaximize" Click="btnControlMaximize_Click">
+                <Button.Background>
+                    <ImageBrush ImageSource="/NBank;component/Images/icons8-Maximize Window-26.png"/>
+                </Button.Background>
+            </Button>
+            <Button Grid.Row="0" Grid.Column="6"   Style="{StaticResource Close}" x:Name="btnControlClose"  Click="btnControlClose_Click" >
+                <Button.Background>
+                    <ImageBrush ImageSource="/NBank;component/Images/icons8-Close Window-26.png"/>
+                </Button.Background>
+            </Button>
+
+        </Grid>
+        <!--End Firts Columns-->
+
+        <Grid Grid.Row="2" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Project Name:"></Label>
+            <TextBox Grid.Row="0" Grid.Column="2" Text="" Style="{StaticResource StyleListTextBox}" x:Name="txtProjectName" TextChanged="txtProjectName_TextChanged" ></TextBox>
+            <Button Grid.Row="0" Grid.Column="4" Content="_Add" x:Name="btnAdd" Click="btnAdd_Click" ></Button>
+            <Button Grid.Row="0" Grid.Column="6" Content="_Edit" x:Name="btnEdit" Click="btnEdit_Click"  ></Button>
+            <Button Grid.Row="0" Grid.Column="8" Content="_Close" x:Name="btnClose" Click="btnClose_Click" ></Button>
+        </Grid>
+
+        <DataGrid Grid.Row="4" Grid.Column="2" 
+                  x:Name="dgProjectList" 
+                  AutoGenerateColumns="False"   
+                  SelectionMode="Single" 
+                  SelectionUnit="FullRow" 
+                  Width="auto" 
+                  Height="auto" 
+                  CanUserAddRows="false"
+                  CanUserReorderColumns="False"
+                  IsReadOnly="True" MouseDoubleClick="dgProjectList_MouseDoubleClick" 
+                  >
+          
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Project Short Name" Binding="{Binding Path=ProjectShortName}" Width="auto"  />
+                <DataGridTextColumn Header="Project Name" Binding="{Binding Path=ProjectName}"  Width="auto"/>
+                
+                <DataGridTextColumn Header="Company Name" Binding="{Binding Path=CompanyName}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <!--4th Row-->
+        <Grid Grid.Column="0" Grid.Row="6">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StatusBar Grid.Row="0" Grid.Column="0" >
+                <StatusBarItem>
+                    <TextBlock Name="lblStatus" Text="" />
+                </StatusBarItem>
+            </StatusBar>
+        </Grid>
+    </Grid>
+</Window>

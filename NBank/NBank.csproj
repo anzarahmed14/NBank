@@ -1,0 +1,505 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E4EF5B65-89A7-426C-A0E7-44E54121A578}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>NBank</RootNamespace>
+    <AssemblyName>NBank</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Design, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Enterprise.Viewing.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="Interop.Microsoft.Office.Core, Version=2.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>bin\Debug\Interop.Microsoft.Office.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.Microsoft.Office.Interop.Excel, Version=1.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>bin\Debug\Interop.Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="ReachFramework" />
+    <Reference Include="sapbusinessobjects.wpf.viewer, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="SAPBusinessObjects.WPF.ViewerShared, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Globals.cs" />
+    <Compile Include="NullToVisibilityConverter.cs" />
+    <Compile Include="ReportFile\rpAccountLedger.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportFile\rpGBCompany.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportFile\rpGBCompanyProjectSubType.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportFile\rpGBCompanyProjectSubTypeSummary.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportFile\rpGBCompanyProjectType.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportFile\rpGBCompanyProjectTypeSummary.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportFile\rpGBCompanySummary.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportFile\rpGBProject.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportFile\rpGBProjectSubType.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportFile\rpGBProjectSubTypeSummary.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportFile\rpGBProjectSummary.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportFile\rpGBProjectType.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportFile\rpGBProjectTypeSummary.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportFile\rpGBSubTypeProject.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportFile\rpGBSubTypeProjectSummary.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportFile\rpGBType.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportFile\rpGBTypeProject.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportFile\rpGBTypeProjectSummary.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportFile\rpGBTypeSubType.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportFile\rpGBTypeSubTypeSummary.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportFile\rpGBTypeSummary.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportFile\rpList.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportFile\rpVoucher.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportFile\rpVoucher1.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportFile\Test.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportPreview.xaml.cs">
+      <DependentUpon>ReportPreview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Report\ReportFilter.xaml.cs">
+      <DependentUpon>ReportFilter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\ChequeClear.xaml.cs">
+      <DependentUpon>ChequeClear.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\ChequeEntry.xaml.cs">
+      <DependentUpon>ChequeEntry.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\ChequeEntryList.xaml.cs">
+      <DependentUpon>ChequeEntryList.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Ledger\AccountLedger.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ledger\AccountLedgerList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="List\AccountList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="List\BankList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="List\CategoryList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="List\CompanyList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="List\CompanyWiseBankList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="List\GroupList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="List\ParameterList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="List\ProjectList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="List\StateList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="List\SubTypeList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="List\TypeList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="List\UserList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Ledger\AccountLedger.xaml.cs">
+      <DependentUpon>AccountLedger.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ledger\AccountLedgerList.xaml.cs">
+      <DependentUpon>AccountLedgerList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="List\AccountList.xaml.cs">
+      <DependentUpon>AccountList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="List\BankList.xaml.cs">
+      <DependentUpon>BankList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="List\CategoryList.xaml.cs">
+      <DependentUpon>CategoryList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="List\CompanyList.xaml.cs">
+      <DependentUpon>CompanyList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="List\CompanyWiseBankList.xaml.cs">
+      <DependentUpon>CompanyWiseBankList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="List\GroupList.xaml.cs">
+      <DependentUpon>GroupList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="List\ParameterList.xaml.cs">
+      <DependentUpon>ParameterList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="List\ProjectList.xaml.cs">
+      <DependentUpon>ProjectList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="List\StateList.xaml.cs">
+      <DependentUpon>StateList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="List\SubTypeList.xaml.cs">
+      <DependentUpon>SubTypeList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="List\TypeList.xaml.cs">
+      <DependentUpon>TypeList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="List\UserList.xaml.cs">
+      <DependentUpon>UserList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Master\Account.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Master\Bank.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Master\Category.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Master\Company.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Master\CompanyWiseBank.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Master\Group.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Master\Parameter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Master\Project.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Master\State.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Master\SubType.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Master\TypeMaster.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Master\User.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Master\UserMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Merge\MergeAccount.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Merge\MergeCompanyProject.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Other\AccountPopup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Other\ChangePassword.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Other\Login.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ReportPreview.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Report\ReportFilter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\Style.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Transaction\ChequeClear.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Transaction\ChequeEntry.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Transaction\ChequeEntryList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Master\Account.xaml.cs">
+      <DependentUpon>Account.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Master\Bank.xaml.cs">
+      <DependentUpon>Bank.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Master\Category.xaml.cs">
+      <DependentUpon>Category.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Master\Company.xaml.cs">
+      <DependentUpon>Company.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Master\CompanyWiseBank.xaml.cs">
+      <DependentUpon>CompanyWiseBank.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Master\Group.xaml.cs">
+      <DependentUpon>Group.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Master\Parameter.xaml.cs">
+      <DependentUpon>Parameter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Master\Project.xaml.cs">
+      <DependentUpon>Project.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Master\State.xaml.cs">
+      <DependentUpon>State.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Master\SubType.xaml.cs">
+      <DependentUpon>SubType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Master\TypeMaster.xaml.cs">
+      <DependentUpon>TypeMaster.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Master\User.xaml.cs">
+      <DependentUpon>User.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Master\UserMenu.xaml.cs">
+      <DependentUpon>UserMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Merge\MergeAccount.xaml.cs">
+      <DependentUpon>MergeAccount.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Merge\MergeCompanyProject.xaml.cs">
+      <DependentUpon>MergeCompanyProject.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Other\AccountPopup.xaml.cs">
+      <DependentUpon>AccountPopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Other\ChangePassword.xaml.cs">
+      <DependentUpon>ChangePassword.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Other\Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="ReportFile\rpAccountLedger.rpt" />
+    <None Include="ReportFile\rpGBCompany.rpt" />
+    <None Include="ReportFile\rpGBCompanyProjectSubType.rpt" />
+    <None Include="ReportFile\rpGBCompanyProjectSubTypeSummary.rpt" />
+    <None Include="ReportFile\rpGBCompanyProjectType.rpt" />
+    <None Include="ReportFile\rpGBCompanyProjectTypeSummary.rpt" />
+    <None Include="ReportFile\rpGBCompanySummary.rpt" />
+    <None Include="ReportFile\rpGBProject.rpt" />
+    <None Include="ReportFile\rpGBProjectSubType.rpt" />
+    <None Include="ReportFile\rpGBProjectSubTypeSummary.rpt" />
+    <None Include="ReportFile\rpGBProjectSummary.rpt" />
+    <None Include="ReportFile\rpGBProjectType.rpt" />
+    <None Include="ReportFile\rpGBProjectTypeSummary.rpt" />
+    <None Include="ReportFile\rpGBSubTypeProject.rpt" />
+    <None Include="ReportFile\rpGBSubTypeProjectSummary.rpt" />
+    <None Include="ReportFile\rpGBType.rpt" />
+    <None Include="ReportFile\rpGBTypeProject.rpt" />
+    <None Include="ReportFile\rpGBTypeProjectSummary.rpt" />
+    <None Include="ReportFile\rpGBTypeSubType.rpt" />
+    <None Include="ReportFile\rpGBTypeSubTypeSummary.rpt" />
+    <None Include="ReportFile\rpGBTypeSummary.rpt" />
+    <None Include="ReportFile\rpList.rpt" />
+    <None Include="ReportFile\rpVoucher.rpt" />
+    <None Include="ReportFile\Test.rpt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\icon.ico" />
+    <Resource Include="Images\icons8-Close Window-26.png" />
+    <Resource Include="Images\icons8-Maximize Window-26.png" />
+    <Resource Include="Images\icons8-Minimize Window-26.png" />
+    <Resource Include="Images\icons8close.png" />
+    <Resource Include="Images\icons8Today.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BALNBank\BALNBank.csproj">
+      <Project>{4825F20A-52E2-488F-8346-20BF83E2FF4A}</Project>
+      <Name>BALNBank</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BOLNBank\BOLNBank.csproj">
+      <Project>{5390454D-36D9-4D1B-A465-24A28D73E335}</Project>
+      <Name>BOLNBank</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,173 @@
+﻿<Window x:Class="NBank.Master.UserMenu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NBank.Master"
+        mc:Ignorable="d"
+        x:Name="frmUserMenu"
+        Loaded="frmUserMenu_Loaded"
+        Title="User Access" 
+        WindowStartupLocation="CenterScreen" 
+        Height="600" 
+        
+        Width="600" 
+        MaxHeight="800"
+        Background="#fbf6db"
+       KeyDown="frmUserMenu_KeyDown" 
+        
+        
+        >
+    
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="5"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+
+        </Grid.ColumnDefinitions>
+        <!--1st Row-->
+        <Label Grid.Row="0" Grid.Column="0" Content="User Name:"></Label>
+        <ComboBox x:Name="cmbUserName" Grid.Row="0" Grid.Column="2" SelectionChanged="cmbUserName_SelectionChanged"></ComboBox>
+
+        <!--2nd Row-->
+        <Grid Grid.ColumnSpan="3" Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <DataGrid Grid.Row="0" Grid.Column="0"  
+                  x:Name="dgUserMenuList" 
+                  AutoGenerateColumns="False"   
+                  SelectionMode="Single" 
+                  SelectionUnit="FullRow" 
+                  Width="auto" 
+                  Height="auto" 
+                  CanUserAddRows="false"
+                  CanUserReorderColumns="False"
+                  IsReadOnly="True" 
+                  >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Visibility="Collapsed" Header="MenuID" Binding="{Binding Path=MenuID}" />
+                    <DataGridTextColumn Visibility="Collapsed" Header="MenuName" Binding="{Binding Path=MenuName}" />
+                    <DataGridTextColumn Header="Menu Name" Binding="{Binding Path=DisplayName}" />
+
+                    <!--<DataGridCheckBoxColumn  Header="AllowCreate" Binding="{Binding Path=AllowCreate}" />-->
+                    <!--<DataGridTemplateColumn>
+                        
+                    </DataGridTemplateColumn>-->
+
+
+
+                    <!--AllowView-->
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.Header>
+                            <CheckBox Name="AllowView"  Content="AllowView" Checked="chkAllowView_Checked" Unchecked="chkAllowView_Unchecked"/>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox Name="chkAllowView" IsChecked="{Binding Path=AllowView,UpdateSourceTrigger=PropertyChanged}"  />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <!--AllowCreate-->
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.Header>
+                            <CheckBox Content="AllowCreate" Checked="chkAllowCreate_Checked"    Unchecked="chkAllowCreate_Unchecked"/>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <!--<CheckBox Name="chkAllowCreate" IsChecked="{Binding Path=AllowCreate}"  />-->
+                                <CheckBox Name="chkAllowCreate" IsChecked="{Binding Path=AllowCreate,UpdateSourceTrigger=PropertyChanged }"  />
+
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <!--AllowEdit-->
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.Header>
+                            <CheckBox Name="AllowEdit"  Content="AllowEdit" Checked="chkAllowEdit_Checked" Unchecked="chkAllowEdit_Unchecked"/>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox Name="chkAllowEdit" IsChecked="{Binding Path=AllowEdit,UpdateSourceTrigger=PropertyChanged}"  />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+
+                    <!--AllowDelete-->
+                    <DataGridTemplateColumn  Width="*">
+                        <DataGridTemplateColumn.Header>
+                            <CheckBox Name="AllowDelete"  Content="AllowDelete" Checked="chkAllowDelete_Checked" Unchecked="chkAllowDelete_Unchecked"/>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox Name="chkAllowDelete" IsChecked="{Binding Path=AllowDelete,UpdateSourceTrigger=PropertyChanged}"  />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+
+
+                    <!--AllowPrint-->
+                    <!--<DataGridTemplateColumn Width="*">
+                        <DataGridTemplateColumn.Header>
+                            <CheckBox Name="AllowPrint"  Content="AllowPrint" Checked="chkAllowPrint_Checked" Unchecked="chkAllowPrint_Unchecked"/>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox Name="chkAllowPrint" IsChecked="{Binding Path=AllowPrint,UpdateSourceTrigger=PropertyChanged}"  />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>-->
+
+
+
+                    <!--<DataGridTextColumn Header="AllowView" Binding="{Binding Path=AllowView}" />-->
+                    <!--<DataGridTextColumn Header="AllowDelete" Binding="{Binding Path=AllowDelete}" />
+                    <DataGridTextColumn Header="AllowEdit" Binding="{Binding Path=AllowEdit}" />
+                    <DataGridTextColumn Header="AllowEdit" Binding="{Binding Path=AllowEdit}" />-->
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+        <!--Third Row-->
+        <Grid Grid.ColumnSpan="3" Grid.Row="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Row="0" Grid.Column="2"  Content="_Save" x:Name="btnSave" Click="btnSave_Click" />
+            <Button Grid.Row="0" Grid.Column="4"  Content="_Close" x:Name="btnClose" Click="btnClose_Click" />
+        </Grid>
+
+        <StatusBar Grid.Row="6" Grid.ColumnSpan="3">
+            <StatusBarItem>
+                <TextBlock Name="lblStatus" />
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>
