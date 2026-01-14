@@ -85,6 +85,7 @@
     <Compile Include="DALChequeStatus.cs" />
     <Compile Include="DALChequeType.cs" />
     <Compile Include="DALCompany.cs" />
+    <Compile Include="DALCompanyGroup.cs" />
     <Compile Include="DALCompanyWiseBank.cs" />
     <Compile Include="DALDataAccess.cs" />
     <Compile Include="DALGroup.cs" />

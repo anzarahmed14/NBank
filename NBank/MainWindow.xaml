@@ -210,6 +210,8 @@
 
                     <MenuItem Header="_State" x:Name="MenuState" Click="MenuState_Click"/>
 
+                    <MenuItem Header="_CompanyGroup" x:Name="CompanyGroup" Click="MenuCompanyGroup_Click"/>
+
                 </MenuItem>
 
                 <MenuItem Header="_Transaction"  x:Name="MenuTransaction" Style="{StaticResource menuParentStyle}" ItemContainerStyle="{DynamicResource MenuItemStyle1}" Template="{DynamicResource MenuItemControlTemplate2}"  >

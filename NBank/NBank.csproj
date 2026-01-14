@@ -82,6 +82,12 @@
     </ApplicationDefinition>
     <Compile Include="Class1.cs" />
     <Compile Include="Globals.cs" />
+    <Compile Include="List\CompanyGroupList.xaml.cs">
+      <DependentUpon>CompanyGroupList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Master\CompanyGroup.xaml.cs">
+      <DependentUpon>CompanyGroup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NullToVisibilityConverter.cs" />
     <Compile Include="ReportFile\rpAccountLedger.cs">
       <SubType>Component</SubType>
@@ -193,6 +199,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="List\CompanyGroupList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="List\CompanyList.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -298,6 +308,10 @@
     <Page Include="Master\Company.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Master\CompanyGroup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Master\CompanyWiseBank.xaml">
       <Generator>MSBuild:Compile</Generator>

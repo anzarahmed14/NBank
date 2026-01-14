@@ -85,6 +85,7 @@
     <Compile Include="clsChequeStatus.cs" />
     <Compile Include="clsChequeType.cs" />
     <Compile Include="clsCompany.cs" />
+    <Compile Include="clsCompanyGroup.cs" />
     <Compile Include="clsCompanyWiseBank.cs" />
     <Compile Include="clsCurrencyConverter.cs" />
     <Compile Include="clsGroup.cs" />

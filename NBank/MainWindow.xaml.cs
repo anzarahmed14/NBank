@@ -509,6 +509,20 @@ namespace NBank
             }
         }
 
+        private void MenuCompanyGroup_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                CompanyGroupList obj = new CompanyGroupList();
+                obj.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, MessageTitle, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private void frmMain_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             try

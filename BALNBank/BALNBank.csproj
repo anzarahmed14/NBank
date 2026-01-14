@@ -83,6 +83,7 @@
     <Compile Include="BALChequeStatus.cs" />
     <Compile Include="BALChequeType.cs" />
     <Compile Include="BALCompany.cs" />
+    <Compile Include="BALCompanyGroup.cs" />
     <Compile Include="BALCompanyWiseBank.cs" />
     <Compile Include="BALGroup.cs" />
     <Compile Include="BALLedger.cs" />
