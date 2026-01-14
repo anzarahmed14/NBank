@@ -85,8 +85,14 @@
     <Compile Include="List\CompanyGroupList.xaml.cs">
       <DependentUpon>CompanyGroupList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="List\MapCompanyGroupList.xaml.cs">
+      <DependentUpon>MapCompanyGroupList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Master\CompanyGroup.xaml.cs">
       <DependentUpon>CompanyGroup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Master\MapCompanyGroup.xaml.cs">
+      <DependentUpon>MapCompanyGroup.xaml</DependentUpon>
     </Compile>
     <Compile Include="NullToVisibilityConverter.cs" />
     <Compile Include="ReportFile\rpAccountLedger.cs">
@@ -215,6 +221,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="List\MapCompanyGroupList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="List\ParameterList.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -320,6 +330,10 @@
     <Page Include="Master\Group.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Master\MapCompanyGroup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Master\Parameter.xaml">
       <Generator>MSBuild:Compile</Generator>

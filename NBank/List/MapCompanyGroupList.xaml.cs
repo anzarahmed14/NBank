@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BALNBank;
+using BOLNBank;
+using NBank.Master;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,34 +14,27 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using BALNBank;
-using BOLNBank;
-using NBank.Master;
 
 namespace NBank.List
 {
     /// <summary>
-    /// Interaction logic for CompanyGroupList.xaml
+    /// Interaction logic for MapCompanyGroupList.xaml
     /// </summary>
-    public partial class CompanyGroupList : Window
+    public partial class MapCompanyGroupList : Window
     {
-        string MessageTitle = "Company Group Master";
-        string MenuName = "MenuCompanyGroup";
+        List<clsCompanyGroupList> list;
+        string BankName = "";
+        long CompanyGroupID = 0;
+        string MessageTitle = "Map Company Group List";
+        string MenuName = "MenuMapCompanyGroup";
         List<clsUserMenu> FilteredUserMenuList;
-        List<clsCompanyGroup> list;
-        public long CompanyGroupID = 0;
-        string CompanyGroupName = "";
-        public CompanyGroupList()
-        {
-            InitializeComponent();
-        }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             try
             {
                 UserMenu();
                 Keyboard.Focus(txtCompanyGroupName);
-                GetCompanyGroupList();
+                GetMapCompanyGroupList();
             }
             catch (Exception ex)
             {
@@ -46,12 +42,12 @@ namespace NBank.List
                 MessageBox.Show(ex.Message, MessageTitle, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        public void GetCompanyGroupList()
+        private void GetMapCompanyGroupList()
         {
             try
             {
-                list = (new BALCompanyGroup().GetCompanyGroupList());
-                dgBankList.ItemsSource = list;
+                list = (new BALMapCompanyGroup().GetMapCompanyGroupList());
+                dgMapCompanyGroupList.ItemsSource = list;
                 lblStatus.Text = "Rows " + list.Count;
             }
             catch (Exception ex)
@@ -85,6 +81,11 @@ namespace NBank.List
                 MessageBox.Show(ex.Message, MessageTitle, MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
+        }
+
+        public MapCompanyGroupList()
+        {
+            InitializeComponent();
         }
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -150,27 +151,13 @@ namespace NBank.List
         {
             Close();
         }
-        private void txtCompanyGroupName_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            try
-            {
-                CompanyGroupName = txtCompanyGroupName.Text.Trim();
-                list = (new BALCompanyGroup().GetCompanyGroupList(CompanyGroupName));
-                dgBankList.ItemsSource = list;
-                lblStatus.Text = "Rows " + list.Count;
-            }
-            catch (Exception ex)
-            {
 
-                MessageBox.Show(ex.Message, MessageTitle, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                CompanyGroup obj = new CompanyGroup();
-                obj.objCompanyGroupList = this;
+                MapCompanyGroup obj = new MapCompanyGroup();
+                obj.objMapCompanyGroupList = this;
                 obj.ShowDialog();
             }
             catch (Exception ex)
@@ -179,13 +166,14 @@ namespace NBank.List
                 MessageBox.Show(ex.Message, MessageTitle, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (dgBankList.SelectedIndex != -1)
+                if (dgMapCompanyGroupList.SelectedIndex != -1)
                 {
-                    clsCompanyGroup obj = dgBankList.SelectedItem as clsCompanyGroup;
+                    clsCompanyGroupList obj = dgMapCompanyGroupList.SelectedItem as clsCompanyGroupList;
                     CompanyGroupID = obj.CompanyGroupID;
                     Edit();
                     // process stuff
@@ -205,9 +193,9 @@ namespace NBank.List
         {
             try
             {
-                CompanyGroup obj = new CompanyGroup();
+                MapCompanyGroup obj = new MapCompanyGroup();
                 obj.CompanyGroupID = CompanyGroupID;
-                obj.objCompanyGroupList = this;
+                obj.objMapCompanyGroupList = this;
                 obj.ShowDialog();
             }
             catch (Exception ex)
@@ -220,7 +208,22 @@ namespace NBank.List
         {
             Close();
         }
-        private void gdCompanyGroupList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void txtCompanyGroupName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                BankName = txtCompanyGroupName.Text.Trim();
+                list = (new BALMapCompanyGroup().GetMapCompanyGroupList(BankName));
+                dgMapCompanyGroupList.ItemsSource = list;
+                lblStatus.Text = "Rows " + list.Count;
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, MessageTitle, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private void gdMapCompanyGroupList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
 
             try
@@ -230,7 +233,7 @@ namespace NBank.List
                     DataGrid grid = sender as DataGrid;
                     if (grid != null && grid.SelectedItems != null && grid.SelectedItems.Count == 1)
                     {
-                        clsCompanyGroup obj = dgBankList.SelectedItem as clsCompanyGroup;
+                        clsCompanyGroupList obj = dgMapCompanyGroupList.SelectedItem as clsCompanyGroupList;
                         CompanyGroupID = obj.CompanyGroupID;
                         if (FilteredUserMenuList != null)
                         {
@@ -252,7 +255,5 @@ namespace NBank.List
                 MessageBox.Show(ex.Message, MessageTitle, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
-        
     }
 }

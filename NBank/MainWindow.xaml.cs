@@ -523,6 +523,20 @@ namespace NBank
             }
         }
 
+        private void MenuMapCompanyGroup_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                MapCompanyGroupList obj = new MapCompanyGroupList();
+                obj.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, MessageTitle, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private void frmMain_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             try

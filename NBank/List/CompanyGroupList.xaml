@@ -46,7 +46,7 @@
                     <ColumnDefinition  Width="auto"></ColumnDefinition>
                     <ColumnDefinition  Width="5"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" Content="Bank List" Style="{StaticResource FormTitle}"></Label>
+                <Label Grid.Row="0" Grid.Column="0" Content="Company Group List" Style="{StaticResource FormTitle}"></Label>
 
                 <Button Grid.Row="0" Grid.Column="2"   Style="{StaticResource Min}" x:Name="btnControlMinimize" Click="btnControlMinimize_Click">
                     <Button.Background>

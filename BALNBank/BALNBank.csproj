@@ -87,6 +87,7 @@
     <Compile Include="BALCompanyWiseBank.cs" />
     <Compile Include="BALGroup.cs" />
     <Compile Include="BALLedger.cs" />
+    <Compile Include="BALMapCompanyGroup.cs" />
     <Compile Include="BALMenu.cs" />
     <Compile Include="BALMerge.cs" />
     <Compile Include="BALParameter.cs" />
