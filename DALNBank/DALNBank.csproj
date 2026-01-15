@@ -90,6 +90,7 @@
     <Compile Include="DALDataAccess.cs" />
     <Compile Include="DALGroup.cs" />
     <Compile Include="DALMapCompanyGroup.cs" />
+    <Compile Include="DALMapUserCompanyGroup.cs" />
     <Compile Include="DALMenu.cs" />
     <Compile Include="DALMerge.cs" />
     <Compile Include="DALParameter.cs" />

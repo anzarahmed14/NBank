@@ -91,6 +91,7 @@
     <Compile Include="clsCurrencyConverter.cs" />
     <Compile Include="clsGroup.cs" />
     <Compile Include="clsMapCompanyGroup.cs" />
+    <Compile Include="clsMapUserCompanyGroup.cs" />
     <Compile Include="clsMenu.cs" />
     <Compile Include="clsMerge.cs" />
     <Compile Include="clsParameter.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="clsSubType.cs" />
     <Compile Include="clsType.cs" />
     <Compile Include="clsUser.cs" />
+    <Compile Include="clsUserCompanyGroupMapping.cs" />
     <Compile Include="clsUserMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

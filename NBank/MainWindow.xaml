@@ -209,10 +209,11 @@
                     <MenuItem Header="_Parameter" x:Name="MenuParameter" Click="MenuParameter_Click"/>
 
                     <MenuItem Header="_State" x:Name="MenuState" Click="MenuState_Click"/>
-
+                    <Separator/>
                     <MenuItem Header="_Company Group" x:Name="MenuCompanyGroup" Click="MenuCompanyGroup_Click"/>
 
                     <MenuItem Header="_Map Company Group" x:Name="MenuMapCompanyGroup" Click="MenuMapCompanyGroup_Click"/>
+                    <MenuItem Header="_Map User Company Group" x:Name="MenuMapUserCompanyGroup" Click="MenuMapUserCompanyGroup_Click"/>
 
                 </MenuItem>
 
