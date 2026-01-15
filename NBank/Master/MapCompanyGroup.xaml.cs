@@ -41,7 +41,7 @@ namespace NBank.Master
             {
                 if (CompanyGroupID > 0)
                 {
-                    GetByCompanyGroupId();
+                    cmbCompanyGroup.IsEnabled = false;
                     SetSelectedCompanies();
                     btnSave.Content = "_Update";
                 }
@@ -58,13 +58,68 @@ namespace NBank.Master
             }
 
         }
-        private void GetByCompanyGroupId()
-        {
-            bALMapCompanyGroup = new BALMapCompanyGroup();
-            mapCompanyList =  bALMapCompanyGroup.GetByCompanyGroupId(CompanyGroupID);
-        }
         private void SetSelectedCompanies()
         {
+            bALMapCompanyGroup = new BALMapCompanyGroup();
+            mapCompanyList = bALMapCompanyGroup.GetByCompanyGroupId(CompanyGroupID);
+
+            if (mapCompanyList == null)
+                mapCompanyList = new List<clsMapCompanyGroup>();
+
+            // Step 1: Get mapped company IDs
+            HashSet<long> mappedCompanyIds = new HashSet<long>();
+            foreach (var item in mapCompanyList)
+            {
+                mappedCompanyIds.Add(item.CompanyId);
+            }
+
+            // Step 2: Get current company list
+            var allCompanies = lstCompanies.Items.Cast<clsCompany>().ToList();
+
+            // Step 3: Split selected & unselected
+            var selectedCompanies = allCompanies
+                .Where(c => mappedCompanyIds.Contains(c.CompanyID))
+                .OrderBy(c => c.CompanyName)
+                .ToList();
+
+            var unSelectedCompanies = allCompanies
+                .Where(c => !mappedCompanyIds.Contains(c.CompanyID))
+                .OrderBy(c => c.CompanyName)
+                .ToList();
+
+            // Step 4: Merge (Selected first)
+            var finalList = new List<clsCompany>();
+            finalList.AddRange(selectedCompanies);
+            finalList.AddRange(unSelectedCompanies);
+
+            // Step 5: Rebind ListBox
+            lstCompanies.ItemsSource = finalList;
+
+            // Step 6: Check selected companies
+            lstCompanies.UpdateLayout();
+
+            foreach (var item in lstCompanies.Items)
+            {
+                ListBoxItem listBoxItem =
+                    lstCompanies.ItemContainerGenerator.ContainerFromItem(item) as ListBoxItem;
+
+                if (listBoxItem != null)
+                {
+                    CheckBox chk = FindVisualChild<CheckBox>(listBoxItem);
+                    if (chk != null)
+                    {
+                        long companyId = Convert.ToInt64(chk.Tag);
+                        chk.IsChecked = mappedCompanyIds.Contains(companyId);
+                    }
+                }
+            }
+        }
+
+        private void SetSelectedCompanies2()
+        {
+            bALMapCompanyGroup = new BALMapCompanyGroup();
+            mapCompanyList = bALMapCompanyGroup.GetByCompanyGroupId(CompanyGroupID);
+
             if (mapCompanyList == null || mapCompanyList.Count == 0)
                 return;
 
@@ -146,19 +201,16 @@ namespace NBank.Master
         {
             try
             {
-                //if (IsValidate())
-                //{
-                //    if (BankID > 0)
-                //    {
-                //        //Update();
-                //    }
-                //    else
-                //    {
-                //       // Create();
-                //    }
-                //}
-
-                Create();
+               
+                if (CompanyGroupID > 0)
+                {
+                    Update();
+                }
+                else
+                {
+                    Create();
+                }
+               
             }
             catch (Exception ex)
             {
@@ -211,6 +263,65 @@ namespace NBank.Master
                 {
                     lblStatus.Text = "Record saved successfully";
                    // Initialize();
+                }
+                else
+                {
+                    MessageBox.Show(Message, MessageTitle,
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                    lblStatus.Text = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, MessageTitle,
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+        public void Update()
+        {
+            try
+            {
+                // Validate Company Group
+                if (cmbCompanyGroup.SelectedValue == null)
+                {
+                    lblStatus.Text = "Please select Company Group";
+                    return;
+                }
+
+                long companyGroupId = Convert.ToInt64(cmbCompanyGroup.SelectedValue);
+
+                // Get selected Company IDs from CheckBoxes
+                List<long> selectedCompanyIds = new List<long>();
+
+                foreach (var item in lstCompanies.Items)
+                {
+                    ListBoxItem listBoxItem =
+                        lstCompanies.ItemContainerGenerator.ContainerFromItem(item) as ListBoxItem;
+
+                    if (listBoxItem != null)
+                    {
+                        CheckBox chk = FindVisualChild<CheckBox>(listBoxItem);
+                        if (chk != null && chk.IsChecked == true)
+                        {
+                            selectedCompanyIds.Add(Convert.ToInt64(chk.Tag));
+                        }
+                    }
+                }
+
+                if (selectedCompanyIds.Count == 0)
+                {
+                    lblStatus.Text = "Please select at least one Company";
+                    return;
+                }
+
+                // Call BAL
+                Message = (new BALMapCompanyGroup())
+                    .UpdateMapCompanyGroup(selectedCompanyIds, companyGroupId);
+
+                if (Message == "SAVE" || Message.Contains("success"))
+                {
+                    lblStatus.Text = "Record saved successfully";
+                    // Initialize();
                 }
                 else
                 {

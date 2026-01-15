@@ -52,57 +52,42 @@ namespace DALNBank
         #endregion
 
         #region UPDATE
-
         public string UpdateMapCompanyGroup(
-            string StoredProcedure,
-            DataTable companyGroupIds,
-            long newCompanyId)
+            string storedProcedure,
+            DataTable companyIds,
+            long companyGroupId)
         {
             string message = string.Empty;
 
-            try
+            using (_conn = new SqlConnection(NBankConnectionString))
+            using (_cmd = new SqlCommand(storedProcedure, _conn))
             {
-                using (_conn = new SqlConnection(NBankConnectionString))
+                _cmd.CommandType = CommandType.StoredProcedure;
+
+                // ✅ EXACT PARAMETER NAME
+                _cmd.Parameters.AddWithValue("@CompanyGroupId", companyGroupId);
+
+                // ✅ EXACT TVP NAME
+                SqlParameter tvp = _cmd.Parameters.AddWithValue("@CompanyIds", companyIds);
+                tvp.SqlDbType = SqlDbType.Structured;
+                tvp.TypeName = "dbo.CompanyIdList";
+
+                // ✅ OUTPUT PARAM
+                SqlParameter msg = new SqlParameter("@Message", SqlDbType.NVarChar, 4000)
                 {
-                    using (_cmd = new SqlCommand())
-                    {
-                        _cmd.CommandType = CommandType.StoredProcedure;
-                        _cmd.Connection = _conn;
-                        _cmd.CommandText = StoredProcedure;
+                    Direction = ParameterDirection.Output
+                };
+                _cmd.Parameters.Add(msg);
 
-                        _cmd.Parameters.AddWithValue("@NewCompanyId", newCompanyId);
+                _conn.Open();
+                _cmd.ExecuteNonQuery();
 
-                        SqlParameter tvpParam = _cmd.Parameters.AddWithValue(
-                            "@CompanyGroupIds", companyGroupIds);
-                        tvpParam.SqlDbType = SqlDbType.Structured;
-                        tvpParam.TypeName = "dbo.CompanyGroupIdList";
-
-                        SqlParameter msgParam = new SqlParameter(
-                            "@Message", SqlDbType.NVarChar, 4000);
-                        msgParam.Direction = ParameterDirection.Output;
-                        _cmd.Parameters.Add(msgParam);
-
-                        if (_conn.State == ConnectionState.Closed)
-                            _conn.Open();
-
-                        _cmd.ExecuteNonQuery();
-
-                        message = Convert.ToString(msgParam.Value);
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                if (_conn.State == ConnectionState.Open)
-                    _conn.Close();
+                message = Convert.ToString(msg.Value);
             }
 
             return message;
         }
+
 
         #endregion
 

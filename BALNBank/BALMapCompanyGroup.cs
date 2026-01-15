@@ -35,17 +35,15 @@ namespace BALNBank
 
         #region UPDATE
 
-        public string UpdateMapCompanyGroup(List<long> companyGroupIds, long newCompanyId)
+        public string UpdateMapCompanyGroup(List<long> companyIds, long companyGroupId)
         {
-            DataTable dtGroupIds = CreateCompanyIdTable(companyGroupIds);
+            DataTable dtCompanyIds = CreateCompanyIdTable(companyIds);
 
-            string message = (new DALMapCompanyGroup())
+            return (new DALMapCompanyGroup())
                 .UpdateMapCompanyGroup(
                     "UpdateMapCompanyGroup",
-                    dtGroupIds,
-                    newCompanyId);
-
-            return message;
+                    dtCompanyIds,
+                    companyGroupId);
         }
 
         #endregion
