@@ -166,7 +166,7 @@ namespace NBank.Master
             try
             {
 
-                if (CompanyGroupID > 0)
+                if (UserId > 0)
                 {
                     Update();
                 }
