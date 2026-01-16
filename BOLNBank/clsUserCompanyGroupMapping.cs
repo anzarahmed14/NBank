@@ -8,8 +8,8 @@ namespace BOLNBank
 {
     public class clsUserCompanyGroupMapping
     {
-        public long CompanyGroupID { get; set; }
-        public string CompanyGroupName { get; set; }
-        public int UserCount { get; set; }
+        public long UserId { get; set; }
+        public string UserName { get; set; }
+        public int CompanyGroupCount { get; set; }
     }
 }

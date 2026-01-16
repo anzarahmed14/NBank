@@ -13,6 +13,10 @@ namespace DALNBank
     {
         List<clsUserCompanyGroupMapping> list;
 
+        List<clsMapUserCompanyGroup>  elist;
+
+        clsMapUserCompanyGroup obj;
+
         public List<clsUserCompanyGroupMapping> GetList(
        string storedProcedure,
        List<SqlParameter> plist)
@@ -49,14 +53,14 @@ namespace DALNBank
                                     clsUserCompanyGroupMapping obj =
                                         new clsUserCompanyGroupMapping();
 
-                                    obj.CompanyGroupID =
-                                        NullReader.GetInt64("CompanyGroupID");
+                                    obj.UserId =
+                                        NullReader.GetInt64("UserId");
 
-                                    obj.CompanyGroupName =
-                                        NullReader.GetString("CompanyGroupName");
+                                    obj.UserName =
+                                        NullReader.GetString("UserName");
 
-                                    obj.UserCount =
-                                        NullReader.GetInt32("UserCount");
+                                    obj.CompanyGroupCount =
+                                        NullReader.GetInt32("CompanyGroupCount");
 
                                     list.Add(obj);
                                 }
@@ -180,5 +184,64 @@ namespace DALNBank
             return message;
         }
 
+
+
+        public List<clsMapUserCompanyGroup> GetCompanyGroupByUserId(
+               string storedProcedure,
+               List<SqlParameter> plist)
+        {
+            try
+            {
+                elist = new List<clsMapUserCompanyGroup>();
+
+                using (_conn = new SqlConnection(NBankConnectionString))
+                {
+                    using (_cmd = new SqlCommand())
+                    {
+                        _cmd.CommandType = CommandType.StoredProcedure;
+                        _cmd.Connection = _conn;
+                        _cmd.CommandText = storedProcedure;
+
+                        if (plist.Count > 0)
+                        {
+                            foreach (var p in plist)
+                                _cmd.Parameters.Add(p);
+                        }
+
+                        if (_conn.State == ConnectionState.Closed)
+                            _conn.Open();
+
+                        using (_reader = _cmd.ExecuteReader())
+                        {
+                            NullReader = new NullDataReader(_reader);
+
+                            if (_reader.HasRows)
+                            {
+                                while (_reader.Read())
+                                {
+                                    obj = new clsMapUserCompanyGroup();
+                                    obj.MapUserCompanyGroupId = NullReader.GetInt64("MapUserCompanyGroupId");
+                                    obj.UserId = NullReader.GetInt64("UserId");
+                                    obj.CompanyGroupId = NullReader.GetInt64("CompanyGroupId");
+
+                                    elist.Add(obj);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                if (_conn.State == ConnectionState.Open)
+                    _conn.Close();
+            }
+
+            return elist;
+        }
     }
 }

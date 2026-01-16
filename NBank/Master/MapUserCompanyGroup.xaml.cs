@@ -1,4 +1,5 @@
 ﻿using BALNBank;
+using BOLNBank;
 using NBank.List;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,12 @@ namespace NBank.Master
         string MessageTitle = "Map User Company Group";
         public MapUserCompanyGroupList objMapCompanyGroupList;
         public long CompanyGroupID = 0;
+        public long UserId = 0;
         string Message = "";
+
+        BALMapUserCompanyGroup bALMapUserCompanyGroup;
+
+        List<clsMapUserCompanyGroup> mapUserGroupList;
         public MapUserCompanyGroup()
         {
             InitializeComponent();
@@ -33,17 +39,18 @@ namespace NBank.Master
         {
             BindUser();
             BindCompanyGroup();
-            //BindCompanyGroups();
-            // BindCompanies();
+          
             Keyboard.Focus(cmbUser);
             try
             {
-                //if (CompanyGroupID > 0)
-                //{
-                //    //cmbCompanyGroup.IsEnabled = false;
-                //    //SetSelectedCompanies();
-                //    btnSave.Content = "_Update";
-                //}
+                if (UserId > 0)
+                {
+                    cmbUser.IsEnabled = false;
+                    SetSelectedGroups();
+                    btnSave.Content = "_Update";
+
+                    cmbUser.SelectedValue = UserId;
+                }
                 //else
                 //{
                 //    // chkIsActive.IsChecked = true;
@@ -57,6 +64,66 @@ namespace NBank.Master
             }
 
         }
+        private void SetSelectedGroups()
+        {
+            // 1️⃣ Get mapped groups for the user
+            bALMapUserCompanyGroup = new BALMapUserCompanyGroup();
+            mapUserGroupList = bALMapUserCompanyGroup.GetCompanyGroupByUserId(UserId);
+
+            if (mapUserGroupList == null)
+                mapUserGroupList = new List<clsMapUserCompanyGroup>();
+
+            // 2️⃣ Store mapped CompanyGroupIds
+            HashSet<long> mappedGroupIds = new HashSet<long>();
+            foreach (var item in mapUserGroupList)
+            {
+                mappedGroupIds.Add(item.CompanyGroupId);
+            }
+
+            // 3️⃣ Get current list in ORIGINAL order
+            var originalList = lstCompanyGroup.Items
+                                              .Cast<clsCompanyGroup>()
+                                              .ToList();
+
+            // 4️⃣ Move selected groups to TOP (NO sorting)
+            var selected = new List<clsCompanyGroup>();
+            var unselected = new List<clsCompanyGroup>();
+
+            foreach (var group in originalList)
+            {
+                if (mappedGroupIds.Contains(group.CompanyGroupID))
+                    selected.Add(group);
+                else
+                    unselected.Add(group);
+            }
+
+            // 5️⃣ Rebind ONCE (selected first)
+            var finalList = new List<clsCompanyGroup>();
+            finalList.AddRange(selected);
+            finalList.AddRange(unselected);
+
+            lstCompanyGroup.ItemsSource = finalList;
+            lstCompanyGroup.UpdateLayout();
+
+            // 6️⃣ Pre-check selected groups
+            foreach (var item in lstCompanyGroup.Items)
+            {
+                ListBoxItem listBoxItem =
+                    lstCompanyGroup.ItemContainerGenerator
+                                   .ContainerFromItem(item) as ListBoxItem;
+
+                if (listBoxItem != null)
+                {
+                    CheckBox chk = FindVisualChild<CheckBox>(listBoxItem);
+                    if (chk != null)
+                    {
+                        long groupId = Convert.ToInt64(chk.Tag);
+                        chk.IsChecked = mappedGroupIds.Contains(groupId);
+                    }
+                }
+            }
+        }
+
         private void BindUser()
         {
             BALUser bal = new BALUser();

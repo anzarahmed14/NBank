@@ -12,5 +12,7 @@ namespace BOLNBank
         public string CompanyGroupCode { get; set; }
         public string CompanyGroupName { get; set; }
         public bool IsActive { get; set; }
+
+        public string CompanyNames { get; set; }
     }
 }

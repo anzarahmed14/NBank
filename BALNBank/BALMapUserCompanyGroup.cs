@@ -13,6 +13,7 @@ namespace BALNBank
     public class BALMapUserCompanyGroup
     {
         List<clsUserCompanyGroupMapping> list;
+        List<clsMapUserCompanyGroup> elist;
         List<SqlParameter> plist;
 
         public string Create(long userId, List<long> companyGroupIds)
@@ -39,7 +40,7 @@ namespace BALNBank
             plist = new List<SqlParameter>();
 
             plist.Add(
-                new SqlParameter("@CompanyGroupName", SqlDbType.NVarChar, 100)
+                new SqlParameter("@UserName", SqlDbType.NVarChar, 100)
                 {
                     Value = companyGroupName
                 });
@@ -59,6 +60,21 @@ namespace BALNBank
 
             return new DALMapUserCompanyGroup()
                 .Update("UpdateMapUserCompanyGroup", userId, dt);
+        }
+        public List<clsMapUserCompanyGroup> GetCompanyGroupByUserId(long userId)
+        {
+            plist = new List<SqlParameter>();
+            plist.Add(new SqlParameter("@UserId", SqlDbType.BigInt)
+            {
+                Value = userId
+            });
+
+            elist = (new DALMapUserCompanyGroup())
+                .GetCompanyGroupByUserId(
+                    "GetMapUserCompanyGroupByUserId",
+                    plist);
+
+            return elist;
         }
 
     }

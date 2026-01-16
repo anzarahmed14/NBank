@@ -7,9 +7,8 @@
         mc:Ignorable="d"
         Title="Company Group List"  WindowStyle="None"
         Loaded="Window_Loaded"
-        WindowStartupLocation="CenterScreen"
-        Height="600" 
-       
+         WindowStartupLocation="CenterScreen"
+       Height="600" 
         Width="520" 
         MaxHeight="600"
         Background="#fbf6db"
@@ -86,7 +85,7 @@
                     <ColumnDefinition Width="5"></ColumnDefinition>
 
                 </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" Content="Company Group Name:"></Label>
+                <Label Grid.Row="0" Grid.Column="0" Content="Group Name:"></Label>
                 <TextBox Grid.Row="0" Grid.Column="2" Text="" Style="{StaticResource StyleListTextBox}" x:Name="txtCompanyGroupName" TextChanged="txtCompanyGroupName_TextChanged" ></TextBox>
                 <Button Grid.Row="0" Grid.Column="4" Content="_Add" x:Name="btnAdd" Click="btnAdd_Click"  ></Button>
                 <Button Grid.Row="0" Grid.Column="6" Content="_Edit" x:Name="btnEdit" Click="btnEdit_Click" ></Button>

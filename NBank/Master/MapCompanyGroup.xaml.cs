@@ -44,6 +44,8 @@ namespace NBank.Master
                     cmbCompanyGroup.IsEnabled = false;
                     SetSelectedCompanies();
                     btnSave.Content = "_Update";
+
+                    cmbCompanyGroup.SelectedValue = CompanyGroupID;
                 }
                 else
                 {
@@ -115,49 +117,7 @@ namespace NBank.Master
             }
         }
 
-        private void SetSelectedCompanies2()
-        {
-            bALMapCompanyGroup = new BALMapCompanyGroup();
-            mapCompanyList = bALMapCompanyGroup.GetByCompanyGroupId(CompanyGroupID);
-
-            if (mapCompanyList == null || mapCompanyList.Count == 0)
-                return;
-
-            HashSet<long> mappedCompanyIds = new HashSet<long>();
-
-            foreach (var item in mapCompanyList)
-            {
-                mappedCompanyIds.Add(item.CompanyId);
-            }
-
-            foreach (var item in lstCompanies.Items)
-            {
-                ListBoxItem listBoxItem =
-                    lstCompanies.ItemContainerGenerator.ContainerFromItem(item) as ListBoxItem;
-
-                if (listBoxItem == null)
-                {
-                    lstCompanies.UpdateLayout();
-                    listBoxItem =
-                        lstCompanies.ItemContainerGenerator.ContainerFromItem(item) as ListBoxItem;
-                }
-
-                if (listBoxItem != null)
-                {
-                    CheckBox chk = FindVisualChild<CheckBox>(listBoxItem);
-
-                    if (chk != null)
-                    {
-                        long companyId = Convert.ToInt64(chk.Tag);
-
-                        if (mappedCompanyIds.Contains(companyId))
-                        {
-                            chk.IsChecked = true;
-                        }
-                    }
-                }
-            }
-        }
+        
 
 
         private void BindCompanyGroups()

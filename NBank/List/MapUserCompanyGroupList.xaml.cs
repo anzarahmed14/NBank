@@ -27,7 +27,7 @@ namespace NBank.List
         string MenuName = "MenuMapUserCompanyGroup";
         List<clsUserMenu> FilteredUserMenuList;
 
-        public long CompanyGroupID = 0;
+        public long UserId = 0;
         public MapUserCompanyGroupList()
         {
             InitializeComponent();
@@ -37,7 +37,7 @@ namespace NBank.List
             try
             {
                 UserMenu();
-                Keyboard.Focus(txtCompanyGroupName);
+                Keyboard.Focus(txtUserName);
                 GetMapCompanyGroupList();
             }
             catch (Exception ex)
@@ -131,7 +131,7 @@ namespace NBank.List
                 if (dgMapUserCompanyGroupList.SelectedIndex != -1)
                 {
                     clsUserCompanyGroupMapping obj = dgMapUserCompanyGroupList.SelectedItem as clsUserCompanyGroupMapping;
-                    CompanyGroupID = obj.CompanyGroupID;
+                    UserId = obj.UserId;
                     Edit();
                     // process stuff
                 }
@@ -150,7 +150,7 @@ namespace NBank.List
         {
             Close();
         }
-        private void txtCompanyGroupName_TextChanged(object sender, TextChangedEventArgs e)
+        private void txtUserName_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
             {
@@ -176,7 +176,7 @@ namespace NBank.List
                     if (grid != null && grid.SelectedItems != null && grid.SelectedItems.Count == 1)
                     {
                         clsUserCompanyGroupMapping obj = dgMapUserCompanyGroupList.SelectedItem as clsUserCompanyGroupMapping;
-                        CompanyGroupID = obj.CompanyGroupID;
+                        UserId = obj.UserId;
                         if (FilteredUserMenuList != null)
                         {
                             if (FilteredUserMenuList.Count > 0)
@@ -202,7 +202,7 @@ namespace NBank.List
             try
             {
                 MapUserCompanyGroup obj = new MapUserCompanyGroup();
-                obj.CompanyGroupID = CompanyGroupID;
+                obj.UserId = UserId;
                 obj.objMapCompanyGroupList = this;
                 obj.ShowDialog();
             }

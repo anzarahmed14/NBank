@@ -51,6 +51,7 @@ namespace DALNBank
                                     obj.CompanyGroupCode = NullReader.GetString("CompanyGroupCode");
                                     obj.CompanyGroupName = NullReader.GetString("CompanyGroupName");
                                     obj.IsActive = NullReader.GetBoolean("IsActive");
+                                    obj.CompanyNames = NullReader.GetString("CompanyNames");
                                     list.Add(obj);
                                 }
                             }

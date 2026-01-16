@@ -54,19 +54,45 @@
         <!-- Company List -->
         <Label Grid.Row="2" Grid.Column="0" Content="Company Group:" VerticalAlignment="Top"/>
 
-        <ListBox Grid.Row="4" Grid.Column="2"
-                 x:Name="lstCompanyGroup"
-                 BorderBrush="Gray"
-                 BorderThickness="1"
-                 ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <ListBox Grid.Row="4"
+         Grid.Column="2"
+         x:Name="lstCompanyGroup"
+         BorderBrush="Gray"
+         BorderThickness="1"
+         ScrollViewer.VerticalScrollBarVisibility="Auto">
 
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <CheckBox Content="{Binding CompanyGroupName}"  Tag="{Binding CompanyGroupID}"
-                              IsChecked="{Binding IsSelected, Mode=TwoWay}"/>
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Checkbox -->
+                        <CheckBox Grid.Column="0"
+                          Tag="{Binding CompanyGroupID}"
+                          IsChecked="{Binding IsSelected, Mode=TwoWay}" />
+
+                        <!-- Company Group Name -->
+                        <TextBlock Grid.Column="1"
+                           Text="{Binding CompanyGroupName}"
+                           VerticalAlignment="Center"
+                           FontWeight="SemiBold"/>
+
+                        <!-- Companies (pipe separated) -->
+                        <TextBlock Grid.Column="2"
+                           Text="{Binding CompanyNames}"
+                           VerticalAlignment="Center"
+                           TextWrapping="Wrap"
+                           Foreground="Gray"/>
+                    </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
+
         </ListBox>
+
 
         <!-- Buttons -->
         <Grid Grid.Row="6" Grid.ColumnSpan="3">
