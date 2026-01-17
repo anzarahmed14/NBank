@@ -12,13 +12,14 @@ namespace DALNBank
     public class DALCompanyGroup : SQLObject
     {
         List<clsCompanyGroup> list;
+        List<clsCompanyGroupCompanyNamesList> elist;
         clsCompanyGroup obj;
-        public List<clsCompanyGroup> GetCompanyGroupList(string StoredProcedure, List<SqlParameter> plist)
+        public List<clsCompanyGroupCompanyNamesList> GetCompanyGroupList(string StoredProcedure, List<SqlParameter> plist)
         {
             try
             {
 
-                list = new List<clsCompanyGroup>();
+                elist = new List<clsCompanyGroupCompanyNamesList>();
                 using (_conn = new SqlConnection(NBankConnectionString))
                 {
                     using (_cmd = new SqlCommand())
@@ -46,13 +47,13 @@ namespace DALNBank
                             {
                                 while (_reader.Read())
                                 {
-                                    clsCompanyGroup obj = new clsCompanyGroup();
+                                    clsCompanyGroupCompanyNamesList obj = new clsCompanyGroupCompanyNamesList();
                                     obj.CompanyGroupID = NullReader.GetInt64("CompanyGroupID");
                                     obj.CompanyGroupCode = NullReader.GetString("CompanyGroupCode");
                                     obj.CompanyGroupName = NullReader.GetString("CompanyGroupName");
                                     obj.IsActive = NullReader.GetBoolean("IsActive");
                                     obj.CompanyNames = NullReader.GetString("CompanyNames");
-                                    list.Add(obj);
+                                    elist.Add(obj);
                                 }
                             }
                         }
@@ -72,7 +73,7 @@ namespace DALNBank
                 if (_conn.State == ConnectionState.Open)
                     _conn.Close();
             }
-            return list;
+            return elist;
         }
 
         public clsCompanyGroup GetCompanyGroup(string StoredProcedure, List<SqlParameter> plist)

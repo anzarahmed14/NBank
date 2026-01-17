@@ -27,7 +27,8 @@ namespace BALNBank
             long SubTypeID,
             long TypeID,
             string AccountSubName,
-            string ERPID)
+            string ERPID,
+            long UserId)
         {
             _ds = new DataSet();
             list = new List<SqlParameter>();
@@ -65,7 +66,8 @@ namespace BALNBank
                 list.Add(new SqlParameter("@AccountSubName", SqlDbType.NVarChar,100) { Value = AccountSubName });
             if (ERPID != "")
                 list.Add(new SqlParameter("@ERPID", SqlDbType.NVarChar, 4000) { Value = ERPID });
-
+            if (UserId > 0)
+                list.Add(new SqlParameter("@UserId", SqlDbType.BigInt) { Value = UserId });
 
             _ds = (new DALNBank.DALDataAccess().GetDataSet("GetChequeReport", list));
             return _ds;

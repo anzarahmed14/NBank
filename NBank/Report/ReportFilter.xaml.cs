@@ -66,7 +66,7 @@ namespace NBank.Report
         {
           
 
-            objCompanyList = (new BALCompany().GetCompanyList());
+            objCompanyList = (new BALCompany().GetCompanyList("",Globals.UserID));
 
             objCompanyList.Insert(0, new clsCompany() { CompanyID = -1, CompanyShortName = "--Select Company--" });
 
@@ -339,7 +339,7 @@ namespace NBank.Report
                  ChequeTypeID,
                  SubTypeID,
                  TypeID,
-                 AccountSubName,ERPID));
+                 AccountSubName,ERPID, Globals.UserID));
                 if (_ds.Tables[0].Rows.Count > 0)
                 {
                     ExportDataSetToExcel(_ds);
@@ -429,7 +429,7 @@ namespace NBank.Report
              ChequeTypeID,
              SubTypeID,
              TypeID,
-             AccountSubName, ERPID));
+             AccountSubName, ERPID, Globals.UserID));
 
 
             dgReportFilter.ItemsSource = _ds.Tables[0].DefaultView;

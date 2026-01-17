@@ -17,7 +17,7 @@ namespace BALNBank
         
       
 
-        public DataSet GetAccountLedger(DateTime StartDate, DateTime EndDate, long AccountID, long ProjectID)
+        public DataSet GetAccountLedger(DateTime StartDate, DateTime EndDate, long AccountID, long ProjectID, long UserId)
         {
             plist = new List<SqlParameter>();
             if (StartDate != DateTime.MinValue)
@@ -29,7 +29,12 @@ namespace BALNBank
             plist.Add(new SqlParameter("@ProjectID", SqlDbType.BigInt) { Value = ProjectID });
             plist.Add(new SqlParameter("@DateType", SqlDbType.NVarChar,20) { Value = "CED" });
 
-            _ds = (new DALDataAccess().GetDataSet("GetAccountLedger", plist));
+            if (UserId > 0)
+            {
+                plist.Add(new SqlParameter("@UserId", SqlDbType.BigInt) { Value = UserId });
+            }
+
+                _ds = (new DALDataAccess().GetDataSet("GetAccountLedger", plist));
             return _ds;
         }
         public DataSet GetChequeList(long ChequeEntryID)

@@ -74,7 +74,7 @@ namespace NBank.Ledger
                 DebitTDS = 0;
                 CreditTDS = 0;
                 _ds = new DataSet();
-                _ds = (new BALNBank.BALLedger().GetAccountLedger(StartDate, EndDate, AccountID, ProjectID));
+                _ds = (new BALNBank.BALLedger().GetAccountLedger(StartDate, EndDate, AccountID, ProjectID,Globals.UserID));
                 dgAccountLedgerList.ItemsSource = _ds.Tables[0].DefaultView;
 
                 if (_ds.Tables[0].Rows.Count > 0)
@@ -262,7 +262,7 @@ namespace NBank.Ledger
                 Mouse.OverrideCursor = Cursors.Wait;
 
                 _ds = new DataSet();
-                _ds = (new BALNBank.BALLedger().GetAccountLedger(StartDate, EndDate, AccountID,ProjectID));
+                _ds = (new BALNBank.BALLedger().GetAccountLedger(StartDate, EndDate, AccountID,ProjectID,Globals.UserID));
                 if (_ds.Tables[0].Rows.Count > 0)
                 {
                     ExportDataSetToExcel(_ds);

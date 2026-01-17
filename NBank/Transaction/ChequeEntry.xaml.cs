@@ -72,7 +72,7 @@ namespace NBank.Transaction
               
 
                 Keyboard.Focus(dtpChequeEntryDate);
-                objCompanyList = (new BALCompany().GetCompanyList());
+                objCompanyList = (new BALCompany().GetCompanyList("",Globals.UserID));
 
                 /*15-December-2017*/
                 objCompanyList = objCompanyList.FindAll(Active => Active.IsActive == true);

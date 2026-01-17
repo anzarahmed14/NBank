@@ -26,6 +26,7 @@ namespace NBank.List
         string MenuName = "MenuCompanyGroup";
         List<clsUserMenu> FilteredUserMenuList;
         List<clsCompanyGroup> list;
+        List<clsCompanyGroupCompanyNamesList> elist;
         public long CompanyGroupID = 0;
         string CompanyGroupName = "";
         public CompanyGroupList()
@@ -50,7 +51,7 @@ namespace NBank.List
         {
             try
             {
-                list = (new BALCompanyGroup().GetCompanyGroupList());
+               elist = (new BALCompanyGroup().GetCompanyGroupList());
                 dgBankList.ItemsSource = list;
                 lblStatus.Text = "Rows " + list.Count;
             }
@@ -155,7 +156,7 @@ namespace NBank.List
             try
             {
                 CompanyGroupName = txtCompanyGroupName.Text.Trim();
-                list = (new BALCompanyGroup().GetCompanyGroupList(CompanyGroupName));
+                elist = (new BALCompanyGroup().GetCompanyGroupList(CompanyGroupName));
                 dgBankList.ItemsSource = list;
                 lblStatus.Text = "Rows " + list.Count;
             }

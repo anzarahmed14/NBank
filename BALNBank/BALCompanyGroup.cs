@@ -13,15 +13,16 @@ namespace BALNBank
     public class BALCompanyGroup
     {
         List<clsCompanyGroup> list;
+        List<clsCompanyGroupCompanyNamesList> elist;
         List<SqlParameter> plist;
         clsCompanyGroup obj;
-        public List<clsCompanyGroup> GetCompanyGroupList(string CompanyGroupName = "")
+        public List<clsCompanyGroupCompanyNamesList> GetCompanyGroupList(string CompanyGroupName = "")
         {
             plist = new List<SqlParameter>();
             plist.Add(new SqlParameter("@CompanyGroupName", SqlDbType.NVarChar, 100) { Value = CompanyGroupName });
 
-            list = (new DALCompanyGroup().GetCompanyGroupList("GetCompanyGroup", plist));
-            return list;
+            elist = (new DALCompanyGroup().GetCompanyGroupList("GetCompanyGroup", plist));
+            return elist;
         }
         public clsCompanyGroup GetCompanyGroup(long CompanyGroupID)
         {
