@@ -82,12 +82,12 @@ namespace NBank.Master
 
             // 3️⃣ Get current list in ORIGINAL order
             var originalList = lstCompanyGroup.Items
-                                              .Cast<clsCompanyGroup>()
+                                              .Cast<clsCompanyGroupCompanyNamesList>()
                                               .ToList();
 
             // 4️⃣ Move selected groups to TOP (NO sorting)
-            var selected = new List<clsCompanyGroup>();
-            var unselected = new List<clsCompanyGroup>();
+            var selected = new List<clsCompanyGroupCompanyNamesList>();
+            var unselected = new List<clsCompanyGroupCompanyNamesList>();
 
             foreach (var group in originalList)
             {
@@ -98,7 +98,7 @@ namespace NBank.Master
             }
 
             // 5️⃣ Rebind ONCE (selected first)
-            var finalList = new List<clsCompanyGroup>();
+            var finalList = new List<clsCompanyGroupCompanyNamesList>();
             finalList.AddRange(selected);
             finalList.AddRange(unselected);
 

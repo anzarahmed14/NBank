@@ -63,35 +63,48 @@
 
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="30"/>
-                            <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                    <Border Padding="4"
+                    BorderBrush="#DDD"
+                    BorderThickness="0,0,0,1">
 
-                        <!-- Checkbox -->
-                        <CheckBox Grid.Column="0"
-                          Tag="{Binding CompanyGroupID}"
-                          IsChecked="{Binding IsSelected, Mode=TwoWay}" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                        <!-- Company Group Name -->
-                        <TextBlock Grid.Column="1"
-                           Text="{Binding CompanyGroupName}"
-                           VerticalAlignment="Center"
-                           FontWeight="SemiBold"/>
+                            <!-- Checkbox -->
+                            <CheckBox Grid.Column="0"
+                              VerticalAlignment="Top"
+                              Tag="{Binding CompanyGroupID}"
+                              IsChecked="{Binding IsSelected, Mode=TwoWay}" />
 
-                        <!-- Companies (pipe separated) -->
-                        <TextBlock Grid.Column="2"
-                           Text="{Binding CompanyNames}"
-                           VerticalAlignment="Center"
-                           TextWrapping="Wrap"
-                           Foreground="Gray"/>
-                    </Grid>
+                            <!-- Company Group Name -->
+                            <TextBlock Grid.Column="1"
+                               Text="{Binding CompanyGroupName}"
+                               VerticalAlignment="Top"
+                               FontWeight="SemiBold"
+                               TextWrapping="Wrap"/>
+
+                            <!-- Companies (pipe separated / placeholder) -->
+                            <TextBlock Grid.Column="2"
+                               Text="{Binding CompanyNames,
+                                      TargetNullValue='—',
+                                      FallbackValue='—'}"
+                               VerticalAlignment="Top"
+                               TextWrapping="Wrap"
+                               TextTrimming="None"
+                               Foreground="Gray"
+                               MaxWidth="600"/>
+                        </Grid>
+
+                    </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
 
         </ListBox>
+
 
 
         <!-- Buttons -->

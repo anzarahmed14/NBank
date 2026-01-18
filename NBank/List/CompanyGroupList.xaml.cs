@@ -52,8 +52,8 @@ namespace NBank.List
             try
             {
                elist = (new BALCompanyGroup().GetCompanyGroupList());
-                dgBankList.ItemsSource = list;
-                lblStatus.Text = "Rows " + list.Count;
+                dgBankList.ItemsSource = elist;
+                lblStatus.Text = "Rows " + elist.Count;
             }
             catch (Exception ex)
             {
