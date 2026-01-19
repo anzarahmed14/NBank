@@ -154,10 +154,27 @@ namespace NBank
                             {
                                 MenuUserAccess.Visibility = Visibility.Collapsed;
                             }
+
+                            /*Mapping Menu*/
+                            if (m.MenuName == "MenuCompanyGroup")
+                            {
+                                MenuUserAccess.Visibility = Visibility.Collapsed;
+                            }
+                            if (m.MenuName == "MenuMapUserCompanyGroup")
+                            {
+                                MenuUserAccess.Visibility = Visibility.Collapsed;
+                            }
+                            if (m.MenuName == "MenuMapCompanyGroup")
+                            {
+                                MenuUserAccess.Visibility = Visibility.Collapsed;
+                            }
                         }
                     }
                 }
                 else {
+                    MenuMapUserCompanyGroup.Visibility = Visibility.Collapsed;
+                    MenuCompanyGroup.Visibility = Visibility.Collapsed;
+                    MenuMapCompanyGroup. Visibility = Visibility.Collapsed;
                     MenuAccount.Visibility         = Visibility.Collapsed;
                     MenuCompany.Visibility         = Visibility.Collapsed;
                     MenuProject.Visibility         = Visibility.Collapsed;

@@ -1,4 +1,4 @@
-ALTER PROC [dbo].[GetCompany]
+CREATE OR ALTER   PROC [dbo].[GetCompany]
 (
     @CompanyID   BIGINT = NULL,
     @CompanyName NVARCHAR(100) = NULL,
@@ -54,6 +54,4 @@ BEGIN
 END
 GO
 
-
---EXEC GetCompany null, null ,40005
 

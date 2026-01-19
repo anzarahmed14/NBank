@@ -1,4 +1,5 @@
-CREATE OR ALTER PROC dbo.CreateMapUserCompanyGroup
+
+CREATE OR ALTER   PROC [dbo].[CreateMapUserCompanyGroup]
 (
     @UserId BIGINT,
     @CompanyGroupIds dbo.CompanyGroupIdList READONLY,

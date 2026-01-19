@@ -1,4 +1,5 @@
-CREATE OR ALTER PROC dbo.GetMapCompanyGroupByCompanyGroupId
+
+CREATE OR ALTER   PROC [dbo].[GetMapCompanyGroupByCompanyGroupId]
 (
     @CompanyGroupId BIGINT
 )
@@ -15,3 +16,5 @@ BEGIN
     ORDER BY MapCompanyGroupId;
 END
 GO
+
+

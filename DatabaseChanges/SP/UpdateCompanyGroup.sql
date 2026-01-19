@@ -1,14 +1,5 @@
-USE [NBank]
-GO
 
-/****** Object:  StoredProcedure [dbo].[UpdateCompanyGroup]    Script Date: 14-01-2026 11:46:41 AM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-CREATE OR ALTER PROC [dbo].[UpdateCompanyGroup]
+CREATE OR ALTER   PROC [dbo].[UpdateCompanyGroup]
 @Message  NVARCHAR(4000) OUTPUT
 ,@CompanyGroupID bigint
 ,@CompanyGroupCode nvarchar(20)  = null

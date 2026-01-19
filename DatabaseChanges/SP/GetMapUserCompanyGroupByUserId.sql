@@ -1,4 +1,4 @@
-CREATE OR ALTER PROC dbo.GetMapUserCompanyGroupByUserId
+CREATE OR ALTER   PROC [dbo].[GetMapUserCompanyGroupByUserId]
 (
     @UserId BIGINT
 )
@@ -20,9 +20,3 @@ END
 GO
 
 
-EXEC GetMapUserCompanyGroupByUserId 30005
-
---MapUserCompanyGroupId	UserId	CompanyGroupId	CompanyGroupName
-4	30005	2	A
-
-SELECT * FROM MapUserCompanyGroup

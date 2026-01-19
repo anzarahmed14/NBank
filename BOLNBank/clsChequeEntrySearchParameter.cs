@@ -18,5 +18,7 @@ namespace BOLNBank
         public long BankID { get; set; }
         public long ParameterID { get; set; }
         public long ChequeEntryID { get; set; }
+
+        public long UserId { get; set; }
     }
 }

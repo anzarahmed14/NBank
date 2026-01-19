@@ -1,5 +1,5 @@
-﻿
-CREATE OR ALTER   PROC [dbo].[UpdateMapCompanyGroup]
+
+CREATE OR ALTER   PROC [dbo].[CreateMapCompanyGroup]
 (
     @CompanyGroupId BIGINT,
     @CompanyIds dbo.CompanyIdList READONLY,
@@ -12,9 +12,10 @@ BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
 
-        DECLARE @ConflictMessage NVARCHAR(4000);
+        DECLARE @ConflictMessage NVARCHAR(4000) = '';
+        DECLARE @SameGroupMessage NVARCHAR(4000) = '';
 
-        /* Step 1: Group-wise company aggregation */
+      
         ;WITH ConflictPerGroup AS
         (
             SELECT
@@ -31,7 +32,6 @@ BEGIN
             WHERE M.CompanyGroupId <> @CompanyGroupId
             GROUP BY CG.CompanyGroupName
         )
-        /* Step 2: Build final message */
         SELECT
             @ConflictMessage =
                 STRING_AGG(
@@ -42,7 +42,6 @@ BEGIN
                 )
         FROM ConflictPerGroup;
 
-        /* If conflicts exist → STOP */
         IF (@ConflictMessage IS NOT NULL AND LEN(@ConflictMessage) > 0)
         BEGIN
             SET @Message =
@@ -54,18 +53,24 @@ BEGIN
             RETURN;
         END
 
-        /* DELETE unchecked companies */
-        DELETE M
-        FROM dbo.MapCompanyGroup M
-        WHERE M.CompanyGroupId = @CompanyGroupId
-          AND NOT EXISTS
-          (
-              SELECT 1
-              FROM @CompanyIds C
-              WHERE C.CompanyId = M.CompanyId
-          );
+      
+        ;WITH SameGroupCompanies AS
+        (
+            SELECT
+                CM.CompanyName
+            FROM dbo.MapCompanyGroup M
+            INNER JOIN @CompanyIds C
+                ON M.CompanyId = C.CompanyId
+            INNER JOIN dbo.CompanyMaster CM
+                ON CM.CompanyID = M.CompanyId
+            WHERE M.CompanyGroupId = @CompanyGroupId
+        )
+        SELECT
+            @SameGroupMessage =
+                STRING_AGG('  - ' + CompanyName, CHAR(13) + CHAR(10))
+        FROM SameGroupCompanies;
 
-        /* INSERT newly selected companies */
+      
         INSERT INTO dbo.MapCompanyGroup (CompanyGroupId, CompanyId)
         SELECT 
             @CompanyGroupId,
@@ -80,7 +85,21 @@ BEGIN
         );
 
         COMMIT TRANSACTION;
-        SET @Message = 'UPDATE';
+
+     
+        IF (@SameGroupMessage IS NOT NULL AND LEN(@SameGroupMessage) > 0)
+        BEGIN
+            SET @Message =
+                'Saved successfully.' 
+                + CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10)
+                + 'The following companies were already in this group:' 
+                + CHAR(13) + CHAR(10)
+                + @SameGroupMessage;
+        END
+        ELSE
+        BEGIN
+            SET @Message = 'SAVE';
+        END
     END TRY
     BEGIN CATCH
         IF @@TRANCOUNT > 0

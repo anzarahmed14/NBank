@@ -18,11 +18,16 @@ namespace BALNBank
         DataSet _ds;
         string Message = "";
         List<string> elist = null;
-        public DataSet GetChequeEntryList(clsChequeEntrySearchParameter obj, List<string> elist = null)
+        public DataSet GetChequeEntryList(clsChequeEntrySearchParameter obj, List<string> elist = null, long UserId = 0)
         {
            
             plist = new List<SqlParameter>();
             // plist.Add(new SqlParameter("@GroupName", SqlDbType.NVarChar, 100) { Value = GroupName });
+
+            //if (UserId > 0)
+            //{
+            //    plist.Add(new SqlParameter("@UserId", SqlDbType.BigInt) { Value = UserId });
+            //}
             plist = (new BALDynamicProperty().GetSQLParameter(obj, elist));
             _ds = (new DALChequeEntry().GetChequeEntryList("GetChequeEntry", plist));
             return _ds;

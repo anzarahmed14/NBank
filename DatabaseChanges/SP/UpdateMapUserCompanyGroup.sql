@@ -1,4 +1,4 @@
-CREATE OR ALTER PROC dbo.UpdateMapUserCompanyGroup
+CREATE OR ALTER   PROC [dbo].[UpdateMapUserCompanyGroup]
 (
     @UserId BIGINT,
     @CompanyGroupIds dbo.CompanyGroupIdList READONLY,
@@ -47,3 +47,5 @@ BEGIN
     END CATCH
 END
 GO
+
+

@@ -109,10 +109,12 @@ namespace NBank.Transaction
                 elist.Add("FromDate");
                 elist.Add("ToDate");
                 elist.Add("ChequeNo");
+                elist.Add("UserId");
                 objPara = new clsChequeEntrySearchParameter();
                 objPara.FromDate = dtpFromDate.SelectedDate.Value;
                 objPara.ToDate = dtpToDate.SelectedDate.Value;
                 objPara.ChequeNo = txtChequeNo.Text.Trim();
+                objPara.UserId = Globals.UserID;
                 _ds = (new BALChequeEntry().GetChequeEntryList(objPara, elist));
                 dgChequeEntryList.ItemsSource = _ds.Tables[0].DefaultView;
                 lblStatus.Text = _ds.Tables[0].Rows.Count + " Record Found";
@@ -278,10 +280,12 @@ namespace NBank.Transaction
                     // elist.Add("FromDate");
                     // elist.Add("ToDate");
                     elist.Add("ChequeNo");
+                    elist.Add("UserId");
                     objPara = new clsChequeEntrySearchParameter();
                     //objPara.FromDate = dtpFromDate.SelectedDate.Value;
                     //objPara.ToDate = dtpToDate.SelectedDate.Value;
                     objPara.ChequeNo = txtChequeNo.Text.Trim();
+                    objPara.UserId = Globals.UserID;
                     _ds = (new BALChequeEntry().GetChequeEntryList(objPara, elist));
                     dgChequeEntryList.ItemsSource = _ds.Tables[0].DefaultView;
                     lblStatus.Text = _ds.Tables[0].Rows.Count + " Record Found";
