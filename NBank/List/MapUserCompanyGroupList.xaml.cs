@@ -26,7 +26,7 @@ namespace NBank.List
         string MessageTitle = "Map User Company Group List";
         string MenuName = "MenuMapUserCompanyGroup";
         List<clsUserMenu> FilteredUserMenuList;
-
+        string UserName = "";
         public long UserId = 0;
         public MapUserCompanyGroupList()
         {
@@ -46,7 +46,7 @@ namespace NBank.List
                 MessageBox.Show(ex.Message, MessageTitle, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        private void GetMapCompanyGroupList()
+        public void GetMapCompanyGroupList()
         {
             try
             {
@@ -154,10 +154,10 @@ namespace NBank.List
         {
             try
             {
-                //BankName = txtCompanyGroupName.Text.Trim();
-                //list = (new BALMapCompanyGroup().GetMapCompanyGroupList(BankName));
-                //dgMapCompanyGroupList.ItemsSource = list;
-                //lblStatus.Text = "Rows " + list.Count;
+                UserName = txtUserName.Text.Trim();
+                list = (new BALMapUserCompanyGroup().GetList(UserName));
+                dgMapUserCompanyGroupList.ItemsSource = list;
+                lblStatus.Text = "Rows " + list.Count;
             }
             catch (Exception ex)
             {

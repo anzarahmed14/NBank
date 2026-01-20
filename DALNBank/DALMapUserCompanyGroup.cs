@@ -62,6 +62,12 @@ namespace DALNBank
                                     obj.CompanyGroupCount =
                                         NullReader.GetInt32("CompanyGroupCount");
 
+
+                                    obj.CompanyGroupNames =
+                                        NullReader.GetString("CompanyGroupNames");
+
+                                    
+
                                     list.Add(obj);
                                 }
                             }

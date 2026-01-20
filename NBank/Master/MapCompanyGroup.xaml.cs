@@ -317,7 +317,7 @@ namespace NBank.Master
         {
             try
             {
-               // objBankList.GetBankList();
+                objMapCompanyGroupList.GetMapCompanyGroupList();
 
                 Close();
             }

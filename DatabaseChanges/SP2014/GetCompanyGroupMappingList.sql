@@ -1,4 +1,8 @@
-CREATE OR ALTER PROC [dbo].[GetCompanyGroupMappingList]
+IF OBJECT_ID('dbo.GetCompanyGroupMappingList', 'P') IS NOT NULL
+    DROP PROCEDURE dbo.GetCompanyGroupMappingList;
+GO
+
+CREATE PROC [dbo].[GetCompanyGroupMappingList]
 (
     @CompanyGroupName NVARCHAR(100) = NULL
 )
@@ -10,10 +14,17 @@ BEGIN
         CG.CompanyGroupID,
         CG.CompanyGroupName,
 
-        /*  NEW COLUMN: Pipe-separated company names */
-        STRING_AGG(CM.CompanyName, ' | ') AS CompanyNames,
+        /* Pipe-separated company names */
+        STUFF((
+            SELECT ' | ' + CM2.CompanyName
+            FROM dbo.MapCompanyGroup M2
+            INNER JOIN dbo.CompanyMaster CM2
+                ON CM2.CompanyID = M2.CompanyId
+            WHERE M2.CompanyGroupId = CG.CompanyGroupID
+            FOR XML PATH(''), TYPE
+        ).value('.', 'NVARCHAR(MAX)'), 1, 3, '') AS CompanyNames,
 
-        COUNT(M.CompanyId) AS CompanyCount
+        COUNT(DISTINCT M.CompanyId) AS CompanyCount
     FROM dbo.MapCompanyGroup M
     INNER JOIN dbo.CompanyGroupMaster CG
         ON CG.CompanyGroupID = M.CompanyGroupId
@@ -30,7 +41,5 @@ BEGIN
         CG.CompanyGroupName
     ORDER BY
         CG.CompanyGroupName;
-END
+END;
 GO
-
-

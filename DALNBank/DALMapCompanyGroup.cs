@@ -180,7 +180,9 @@ namespace DALNBank
                             CompanyGroupID = NullReader.GetInt64("CompanyGroupID"),
                             CompanyGroupName = NullReader.GetString("CompanyGroupName"),
                         
-                            CompanyCount = NullReader.GetInt32("CompanyCount")
+                            CompanyCount = NullReader.GetInt32("CompanyCount"),
+
+                            CompanyNames =  NullReader.GetString("CompanyNames"),
                         });
                     }
                 }

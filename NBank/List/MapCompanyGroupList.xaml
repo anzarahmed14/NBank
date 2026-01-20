@@ -7,9 +7,10 @@
         mc:Ignorable="d"
        WindowStartupLocation="CenterScreen"
           Loaded="Window_Loaded"
+        WindowStyle="None"
         Title="Map Company Group List"  Height="600" 
        
-        Width="520" 
+        Width="800" 
         MaxHeight="600"
         Background="#fbf6db">
     <Grid Margin="0">
@@ -89,23 +90,45 @@
             <Button Grid.Row="0" Grid.Column="8" Content="_Close" x:Name="btnClose" Click="btnClose_Click"  ></Button>
         </Grid>
 
-        <DataGrid Grid.Row="4" Grid.Column="2" 
-                  x:Name="dgMapCompanyGroupList" 
-                  AutoGenerateColumns="False"   
-                  SelectionMode="Single" 
-                  SelectionUnit="FullRow" 
-                  Width="auto" 
-                  Height="auto" 
-                  CanUserAddRows="false"
-                  CanUserReorderColumns="False"
-                  IsReadOnly="True" MouseDoubleClick="gdMapCompanyGroupList_MouseDoubleClick" 
-                  >
+        <DataGrid Grid.Row="4" Grid.Column="3"
+          x:Name="dgMapCompanyGroupList"
+          AutoGenerateColumns="False"
+          SelectionMode="Single"
+          SelectionUnit="FullRow"
+          Width="Auto"
+          Height="Auto"
+          CanUserAddRows="False"
+          CanUserReorderColumns="False"
+          IsReadOnly="True"
+          MouseDoubleClick="gdMapCompanyGroupList_MouseDoubleClick">
+
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Company Group Name" Binding="{Binding Path=CompanyGroupName}" Width="auto" />
-                <DataGridTextColumn Header="Company Count" Binding="{Binding Path=CompanyCount}" Width="*" />
+
+                <!-- Company Group Name -->
+                <DataGridTextColumn Header="Company Group Name"
+                            Binding="{Binding CompanyGroupName}"
+                            Width="200"/>
+
+                <!-- Company Count -->
+                <DataGridTextColumn Header="Company Count"
+                            Binding="{Binding CompanyCount}"
+                            Width="120"/>
+
+                <!-- ✅ WRAPPED Company Names -->
+                <DataGridTemplateColumn Header="Company Names" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding CompanyNames}"
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Top"
+                               MaxWidth="500"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
             </DataGrid.Columns>
         </DataGrid>
+
         <!--4th Row-->
         <Grid Grid.Column="0" Grid.Row="6">
             <Grid.RowDefinitions>

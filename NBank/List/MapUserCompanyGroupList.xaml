@@ -89,7 +89,7 @@
             <Button Grid.Row="0" Grid.Column="8" Content="_Close" x:Name="btnClose" Click="btnClose_Click"  ></Button>
         </Grid>
 
-        <DataGrid Grid.Row="4" Grid.Column="2" 
+        <DataGrid Grid.Row="4" Grid.Column="3" 
                   x:Name="dgMapUserCompanyGroupList" 
                   AutoGenerateColumns="False"   
                   SelectionMode="Single" 
@@ -101,8 +101,21 @@
                   IsReadOnly="True" MouseDoubleClick="dgMapUserCompanyGroupList_MouseDoubleClick" 
                   >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="User Name" Binding="{Binding Path=UserName}" Width="auto" />
-                <DataGridTextColumn Header="Company Group Count" Binding="{Binding Path=CompanyGroupCount}" Width="*" />
+                <DataGridTextColumn Header="User Name" Binding="{Binding Path=UserName}"   Width="200" />
+                <DataGridTextColumn Header="Company Group Count" Binding="{Binding Path=CompanyGroupCount}"  Width="120"/>
+                <!--<DataGridTextColumn Header="Company Group Names" Binding="{Binding Path=CompanyGroupNames}" Width="*" />-->
+                <DataGridTemplateColumn Header="Company Group Names" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding CompanyGroupNames}"
+                  TextWrapping="Wrap"
+                  VerticalAlignment="Top"
+                  MaxWidth="500"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+
 
             </DataGrid.Columns>
         </DataGrid>

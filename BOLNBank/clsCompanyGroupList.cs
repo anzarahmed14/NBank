@@ -11,6 +11,9 @@ namespace BOLNBank
         public long CompanyGroupID { get; set; }
         public string CompanyGroupName { get; set; }
         public int CompanyCount { get; set; }
-       
+
+        public string CompanyNames { get; set; }
+
+
     }
 }

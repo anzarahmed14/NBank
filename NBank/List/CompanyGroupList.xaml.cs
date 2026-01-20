@@ -52,7 +52,7 @@ namespace NBank.List
             try
             {
                elist = (new BALCompanyGroup().GetCompanyGroupList());
-                dgBankList.ItemsSource = elist;
+                gdCompanyGroupList.ItemsSource = elist;
                 lblStatus.Text = "Rows " + elist.Count;
             }
             catch (Exception ex)
@@ -157,8 +157,8 @@ namespace NBank.List
             {
                 CompanyGroupName = txtCompanyGroupName.Text.Trim();
                 elist = (new BALCompanyGroup().GetCompanyGroupList(CompanyGroupName));
-                dgBankList.ItemsSource = list;
-                lblStatus.Text = "Rows " + list.Count;
+                gdCompanyGroupList.ItemsSource = elist;
+                lblStatus.Text = "Rows " + elist.Count;
             }
             catch (Exception ex)
             {
@@ -184,9 +184,9 @@ namespace NBank.List
         {
             try
             {
-                if (dgBankList.SelectedIndex != -1)
+                if (gdCompanyGroupList.SelectedIndex != -1)
                 {
-                    clsCompanyGroup obj = dgBankList.SelectedItem as clsCompanyGroup;
+                    clsCompanyGroupCompanyNamesList obj = gdCompanyGroupList.SelectedItem as clsCompanyGroupCompanyNamesList;
                     CompanyGroupID = obj.CompanyGroupID;
                     Edit();
                     // process stuff
@@ -231,7 +231,7 @@ namespace NBank.List
                     DataGrid grid = sender as DataGrid;
                     if (grid != null && grid.SelectedItems != null && grid.SelectedItems.Count == 1)
                     {
-                        clsCompanyGroup obj = dgBankList.SelectedItem as clsCompanyGroup;
+                        clsCompanyGroupCompanyNamesList obj = gdCompanyGroupList.SelectedItem as clsCompanyGroupCompanyNamesList;
                         CompanyGroupID = obj.CompanyGroupID;
                         if (FilteredUserMenuList != null)
                         {

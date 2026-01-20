@@ -23,7 +23,7 @@ namespace NBank.List
     public partial class MapCompanyGroupList : Window
     {
         List<clsCompanyGroupList> list;
-        string BankName = "";
+        string CompanyGroupName = "";
         long CompanyGroupID = 0;
         string MessageTitle = "Map Company Group List";
         string MenuName = "MenuMapCompanyGroup";
@@ -42,7 +42,7 @@ namespace NBank.List
                 MessageBox.Show(ex.Message, MessageTitle, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        private void GetMapCompanyGroupList()
+        public void GetMapCompanyGroupList()
         {
             try
             {
@@ -212,8 +212,8 @@ namespace NBank.List
         {
             try
             {
-                BankName = txtCompanyGroupName.Text.Trim();
-                list = (new BALMapCompanyGroup().GetMapCompanyGroupList(BankName));
+                CompanyGroupName = txtCompanyGroupName.Text.Trim();
+                list = (new BALMapCompanyGroup().GetMapCompanyGroupList(CompanyGroupName));
                 dgMapCompanyGroupList.ItemsSource = list;
                 lblStatus.Text = "Rows " + list.Count;
             }
