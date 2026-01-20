@@ -158,15 +158,15 @@ namespace NBank
                             /*Mapping Menu*/
                             if (m.MenuName == "MenuCompanyGroup")
                             {
-                                MenuUserAccess.Visibility = Visibility.Collapsed;
+                                MenuCompanyGroup.Visibility = Visibility.Collapsed;
                             }
                             if (m.MenuName == "MenuMapUserCompanyGroup")
                             {
-                                MenuUserAccess.Visibility = Visibility.Collapsed;
+                                MenuMapUserCompanyGroup.Visibility = Visibility.Collapsed;
                             }
                             if (m.MenuName == "MenuMapCompanyGroup")
                             {
-                                MenuUserAccess.Visibility = Visibility.Collapsed;
+                                MenuMapCompanyGroup.Visibility = Visibility.Collapsed;
                             }
                         }
                     }
