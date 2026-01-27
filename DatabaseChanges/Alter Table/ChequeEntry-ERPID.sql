@@ -1,0 +1,2 @@
+ALTER TABLE [dbo].[ChequeEntry]
+ADD [ERPID] NVARCHAR(MAX) NULL;

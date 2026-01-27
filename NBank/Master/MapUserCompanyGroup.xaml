@@ -59,7 +59,9 @@
          x:Name="lstCompanyGroup"
          BorderBrush="Gray"
          BorderThickness="1"
-         ScrollViewer.VerticalScrollBarVisibility="Auto">
+         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                   VirtualizingStackPanel.IsVirtualizing="False"
+                 >
 
             <ListBox.ItemTemplate>
                 <DataTemplate>

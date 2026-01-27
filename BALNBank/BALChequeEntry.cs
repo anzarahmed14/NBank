@@ -39,10 +39,12 @@ namespace BALNBank
             list = (new DALChequeEntry().GetChequeEntryList2("GetChequeEntry", plist));
             return list;
         }
-        public clsChequeEntry GetChequeEntry(long ChequeEntryID)
+        public clsChequeEntry GetChequeEntry(long ChequeEntryID, long UserId = 0)
         {
             plist = new List<SqlParameter>();
             plist.Add(new SqlParameter("@ChequeEntryID", SqlDbType.BigInt) { Value = ChequeEntryID });
+            if (UserId > 0)
+            plist.Add(new SqlParameter("@UserId", SqlDbType.BigInt) { Value = UserId });
             obj = (new DALChequeEntry().GetChequeEntry("GetChequeEntry", plist));
             return obj;
         }

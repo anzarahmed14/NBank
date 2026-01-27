@@ -574,7 +574,8 @@ namespace NBank.Transaction
             try
             {
                 obj = new clsChequeEntry();
-                obj = (new BALChequeEntry().GetChequeEntry(ChequeEntryID));
+
+                obj = (new BALChequeEntry().GetChequeEntry(ChequeEntryID, Globals.UserID));
                 AccountID = obj.AccountID;
 
                 //objAccountList
