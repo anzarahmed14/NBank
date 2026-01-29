@@ -776,6 +776,13 @@ namespace NBank.Report
                     ParaField.Add("PrintAccountSubName", Convert.ToString(false));
                 }
 
+
+                ParaField.Add("@UserId", Convert.ToString(Globals.UserID));
+
+                ParaField.Add("@ERPID", Convert.ToString(txtERPID.Text));
+
+                
+
                 crName = cmbGroupBy.SelectedValue.ToString();
                 switch (crName) {
                     case "LIST":

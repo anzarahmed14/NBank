@@ -192,9 +192,6 @@
     <Compile Include="ReportFile\rpGBTypeSummary.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ReportFile\rpList - Copy.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="ReportFile\rpList.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -551,13 +548,14 @@
     <None Include="ReportFile\rpGBTypeSubType.rpt" />
     <None Include="ReportFile\rpGBTypeSubTypeSummary.rpt" />
     <None Include="ReportFile\rpGBTypeSummary.rpt" />
-    <None Include="ReportFile\rpList - Copy.rpt" />
     <None Include="ReportFile\rpList.rpt" />
     <None Include="ReportFile\rpVoucher.rpt" />
     <None Include="ReportFile\Test.rpt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\icon.ico" />

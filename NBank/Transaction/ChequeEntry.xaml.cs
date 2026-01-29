@@ -5,7 +5,9 @@ using NBank.Other;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -289,8 +291,7 @@ namespace NBank.Transaction
             }
             catch (Exception ex)
             {
-
-                MessageBox.Show(ex.Message + "007", MessageTitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                ShowErrorMessage(ex, "007");
             }
         }
         private void dtpChequeIssueDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
@@ -650,7 +651,7 @@ namespace NBank.Transaction
                 string AmountInwords = "";
                 AmountInwords = "Rupees " + (new clsCurrencyConverter().ConvertToWords(TotalAmount));
                 ParaField.Add("AmountInwords", AmountInwords);
-                ParaField.Add("@ChequeEntryID", Convert.ToString(ChequeEntryID));
+                ParaField.Add("@ChequeEntryID", ChequeEntryID.ToString());
                 ParaField.Add("@FromDate", null);
                 ParaField.Add("@ToDate", null);
                 ParaField.Add("@ChequeNo", null);
@@ -658,7 +659,8 @@ namespace NBank.Transaction
                 ParaField.Add("@ProjectID", null);
                 ParaField.Add("@BankID", null);
                 ParaField.Add("@ColumnName", null);
-               
+                ParaField.Add("@UserId", Globals.UserID.ToString());
+
 
                 obj.ReportName = "rpVoucher.rpt";
                
@@ -668,12 +670,51 @@ namespace NBank.Transaction
             }
             catch (Exception ex)
             {
+                ShowErrorMessage(ex, "013");
 
-                MessageBox.Show(ex.Message + "013", MessageTitle, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally {
                 //MessageBox.Show("D", MessageTitle, MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+        private void ShowErrorMessage(Exception ex, string errorCode)
+        {
+            string methodName = MethodBase.GetCurrentMethod().Name;
+
+
+            // Get actual caller method
+            var stackTrace = new StackTrace();
+            var frame = stackTrace.GetFrame(1);
+            var callingMethod = frame.GetMethod();
+
+
+            StringBuilder sb = new StringBuilder();
+
+
+            sb.AppendLine("An error occurred while executing the operation.");
+            sb.AppendLine();
+            sb.AppendLine("Error Code : " + errorCode);
+            sb.AppendLine("Class Name : " + callingMethod.DeclaringType.Name);
+            sb.AppendLine("Method Name: " + callingMethod.Name);
+            sb.AppendLine();
+            sb.AppendLine("Message:");
+            sb.AppendLine(ex.Message);
+
+
+            if (ex.InnerException != null)
+            {
+                sb.AppendLine();
+                sb.AppendLine("Inner Exception:");
+                sb.AppendLine(ex.InnerException.Message);
+            }
+
+
+            MessageBox.Show(
+            sb.ToString(),
+            MessageTitle,
+            MessageBoxButton.OK,
+            MessageBoxImage.Error
+            );
         }
         public void Delete()
         {

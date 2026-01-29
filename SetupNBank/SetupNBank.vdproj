@@ -16,7 +16,7 @@
         "Entry"
         {
         "MsmKey" = "8:_005ABD2BF216B84FB1087E3B146FE897"
-        "OwnerKey" = "8:_78B444C17D244A7BA6E6B48F9AB88D42"
+        "OwnerKey" = "8:_9AC92CFD6FF34C149FFBB84B256A97C8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -28,7 +28,7 @@
         "Entry"
         {
         "MsmKey" = "8:_1D1B55FB57F1D35D2BE0015CFA8846EF"
-        "OwnerKey" = "8:_78B444C17D244A7BA6E6B48F9AB88D42"
+        "OwnerKey" = "8:_9AC92CFD6FF34C149FFBB84B256A97C8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -40,43 +40,43 @@
         "Entry"
         {
         "MsmKey" = "8:_21908F92F2C46F6C1098AD94A40CF9D9"
-        "OwnerKey" = "8:_78B444C17D244A7BA6E6B48F9AB88D42"
+        "OwnerKey" = "8:_9AC92CFD6FF34C149FFBB84B256A97C8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_451CD643E2EE1679ECA4F02C8B81F647"
-        "OwnerKey" = "8:_78B444C17D244A7BA6E6B48F9AB88D42"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_78B444C17D244A7BA6E6B48F9AB88D42"
-        "OwnerKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_9AC92CFD6FF34C149FFBB84B256A97C8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_7F2484B8786750D137B6473393F2A189"
-        "OwnerKey" = "8:_78B444C17D244A7BA6E6B48F9AB88D42"
+        "OwnerKey" = "8:_9AC92CFD6FF34C149FFBB84B256A97C8"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9AC92CFD6FF34C149FFBB84B256A97C8"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_A994BEB24A3D7114FD46C8AA538C2D39"
-        "OwnerKey" = "8:_78B444C17D244A7BA6E6B48F9AB88D42"
+        "OwnerKey" = "8:_9AC92CFD6FF34C149FFBB84B256A97C8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_DFB6EE0F67AE7850D07A7EDCD32EC07C"
-        "OwnerKey" = "8:_78B444C17D244A7BA6E6B48F9AB88D42"
+        "OwnerKey" = "8:_9AC92CFD6FF34C149FFBB84B256A97C8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_E3914C891889D2B8A0BC2F1902E34C73"
-        "OwnerKey" = "8:_78B444C17D244A7BA6E6B48F9AB88D42"
+        "OwnerKey" = "8:_9AC92CFD6FF34C149FFBB84B256A97C8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -88,7 +88,7 @@
         "Entry"
         {
         "MsmKey" = "8:_F1A0C6FAD4708B66146A1F75BA43DA8A"
-        "OwnerKey" = "8:_78B444C17D244A7BA6E6B48F9AB88D42"
+        "OwnerKey" = "8:_9AC92CFD6FF34C149FFBB84B256A97C8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -100,19 +100,13 @@
         "Entry"
         {
         "MsmKey" = "8:_F997FACD373A90159192E87A51995311"
-        "OwnerKey" = "8:_78B444C17D244A7BA6E6B48F9AB88D42"
+        "OwnerKey" = "8:_9AC92CFD6FF34C149FFBB84B256A97C8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_005ABD2BF216B84FB1087E3B146FE897"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_78B444C17D244A7BA6E6B48F9AB88D42"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -131,6 +125,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_F1A0C6FAD4708B66146A1F75BA43DA8A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_9AC92CFD6FF34C149FFBB84B256A97C8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -187,6 +187,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -203,6 +219,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -597,22 +629,22 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:SetupNBank"
-        "ProductCode" = "8:{3F5721A1-F786-4ADA-A378-01E055BE27E3}"
-        "PackageCode" = "8:{C336DEFB-3E56-4EFE-8475-77AE08391785}"
+        "ProductName" = "8:NBank"
+        "ProductCode" = "8:{B16501A9-B13F-41E1-83E7-791C8BC17ACD}"
+        "PackageCode" = "8:{1D837F9C-31BD-4FDF-8F82-DBE3C6CD11F9}"
         "UpgradeCode" = "8:{4A8B8B3C-B23E-43F0-A27C-C79C2D9572E3}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:Default Company Name"
+        "ProductVersion" = "8:2.5.0"
+        "Manufacturer" = "8:Infosoft Consultant"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:SetupNBank"
+        "Title" = "8:NBank Application"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:Default Company Name"
+        "ARPCONTACT" = "8:Infosoft Consultant"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
         "ARPURLINFOABOUT" = "8:"
@@ -1118,7 +1150,7 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_78B444C17D244A7BA6E6B48F9AB88D42"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_9AC92CFD6FF34C149FFBB84B256A97C8"
             {
             "SourcePath" = "8:..\\NBank\\obj\\Release\\NBank.exe"
             "TargetName" = "8:"

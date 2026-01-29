@@ -464,9 +464,13 @@ namespace NBank.Ledger
             ParaField.Add("@BankID", null);
             ParaField.Add("@ChequeNo", null);
             ParaField.Add("@AccountID", Convert.ToString( AccountID));
+            ParaField.Add("@UserId", Convert.ToString(Globals.UserID));
+            ParaField.Add("@ProjectID",null);
 
             ParaField.Add("OpeningBalance", Convert.ToString(OpeningBalance));
             ParaField.Add("ClosingBalance", Convert.ToString(ClosingBalance));
+
+
 
 
             obj.ReportName = "rpAccountLedger.rpt";
