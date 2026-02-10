@@ -15,6 +15,7 @@ namespace BALNBank
         List<clsAccount> list;
         List<SqlParameter> plist;
         clsAccount obj;
+        Dictionary<string, string> accounts;
         public List<clsAccount> GetAccountList(string AccountName = "", string AccountShortName = "")
         {
             plist = new List<SqlParameter>();
@@ -30,6 +31,12 @@ namespace BALNBank
             plist.Add(new SqlParameter("@AccountID", SqlDbType.BigInt) { Value = AccountID});
              obj = (new DALAccount().GetAccount("GetAccountMaster", plist));
             return obj;
+        }
+
+        public Dictionary<string, string> LoadAccounts()
+        {
+            accounts = (new DALAccount().LoadAccounts());
+            return accounts;
         }
     }
 }

@@ -129,6 +129,9 @@
       <DependentUpon>MapUserCompanyGroup.xaml</DependentUpon>
     </Compile>
     <Compile Include="NullToVisibilityConverter.cs" />
+    <Compile Include="Other\ChequeImport.xaml.cs">
+      <DependentUpon>ChequeImport.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ReportFile\rpAccountLedger.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -426,6 +429,10 @@
     <Page Include="Other\ChangePassword.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Other\ChequeImport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Other\Login.xaml">
       <Generator>MSBuild:Compile</Generator>

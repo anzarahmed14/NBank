@@ -139,5 +139,42 @@ namespace DALNBank
             }
             return obj;
         }
+
+
+        public Dictionary<string, string> LoadTypes()
+        {
+            var dict = new Dictionary<string, string>();
+
+            using (SqlConnection con =
+                new SqlConnection(NBankConnectionString))
+            {
+                con.Open();
+
+                using (SqlCommand cmd = new SqlCommand(
+                    @"SELECT TypeShortName
+              FROM TypeMaster",
+                    con))
+                {
+                    using (SqlDataReader dr =
+                        cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            string name =
+                                dr["TypeShortName"]
+                                .ToString()
+                                .Trim()
+                                .ToUpper();
+
+                            if (!dict.ContainsKey(name))
+                                dict.Add(name, name);
+                        }
+                    }
+                }
+            }
+
+            return dict;
+        }
+
     }
 }

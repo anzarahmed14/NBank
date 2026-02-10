@@ -138,5 +138,43 @@ namespace DALNBank
             }
             return obj;
         }
+
+
+        public Dictionary<string, string> LoadParameters()
+        {
+            var dict = new Dictionary<string, string>();
+
+            using (SqlConnection con =
+                new SqlConnection(NBankConnectionString))
+            {
+                con.Open();
+
+                using (SqlCommand cmd = new SqlCommand(
+                    @"SELECT ParameterShortName
+              FROM ParameterMaster
+              ORDER BY ParameterShortName ASC",
+                    con))
+                {
+                    using (SqlDataReader dr =
+                        cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            string name =
+                                dr["ParameterShortName"]
+                                .ToString()
+                                .Trim()
+                                .ToUpper();
+
+                            if (!dict.ContainsKey(name))
+                                dict.Add(name, name);
+                        }
+                    }
+                }
+            }
+
+            return dict;
+        }
+
     }
 }

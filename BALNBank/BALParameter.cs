@@ -15,6 +15,7 @@ namespace BALNBank
         List<clsParameter> list;
         List<SqlParameter> plist;
         clsParameter obj;
+        Dictionary<string, string> parameters;
         public List<clsParameter> GetParameterList(string ParameterName = "")
         {
             plist = new List<SqlParameter>();
@@ -29,6 +30,11 @@ namespace BALNBank
             plist.Add(new SqlParameter("@ParameterID", SqlDbType.BigInt) { Value = ParameterID });
             obj = (new DALParameter().GetParameter("GetParameter", plist));
             return obj;
+        }
+        public Dictionary<string, string> LoadParameters()
+        {
+            parameters = (new DALParameter().LoadParameters());
+            return parameters;
         }
     }
 }

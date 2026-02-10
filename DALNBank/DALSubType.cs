@@ -144,5 +144,42 @@ namespace DALNBank
             }
             return obj;
         }
+        
+        public Dictionary<string, string> LoadSubTypes()
+        {
+            var dict = new Dictionary<string, string>();
+
+            using (SqlConnection con =
+                new SqlConnection(NBankConnectionString))
+            {
+                con.Open();
+
+                using (SqlCommand cmd = new SqlCommand(
+                    @"SELECT SubTypeShortName
+              FROM SubTypeMaster
+              ORDER BY SubTypeShortName ASC",
+                    con))
+                {
+                    using (SqlDataReader dr =
+                        cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            string name =
+                                dr["SubTypeShortName"]
+                                .ToString()
+                                .Trim()
+                                .ToUpper();
+
+                            if (!dict.ContainsKey(name))
+                                dict.Add(name, name);
+                        }
+                    }
+                }
+            }
+
+            return dict;
+        }
+
     }
 }

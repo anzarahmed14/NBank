@@ -191,6 +191,8 @@
                     <MenuItem Header="_Change Password" x:Name="MenuChangePassword" Click="MenuChangePassword_Click"/>
                     <Separator/>
                     <MenuItem Header="User _Access" Click="MenuUserAccess_Click" x:Name="MenuUserAccess"/>
+                    <Separator/>
+                    <MenuItem Header="Cheque _Import" Click="ChequeImport_Click" x:Name="ChequeImport"/>
                 </MenuItem>
 
                 <MenuItem Header="_Master" Style="{StaticResource menuParentStyle}" ItemContainerStyle="{DynamicResource MenuItemStyle1}" Template="{DynamicResource MenuItemControlTemplate2}"  >

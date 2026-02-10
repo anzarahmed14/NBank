@@ -134,5 +134,42 @@ namespace DALNBank
             }
             return obj;
         }
+
+        public Dictionary<string, string> LoadBanks()
+        {
+            var dict = new Dictionary<string, string>();
+
+            using (SqlConnection con =
+                new SqlConnection(NBankConnectionString))
+            {
+                con.Open();
+
+                using (SqlCommand cmd = new SqlCommand(
+                    @"SELECT BankCode
+              FROM BankMaster
+              ORDER BY BankCode ASC",
+                    con))
+                {
+                    using (SqlDataReader dr =
+                        cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            string code =
+                                dr["BankCode"]
+                                .ToString()
+                                .Trim()
+                                .ToUpper();
+
+                            if (!dict.ContainsKey(code))
+                                dict.Add(code, code);
+                        }
+                    }
+                }
+            }
+
+            return dict;
+        }
+
     }
 }

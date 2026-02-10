@@ -154,5 +154,38 @@ namespace DALNBank
             }
             return obj;
         }
+
+
+        public Dictionary<string, string> LoadAccounts()
+        {
+            var dict = new Dictionary<string, string>();
+
+            using (SqlConnection con =
+                new SqlConnection(NBankConnectionString))
+            {
+                con.Open();
+
+                SqlCommand cmd = new SqlCommand(
+                    "SELECT AccountName FROM AccountMaster",
+                    con);
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    string name =
+                        dr["AccountName"]
+                        .ToString()
+                        .Trim()
+                        .ToUpper();
+
+                    if (!dict.ContainsKey(name))
+                        dict.Add(name, name);
+                }
+            }
+
+            return dict;
+        }
+
     }
 }

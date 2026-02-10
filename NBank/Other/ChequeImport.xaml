@@ -1,0 +1,252 @@
+﻿<Window x:Class="NBank.Other.ChequeImport"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NBank.Other"
+        mc:Ignorable="d"
+       Title="Cheque Import"
+        Height="600" Width="1000"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- TOP FILTER PANEL -->
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="0"
+                    Margin="0,0,0,10">
+
+            <TextBlock Text="Entry Date:"
+                       VerticalAlignment="Center"
+                       Margin="0,0,5,0"/>
+
+            <DatePicker x:Name="dpEntryDate"
+                        Width="150"
+                        Margin="0,0,20,0"/>
+
+            <TextBlock Text="Company:"
+                       VerticalAlignment="Center"/>
+
+            <ComboBox x:Name="cmbCompany"
+                      Width="150"
+                      Margin="5,0,20,0"/>
+
+            <TextBlock Text="Bank Code:"
+                       VerticalAlignment="Center"/>
+
+            <ComboBox x:Name="cmbBank"
+                      Width="120"
+                      Margin="5,0,0,0"/>
+
+        </StackPanel>
+
+        <!-- FILE UPLOAD -->
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="1"
+                    Margin="0,0,0,10">
+
+            <TextBlock Text="File Upload:"
+                       VerticalAlignment="Center"/>
+
+            <TextBox x:Name="txtFilePath"
+                     Width="300"
+                     Margin="10,0,10,0"/>
+
+            <Button Content="Browse"
+                    Width="80"
+                    Click="Browse_Click"
+                    Margin="0,0,10,0"/>
+
+            <Button Content="Ok"
+                    Width="80"
+                    Click="Import_Click"
+                    Margin="0,0,10,0"/>
+
+            <Button Content="Refresh"
+                    Width="100"
+                    Click="Refresh_Click"/>
+        </StackPanel>
+
+        <!-- DATA GRID -->
+        <!-- DATA GRID -->
+        <DataGrid x:Name="dgImport"
+          Grid.Row="2"
+          AutoGenerateColumns="False"
+          CanUserAddRows="False"
+          IsReadOnly="True"
+          HeadersVisibility="Column"
+          SelectionMode="Extended"
+          SelectionUnit="FullRow">
+
+            <DataGrid.Columns>
+
+                <!-- Issue Date -->
+                <DataGridTextColumn Header="Issue Date"
+                            Binding="{Binding IssueDate,
+                            StringFormat=dd-MMM-yyyy}"
+                            Width="120"/>
+
+                <!-- Company -->
+                <DataGridTextColumn Header="Company Code"
+                            Binding="{Binding CompanyCode}"
+                            Width="120"/>
+
+                <!-- Bank -->
+                <DataGridTextColumn Header="Bank Code"
+                            Binding="{Binding BankCode}"
+                            Width="120">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Style.Triggers>
+
+                                <DataTrigger Binding="{Binding IsBankValid}"
+                             Value="False">
+                                    <Setter Property="Background"
+                            Value="#FFB6B6"/>
+                                </DataTrigger>
+
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <!-- Project -->
+                <DataGridTextColumn Header="Project Code"
+                            Binding="{Binding ProjectCode}"
+                            Width="130"/>
+
+                <!-- Import Account -->
+                <DataGridTextColumn Header="PartyName"
+                            Binding="{Binding PartyName}"
+                            Width="180">
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Style.Triggers>
+
+                                <DataTrigger Binding="{Binding IsAccountValid}"
+                             Value="False">
+                                    <Setter Property="Background"
+                            Value="#FFB6B6"/>
+                                    <Setter Property="Foreground"
+                            Value="Black"/>
+                                </DataTrigger>
+
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <!-- NBANK Account (Highlight) -->
+                <!--<DataGridTextColumn Header="NBANK Acc Name"
+                            Binding="{Binding NBankAccountName}"
+                            Width="180">
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Style.Triggers>
+
+                                --><!-- Highlight if invalid --><!--
+                                <DataTrigger Binding="{Binding IsAccountValid}"
+                                     Value="False">
+                                    <Setter Property="Background"
+                                    Value="#FFB6B6"/>
+                                    <Setter Property="Foreground"
+                                    Value="Black"/>
+                                </DataTrigger>
+
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+
+                </DataGridTextColumn>-->
+
+                <!-- Cheque No -->
+                <DataGridTextColumn Header="Cheque No"
+                            Binding="{Binding ChequeNo}"
+                            Width="120"/>
+
+                <!-- Amount -->
+                <DataGridTextColumn Header="Cheque Amount"
+                            Binding="{Binding ChequeAmount,
+                            StringFormat=N2}"
+                            Width="140"/>
+
+                <!-- Type -->
+                <DataGridTextColumn Header="Type"
+                            Binding="{Binding Type}"
+                            Width="130">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Style.Triggers>
+
+                                <DataTrigger Binding="{Binding IsTypeValid}"
+                             Value="False">
+                                    <Setter Property="Background"
+                            Value="#FFB6B6"/>
+                                </DataTrigger>
+
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <!-- SubType -->
+                <DataGridTextColumn Header="Sub Type"
+                            Binding="{Binding SubType}"
+                            Width="130">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Style.Triggers>
+
+                                <DataTrigger Binding="{Binding IsSubTypeValid}"
+                             Value="False">
+                                    <Setter Property="Background"
+                            Value="#FFB6B6"/>
+                                </DataTrigger>
+
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <!-- Parameter -->
+                <DataGridTextColumn Header="Parameter"
+                            Binding="{Binding Parameter}"
+                            Width="150">
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Style.Triggers>
+
+                                <DataTrigger Binding="{Binding IsParameterValid}"
+                             Value="False">
+                                    <Setter Property="Background"
+                            Value="#FFB6B6"/>
+                                </DataTrigger>
+
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+            </DataGrid.Columns>
+
+        </DataGrid>
+
+
+        <!-- FOOTER -->
+        <TextBlock x:Name="txtSummary"
+                   Grid.Row="3"
+                   FontWeight="Bold"
+                   Margin="0,10,0,0"/>
+
+    </Grid>
+
+</Window>

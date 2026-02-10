@@ -15,6 +15,7 @@ namespace BALNBank
         List<clsBank> list;
         List<SqlParameter> plist;
         clsBank obj;
+        Dictionary<string, string> banks;
         public List<clsBank> GetBankList(string BankName = "")
         {
             plist = new List<SqlParameter>();
@@ -29,6 +30,11 @@ namespace BALNBank
             plist.Add(new SqlParameter("@BankID", SqlDbType.BigInt) { Value = BankID });
             obj = (new DALBank().GetBank("GetBank", plist));
             return obj;
+        }
+        public Dictionary<string, string> LoadBanks()
+        {
+            banks = (new DALBank().LoadBanks());
+            return banks;
         }
     }
 }
