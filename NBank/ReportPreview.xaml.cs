@@ -31,7 +31,7 @@ namespace NBank
         string Password   = ConfigurationManager.AppSettings["Password"];
         /*End Connection*/
 
-        public Dictionary<string, string> ParaField = null;
+        public Dictionary<string, object> ParaField = null;
         public string ReportName = "";
 
 
@@ -115,7 +115,7 @@ namespace NBank
                     if (ParaField.Count > 0)
                     {
 
-                        foreach (KeyValuePair<string, string> custKeyVal in ParaField)
+                        foreach (KeyValuePair<string, object> custKeyVal in ParaField)
                         {
                             crParameterValues = new ParameterValues();
                             crParameterDiscreteValue = new ParameterDiscreteValue();

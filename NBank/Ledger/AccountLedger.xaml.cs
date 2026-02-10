@@ -41,7 +41,7 @@ namespace NBank.Ledger
         string FileName = "";
         string AccountName = "";
         string AccountShortName = "";
-        public Dictionary<string, string> ParaField = null;
+        public Dictionary<string, object> ParaField = null;
         string ExportcolumnName = "";
         string ExportcolumnValue = "";
         public AccountLedger()
@@ -455,7 +455,7 @@ namespace NBank.Ledger
         private void Print() {
 
             ReportPreview obj = new ReportPreview();
-            ParaField = new Dictionary<string, string>();
+            ParaField = new Dictionary<string, object>();
 
             ParaField.Add("@DateType", "CED");
             ParaField.Add("@StartDate", null);

@@ -16,7 +16,7 @@
         "Entry"
         {
         "MsmKey" = "8:_005ABD2BF216B84FB1087E3B146FE897"
-        "OwnerKey" = "8:_9AC92CFD6FF34C149FFBB84B256A97C8"
+        "OwnerKey" = "8:_4D05BAC2071E41CDA991F4515E0448B7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -28,7 +28,7 @@
         "Entry"
         {
         "MsmKey" = "8:_1D1B55FB57F1D35D2BE0015CFA8846EF"
-        "OwnerKey" = "8:_9AC92CFD6FF34C149FFBB84B256A97C8"
+        "OwnerKey" = "8:_4D05BAC2071E41CDA991F4515E0448B7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -40,43 +40,43 @@
         "Entry"
         {
         "MsmKey" = "8:_21908F92F2C46F6C1098AD94A40CF9D9"
-        "OwnerKey" = "8:_9AC92CFD6FF34C149FFBB84B256A97C8"
+        "OwnerKey" = "8:_4D05BAC2071E41CDA991F4515E0448B7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_451CD643E2EE1679ECA4F02C8B81F647"
-        "OwnerKey" = "8:_9AC92CFD6FF34C149FFBB84B256A97C8"
+        "OwnerKey" = "8:_4D05BAC2071E41CDA991F4515E0448B7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_7F2484B8786750D137B6473393F2A189"
-        "OwnerKey" = "8:_9AC92CFD6FF34C149FFBB84B256A97C8"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_9AC92CFD6FF34C149FFBB84B256A97C8"
+        "MsmKey" = "8:_4D05BAC2071E41CDA991F4515E0448B7"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
+        "MsmKey" = "8:_7F2484B8786750D137B6473393F2A189"
+        "OwnerKey" = "8:_4D05BAC2071E41CDA991F4515E0448B7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_A994BEB24A3D7114FD46C8AA538C2D39"
-        "OwnerKey" = "8:_9AC92CFD6FF34C149FFBB84B256A97C8"
+        "OwnerKey" = "8:_4D05BAC2071E41CDA991F4515E0448B7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_DFB6EE0F67AE7850D07A7EDCD32EC07C"
-        "OwnerKey" = "8:_9AC92CFD6FF34C149FFBB84B256A97C8"
+        "OwnerKey" = "8:_4D05BAC2071E41CDA991F4515E0448B7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_E3914C891889D2B8A0BC2F1902E34C73"
-        "OwnerKey" = "8:_9AC92CFD6FF34C149FFBB84B256A97C8"
+        "OwnerKey" = "8:_4D05BAC2071E41CDA991F4515E0448B7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -88,7 +88,7 @@
         "Entry"
         {
         "MsmKey" = "8:_F1A0C6FAD4708B66146A1F75BA43DA8A"
-        "OwnerKey" = "8:_9AC92CFD6FF34C149FFBB84B256A97C8"
+        "OwnerKey" = "8:_4D05BAC2071E41CDA991F4515E0448B7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -100,13 +100,19 @@
         "Entry"
         {
         "MsmKey" = "8:_F997FACD373A90159192E87A51995311"
-        "OwnerKey" = "8:_9AC92CFD6FF34C149FFBB84B256A97C8"
+        "OwnerKey" = "8:_4D05BAC2071E41CDA991F4515E0448B7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_005ABD2BF216B84FB1087E3B146FE897"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_4D05BAC2071E41CDA991F4515E0448B7"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -125,12 +131,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_F1A0C6FAD4708B66146A1F75BA43DA8A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9AC92CFD6FF34C149FFBB84B256A97C8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1150,7 +1150,7 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_9AC92CFD6FF34C149FFBB84B256A97C8"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_4D05BAC2071E41CDA991F4515E0448B7"
             {
             "SourcePath" = "8:..\\NBank\\obj\\Release\\NBank.exe"
             "TargetName" = "8:"

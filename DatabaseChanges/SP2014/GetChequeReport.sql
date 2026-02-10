@@ -1,8 +1,4 @@
-IF OBJECT_ID('dbo.GetChequeReport', 'P') IS NOT NULL
-    DROP PROCEDURE dbo.GetChequeReport;
-GO
-
-CREATE PROC [dbo].[GetChequeReport]
+ALTER PROC [dbo].[GetChequeReport]
 (
     @DateType         NVARCHAR(20) = NULL,
     @StartDate        DATE = NULL,
@@ -26,19 +22,29 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @SQLQuery NVARCHAR(MAX);
-    DECLARE @ParamDefinition NVARCHAR(MAX);
+    /* ===============================
+       NORMALIZE STRING PARAMETERS
+    =============================== */
+    SET @ChequeNo       = NULLIF(LTRIM(RTRIM(@ChequeNo)), '');
+    SET @AccountSubName = NULLIF(LTRIM(RTRIM(@AccountSubName)), '');
+    SET @ERPID          = NULLIF(LTRIM(RTRIM(@ERPID)), '');
 
-    SET @SQLQuery = '
-        SELECT *,
-               (ISNULL(ChequeAmount,0) + ISNULL(ChequeAmountTDS,0)) AS NetAmount
-        FROM View_ChequeEntry V
-        WHERE 1 = 1
-    ';
+    /* ===============================
+       DEFAULT DATE RANGE
+    =============================== */
+    SET @StartDate = ISNULL(@StartDate, '19000101');
+    SET @EndDate   = ISNULL(@EndDate,   '99991231');
 
-    /* USER SECURITY (ALWAYS APPLIED) */
-    SET @SQLQuery += '
-        AND (
+    /* ===============================
+       MAIN QUERY
+    =============================== */
+    SELECT
+        V.*,
+        (ISNULL(V.ChequeAmount,0) + ISNULL(V.ChequeAmountTDS,0)) AS NetAmount
+    FROM View_ChequeEntry V
+    WHERE
+        /* USER SECURITY */
+        (
             @UserId = 0
             OR EXISTS
             (
@@ -50,115 +56,36 @@ BEGIN
                   AND MCG.CompanyID = V.CompanyID
             )
         )
-    ';
 
-    /* DATE FILTERS */
-    IF (@DateType = 'CED')
-        SET @SQLQuery += '
-            AND V.ChequeEntryDate BETWEEN
-                COALESCE(@StartDate, V.ChequeEntryDate)
-            AND COALESCE(@EndDate, V.ChequeEntryDate)';
+        /* DATE FILTER (ONLY ONE ACTIVE) */
+        AND (
+                (@DateType = 'CED' AND V.ChequeEntryDate BETWEEN @StartDate AND @EndDate)
+             OR (@DateType = 'CID' AND V.ChequeIssueDate BETWEEN @StartDate AND @EndDate)
+             OR (@DateType = 'CCD' AND V.ChequeClearDate BETWEEN @StartDate AND @EndDate)
+             OR (@DateType IS NULL)
+            )
 
-    IF (@DateType = 'CID')
-        SET @SQLQuery += '
-            AND V.ChequeIssueDate BETWEEN
-                COALESCE(@StartDate, V.ChequeIssueDate)
-            AND COALESCE(@EndDate, V.ChequeIssueDate)';
+        /* OPTIONAL FILTERS */
+        AND (@ChequeNo       IS NULL OR V.ChequeNo       = @ChequeNo)
+        AND (@AccountID      IS NULL OR V.AccountID      = @AccountID)
+        AND (@BankID         IS NULL OR V.BankID         = @BankID)
+        AND (@ChequeStatusID IS NULL OR V.ChequeStatusID = @ChequeStatusID)
+        AND (@ChequeEntryID  IS NULL OR V.ChequeEntryID  = @ChequeEntryID)
+        AND (@CompanyID      IS NULL OR V.CompanyID      = @CompanyID)
+        AND (@TypeID         IS NULL OR V.TypeID         = @TypeID)
+        AND (@SubTypeID      IS NULL OR V.SubTypeID      = @SubTypeID)
+        AND (@ChequeTypeID   IS NULL OR V.ChequeTypeID   = @ChequeTypeID)
+        AND (@ParameterID    IS NULL OR V.ParameterID    = @ParameterID)
+        AND (@ProjectID      IS NULL OR V.ProjectID      = @ProjectID)
+        AND (@AccountSubName IS NULL OR V.AccountSubName LIKE '%' + @AccountSubName + '%')
+        AND (@ERPID          IS NULL OR V.ERPID          LIKE '%' + @ERPID + '%')
 
-    IF (@DateType = 'CCD')
-        SET @SQLQuery += '
-            AND V.ChequeClearDate BETWEEN
-                COALESCE(@StartDate, V.ChequeClearDate)
-            AND COALESCE(@EndDate, V.ChequeClearDate)';
-
-    /* OTHER FILTERS */
-    IF @ChequeNo IS NOT NULL
-        SET @SQLQuery += ' AND V.ChequeNo = @ChequeNo';
-
-    IF @AccountID IS NOT NULL
-        SET @SQLQuery += ' AND V.AccountID = @AccountID';
-
-    IF @BankID IS NOT NULL
-        SET @SQLQuery += ' AND V.BankID = @BankID';
-
-    IF @ChequeStatusID IS NOT NULL
-        SET @SQLQuery += ' AND V.ChequeStatusID = @ChequeStatusID';
-
-    IF @ChequeEntryID IS NOT NULL
-        SET @SQLQuery += ' AND V.ChequeEntryID = @ChequeEntryID';
-
-    IF @CompanyID IS NOT NULL
-        SET @SQLQuery += ' AND V.CompanyID = @CompanyID';
-
-    IF @TypeID IS NOT NULL
-        SET @SQLQuery += ' AND V.TypeID = @TypeID';
-
-    IF @SubTypeID IS NOT NULL
-        SET @SQLQuery += ' AND V.SubTypeID = @SubTypeID';
-
-    IF @ChequeTypeID IS NOT NULL
-        SET @SQLQuery += ' AND V.ChequeTypeID = @ChequeTypeID';
-
-    IF @ParameterID IS NOT NULL
-        SET @SQLQuery += ' AND V.ParameterID = @ParameterID';
-
-    IF @ProjectID IS NOT NULL
-        SET @SQLQuery += ' AND V.ProjectID = @ProjectID';
-
-    IF @AccountSubName IS NOT NULL
-        SET @SQLQuery += ' AND V.AccountSubName LIKE ''%'' + @AccountSubName + ''%''';
-
-    IF @ERPID IS NOT NULL
-        SET @SQLQuery += ' AND V.ERPID LIKE ''%'' + @ERPID + ''%''';
-
-    /* ORDER BY */
-    IF (@DateType = 'CED')
-        SET @SQLQuery += ' ORDER BY V.ChequeEntryDate DESC, V.ChequeEntryID DESC';
-
-    IF (@DateType = 'CID')
-        SET @SQLQuery += ' ORDER BY V.ChequeIssueDate DESC, V.ChequeEntryID DESC';
-
-    IF (@DateType = 'CCD')
-        SET @SQLQuery += ' ORDER BY V.ChequeClearDate DESC, V.ChequeEntryID DESC';
-
-    SET @ParamDefinition = '
-        @DateType NVARCHAR(20),
-        @StartDate DATE,
-        @EndDate DATE,
-        @ChequeStatusID BIGINT,
-        @BankID BIGINT,
-        @AccountID BIGINT,
-        @ChequeEntryID BIGINT,
-        @ChequeNo NVARCHAR(20),
-        @CompanyID BIGINT,
-        @ParameterID BIGINT,
-        @ProjectID BIGINT,
-        @ChequeTypeID BIGINT,
-        @SubTypeID BIGINT,
-        @TypeID BIGINT,
-        @AccountSubName NVARCHAR(100),
-        @ERPID NVARCHAR(MAX),
-        @UserId BIGINT';
-
-    EXEC sp_executesql
-        @SQLQuery,
-        @ParamDefinition,
-        @DateType,
-        @StartDate,
-        @EndDate,
-        @ChequeStatusID,
-        @BankID,
-        @AccountID,
-        @ChequeEntryID,
-        @ChequeNo,
-        @CompanyID,
-        @ParameterID,
-        @ProjectID,
-        @ChequeTypeID,
-        @SubTypeID,
-        @TypeID,
-        @AccountSubName,
-        @ERPID,
-        @UserId;
+    ORDER BY
+        CASE @DateType
+            WHEN 'CED' THEN V.ChequeEntryDate
+            WHEN 'CID' THEN V.ChequeIssueDate
+            WHEN 'CCD' THEN V.ChequeClearDate
+        END DESC,
+        V.ChequeEntryID DESC;
 END;
 GO

@@ -58,7 +58,7 @@ namespace NBank.Transaction
         private long ChequeTypeID = 0;
 
 
-        public Dictionary<string, string> ParaField = null;
+        public Dictionary<string, object> ParaField = null;
         //cmbChequeTypeName
         public ChequeEntry()
         {
@@ -287,8 +287,17 @@ namespace NBank.Transaction
         {
             try
             {
+                //var window = Window.GetWindow(this);
+                //if (window == null)
+                //    throw new InvalidOperationException("Unable to determine parent window.");
+
                 Print();
             }
+            catch (InvalidCastException ex)
+            {
+                ShowErrorMessage(ex, "007-01"); // Specific cast error
+            }
+
             catch (Exception ex)
             {
                 ShowErrorMessage(ex, "007");
@@ -634,17 +643,112 @@ namespace NBank.Transaction
             }
             //.Text = obj.Narration;
         }
+        public void Print4(Window ownerWindow = null)
+        {
+            try
+            {
+                // Safely parse cheque amount and TDS
+                double amount = double.TryParse(txtChequeAmount.Text?.Trim(), out var amt) ? amt : 0;
+                double tds = double.TryParse(txtChequeAmountTDS.Text?.Trim(), out var tdsVal) ? tdsVal : 0;
+                string total = (amount + tds).ToString();
 
+                // Convert amount to words
+                string amountInWords = "Rupees " + new clsCurrencyConverter().ConvertToWords(total);
+
+                // Prepare report parameters
+                var ParaField = new Dictionary<string, object>
+        {
+            { "AmountInwords", amountInWords },
+            { "@ChequeEntryID", ChequeEntryID },
+            { "@FromDate", DBNull.Value },
+            { "@ToDate", DBNull.Value },
+            { "@ChequeNo", DBNull.Value },
+            { "@CompanyID", DBNull.Value },
+            { "@ProjectID", DBNull.Value },
+            { "@BankID", DBNull.Value },
+            { "@ColumnName", DBNull.Value },
+            { "@UserId", Globals.UserID }
+        };
+
+                // Initialize report preview
+                ReportPreview obj = new ReportPreview
+                {
+                    ReportName = "Test2.rpt",
+                    ParaField = ParaField
+                };
+
+                // Assign owner if available
+                if (ownerWindow != null)
+                {
+                    obj.Owner = ownerWindow;
+                }
+                else if (Application.Current?.MainWindow != null)
+                {
+                    obj.Owner = Application.Current.MainWindow;
+                }
+
+                // Show the report dialog
+                obj.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                ShowErrorMessage(ex, "013");
+            }
+        }
+        public void Print3()
+        {
+            try
+            {
+                ReportPreview obj = new ReportPreview
+                {
+                    Owner = Application.Current.MainWindow
+                };
+
+                var ParaField = new Dictionary<string, object>();
+
+                double amount = Convert.ToDouble(txtChequeAmount.Text.Trim());
+                double tds = Convert.ToDouble(txtChequeAmountTDS.Text.Trim());
+                string total = (amount + tds).ToString();
+
+                string amountInWords =
+                    "Rupees " + new clsCurrencyConverter().ConvertToWords(total);
+
+                ParaField.Add("AmountInwords", amountInWords);
+                ParaField.Add("@ChequeEntryID", ChequeEntryID);
+                ParaField.Add("@FromDate", DBNull.Value);
+                ParaField.Add("@ToDate", DBNull.Value);
+                ParaField.Add("@ChequeNo", DBNull.Value);
+                ParaField.Add("@CompanyID", DBNull.Value);
+                ParaField.Add("@ProjectID", DBNull.Value);
+                ParaField.Add("@BankID", DBNull.Value);
+                ParaField.Add("@ColumnName", DBNull.Value);
+                ParaField.Add("@UserId", Globals.UserID);
+
+                obj.ReportName = "rpVoucher.rpt";
+                obj.ParaField = ParaField;
+
+                obj.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                ShowErrorMessage(ex, "013");
+            }
+        }
         public void Print()
         {
 
             try
             {
-               
 
-                ReportPreview obj = new ReportPreview();
-                
-                ParaField = new Dictionary<string, string>();
+
+                //ReportPreview obj = new ReportPreview();
+
+                ReportPreview obj = new ReportPreview
+                {
+                    Owner = Application.Current.MainWindow
+                };
+
+                ParaField = new Dictionary<string, object>();
               
 
                 TotalAmount = Convert.ToString(Convert.ToDouble(txtChequeAmount.Text.Trim()) + Convert.ToDouble(txtChequeAmountTDS.Text.Trim()));

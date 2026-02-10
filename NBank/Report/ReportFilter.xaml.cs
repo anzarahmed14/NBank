@@ -52,7 +52,7 @@ namespace NBank.Report
         string Path = Environment.CurrentDirectory;
         string FileName = "";
         string ReportName = "";
-        public Dictionary<string, string> ParaField = null;
+        public Dictionary<string, object> ParaField = null;
         string crName = "";
 
         string ExportcolumnName ="";
@@ -639,7 +639,7 @@ namespace NBank.Report
             {
                 ReportName = cmbGroupBy.Text +  " Wise " +  " From Date: " + StartDate.ToString("dd-MM-yyyy") +" To Date: " + EndDate.ToString("dd-MM-yyyy");
                 ReportPreview obj = new ReportPreview();
-                ParaField = new Dictionary<string, string>();
+                ParaField = new Dictionary<string, object>();
 
                 if (cmbDateType.SelectedValue != null)
                 {
