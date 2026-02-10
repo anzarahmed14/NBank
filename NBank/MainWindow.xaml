@@ -193,6 +193,7 @@
                     <MenuItem Header="User _Access" Click="MenuUserAccess_Click" x:Name="MenuUserAccess"/>
                 </MenuItem>
 
+                
                 <MenuItem Header="_Master" Style="{StaticResource menuParentStyle}" ItemContainerStyle="{DynamicResource MenuItemStyle1}" Template="{DynamicResource MenuItemControlTemplate2}"  >
 
                     <MenuItem Header="_Account" Click="MenuAccount_Click" x:Name="MenuAccount" InputGestureText="F5" />
