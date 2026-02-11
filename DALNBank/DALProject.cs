@@ -142,5 +142,53 @@ namespace DALNBank
             }
             return obj;
         }
+
+
+        public Dictionary<string, long> LoadProjects(long CompanyID)
+        {
+            var dict = new Dictionary<string, long>();
+
+            using (SqlConnection con =
+                new SqlConnection(NBankConnectionString))
+            {
+                con.Open();
+
+                using (SqlCommand cmd = new SqlCommand(
+                    @"SELECT ProjectID, ProjectShortName
+              FROM ProjectMaster 
+              WHERE CompanyID = @CompanyID 
+                AND  IsActive  = 1
+              ORDER BY ProjectShortName ASC",
+                    con))
+                {
+                    cmd.Parameters.Add("@CompanyID",
+                        SqlDbType.BigInt).Value = CompanyID;
+
+                    using (SqlDataReader dr =
+                        cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            string name =
+                                dr["ProjectShortName"]
+                                .ToString()
+                                .Trim()
+                                .ToUpper();
+
+                            long id =
+                                Convert.ToInt64(
+                                    dr["ProjectID"]);
+
+                            if (!dict.ContainsKey(name))
+                                dict.Add(name, id);
+                        }
+                    }
+                }
+            }
+
+            return dict;
+        }
+
+
     }
 }

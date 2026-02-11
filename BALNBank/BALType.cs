@@ -15,7 +15,7 @@ namespace BALNBank
         List<clsType> list;
         List<SqlParameter> plist;
         clsType obj;
-        Dictionary<string, string> types;
+        Dictionary<string, long> types;
         public List<clsType> GetTypeList(string TypeName = "")
         {
             plist = new List<SqlParameter>();
@@ -31,7 +31,7 @@ namespace BALNBank
             obj = (new DALType().GetType("GetType", plist));
             return obj;
         }
-         public Dictionary<string, string> LoadTypes()
+         public Dictionary<string, long> LoadTypes()
          {
 
             types = (new DALType().LoadTypes());

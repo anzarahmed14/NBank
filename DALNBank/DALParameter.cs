@@ -140,41 +140,42 @@ namespace DALNBank
         }
 
 
-        public Dictionary<string, string> LoadParameters()
+        public Dictionary<string, long> LoadParameters()
         {
-            var dict = new Dictionary<string, string>();
+            var dict = new Dictionary<string, long>();
 
             using (SqlConnection con =
                 new SqlConnection(NBankConnectionString))
             {
                 con.Open();
 
-                using (SqlCommand cmd = new SqlCommand(
-                    @"SELECT ParameterShortName
-              FROM ParameterMaster
-              ORDER BY ParameterShortName ASC",
-                    con))
-                {
-                    using (SqlDataReader dr =
-                        cmd.ExecuteReader())
-                    {
-                        while (dr.Read())
-                        {
-                            string name =
-                                dr["ParameterShortName"]
-                                .ToString()
-                                .Trim()
-                                .ToUpper();
+                SqlCommand cmd = new SqlCommand(
+                    @"SELECT ParameterID, ParameterShortName
+              FROM ParameterMaster WHERE  IsActive  = 1",
+                    con);
 
-                            if (!dict.ContainsKey(name))
-                                dict.Add(name, name);
-                        }
-                    }
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    string name =
+                        dr["ParameterShortName"]
+                        .ToString()
+                        .Trim()
+                        .ToUpper();
+
+                    long id =
+                        Convert.ToInt64(
+                            dr["ParameterID"]);
+
+                    if (!dict.ContainsKey(name))
+                        dict.Add(name, id);
                 }
             }
 
             return dict;
         }
+
 
     }
 }

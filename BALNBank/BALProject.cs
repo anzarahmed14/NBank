@@ -15,6 +15,7 @@ namespace BALNBank
         List<clsProject> list;
         List<SqlParameter> plist;
         clsProject obj;
+        Dictionary<string, long> projects;
         public List<clsProject> GetProjectList(string ProjectName = "")
         {
             plist = new List<SqlParameter>();
@@ -29,6 +30,11 @@ namespace BALNBank
             plist.Add(new SqlParameter("@ProjectID", SqlDbType.BigInt) { Value = ProjectID });
             obj = (new DALProject().GetProject("GetProject", plist));
             return obj;
+        }
+        public Dictionary<string, long> LoadProjects(long CompanyID)
+        {
+            projects = (new DALProject().LoadProjects(CompanyID));
+            return projects;
         }
     }
 }

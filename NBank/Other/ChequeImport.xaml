@@ -22,27 +22,32 @@
                     Grid.Row="0"
                     Margin="0,0,0,10">
 
-            <TextBlock Text="Entry Date:"
+            <!--<TextBlock Text="Entry Date:"
                        VerticalAlignment="Center"
                        Margin="0,0,5,0"/>
 
             <DatePicker x:Name="dpEntryDate"
                         Width="150"
-                        Margin="0,0,20,0"/>
+                        Margin="0,0,20,0"/>-->
 
             <TextBlock Text="Company:"
                        VerticalAlignment="Center"/>
 
-            <ComboBox x:Name="cmbCompany"
+            <ComboBox x:Name="cmbCompanyName"  SelectionChanged="cmbCompanyName_SelectionChanged"
                       Width="150"
                       Margin="5,0,20,0"/>
+
+            <Label   Margin="5,0,0,0"   MinWidth="200" Content=""  x:Name="lblSelectedCompanyName"></Label>
 
             <TextBlock Text="Bank Code:"
                        VerticalAlignment="Center"/>
 
-            <ComboBox x:Name="cmbBank"
-                      Width="120"
+            <ComboBox x:Name="cmbBankName"
+                      SelectionChanged="cmbBankName_SelectionChanged"
+                      Width="200"
                       Margin="5,0,0,0"/>
+
+           
 
         </StackPanel>
 
@@ -61,16 +66,23 @@
             <Button Content="Browse"
                     Width="80"
                     Click="Browse_Click"
+                     x:Name="btnBrowse"
                     Margin="0,0,10,0"/>
 
-            <Button Content="Ok"
+            <Button Content="Import"
                     Width="80"
+                      x:Name="btnImport"
                     Click="Import_Click"
                     Margin="0,0,10,0"/>
 
-            <Button Content="Refresh"
+            <!--<Button Content="Refresh"
+                    Width="100"  Margin="0,0,10,0"
+                    Click="Refresh_Click"/>-->
+
+            <Button Content="Upload"
+                     x:Name="btnUpload"
                     Width="100"
-                    Click="Refresh_Click"/>
+                    Click="Upload_Click"/>
         </StackPanel>
 
         <!-- DATA GRID -->
@@ -89,23 +101,18 @@
                 <!-- Issue Date -->
                 <DataGridTextColumn Header="Issue Date"
                             Binding="{Binding IssueDate,
-                            StringFormat=dd-MMM-yyyy}"
+                            StringFormat=dd/MM/yyyy}"
                             Width="120"/>
 
-                <!-- Company -->
-                <DataGridTextColumn Header="Company Code"
-                            Binding="{Binding CompanyCode}"
-                            Width="120"/>
-
-                <!-- Bank -->
-                <DataGridTextColumn Header="Bank Code"
-                            Binding="{Binding BankCode}"
-                            Width="120">
+                <!-- Project -->
+                <DataGridTextColumn Header="Project Code"
+                            Binding="{Binding ProjectCode}"
+                            Width="130">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell">
                             <Style.Triggers>
 
-                                <DataTrigger Binding="{Binding IsBankValid}"
+                                <DataTrigger Binding="{Binding IsProjectValid}"
                              Value="False">
                                     <Setter Property="Background"
                             Value="#FFB6B6"/>
@@ -116,14 +123,9 @@
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
 
-                <!-- Project -->
-                <DataGridTextColumn Header="Project Code"
-                            Binding="{Binding ProjectCode}"
-                            Width="130"/>
-
                 <!-- Import Account -->
-                <DataGridTextColumn Header="PartyName"
-                            Binding="{Binding PartyName}"
+                <DataGridTextColumn Header="AccountName"
+                            Binding="{Binding AccountName}"
                             Width="180">
 
                     <DataGridTextColumn.CellStyle>

@@ -141,40 +141,42 @@ namespace DALNBank
         }
 
 
-        public Dictionary<string, string> LoadTypes()
+        public Dictionary<string, long> LoadTypes()
         {
-            var dict = new Dictionary<string, string>();
+            var dict = new Dictionary<string, long>();
 
             using (SqlConnection con =
                 new SqlConnection(NBankConnectionString))
             {
                 con.Open();
 
-                using (SqlCommand cmd = new SqlCommand(
-                    @"SELECT TypeShortName
-              FROM TypeMaster",
-                    con))
-                {
-                    using (SqlDataReader dr =
-                        cmd.ExecuteReader())
-                    {
-                        while (dr.Read())
-                        {
-                            string name =
-                                dr["TypeShortName"]
-                                .ToString()
-                                .Trim()
-                                .ToUpper();
+                SqlCommand cmd = new SqlCommand(
+                    @"SELECT TypeID, TypeShortName
+              FROM TypeMaster WHERE  IsActive  = 1 Order By TypeShortName ASC ",
+                    con);
 
-                            if (!dict.ContainsKey(name))
-                                dict.Add(name, name);
-                        }
-                    }
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    string name =
+                        dr["TypeShortName"]
+                        .ToString()
+                        .Trim()
+                        .ToUpper();
+
+                    long id =
+                        Convert.ToInt64(
+                            dr["TypeID"]);
+
+                    if (!dict.ContainsKey(name))
+                        dict.Add(name, id);
                 }
             }
 
             return dict;
         }
+
 
     }
 }

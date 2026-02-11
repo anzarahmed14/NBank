@@ -497,7 +497,7 @@ namespace NBank
             try
             {
                 ChequeImport obj = new ChequeImport();
-                obj.ShowDialog();
+                obj.Show();
             }
             catch (Exception ex)
             {

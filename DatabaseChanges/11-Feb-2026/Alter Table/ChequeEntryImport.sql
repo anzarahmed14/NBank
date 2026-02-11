@@ -1,0 +1,3 @@
+ALTER TABLE ChequeEntry
+ADD ImportLogID BIGINT NULL
+GO

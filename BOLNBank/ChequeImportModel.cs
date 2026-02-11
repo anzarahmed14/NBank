@@ -6,23 +6,35 @@ using System.Threading.Tasks;
 
 namespace BOLNBank
 {
-     public class ChequeImportModel
+    public class ChequeImportModel
     {
         public DateTime? IssueDate { get; set; }
+
+
+        public long CompanyID { get; set; }
         public string CompanyCode { get; set; }
+
+        public long BankID { get; set; }
         public string BankCode { get; set; }
+
+        public long ProjectID { get; set; }
         public string ProjectCode { get; set; }
 
-        public string PartyName { get; set; }
-        public string NBankAccountName { get; set; }
+        public string AccountName { get; set; }
+        public long AccountID { get; set; }
+
 
         public string ChequeNo { get; set; }
         public decimal ChequeAmount { get; set; }
 
+        public long TypeID { get; set; }
         public string Type { get; set; }
+
+
+        public long SubTypeID { get; set; }
         public string SubType { get; set; }
 
-        public string NBankParameterName { get; set; }
+        public long ParameterID { get; set; }   
         public string Parameter { get; set; }
 
 
@@ -31,5 +43,6 @@ namespace BOLNBank
         public bool IsBankValid { get; set; } = true;
         public bool IsSubTypeValid { get; set; } = true;
         public bool IsTypeValid { get; set; } = true;
+        public bool IsProjectValid { get; set; } = true;
     }
 }

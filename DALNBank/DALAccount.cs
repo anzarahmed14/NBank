@@ -156,9 +156,9 @@ namespace DALNBank
         }
 
 
-        public Dictionary<string, string> LoadAccounts()
+        public Dictionary<string, long> LoadAccounts()
         {
-            var dict = new Dictionary<string, string>();
+            var dict = new Dictionary<string, long>();
 
             using (SqlConnection con =
                 new SqlConnection(NBankConnectionString))
@@ -166,7 +166,8 @@ namespace DALNBank
                 con.Open();
 
                 SqlCommand cmd = new SqlCommand(
-                    "SELECT AccountName FROM AccountMaster",
+                    @"SELECT AccountID, AccountName
+              FROM AccountMaster WHERE  IsActive  = 1 ",
                     con);
 
                 SqlDataReader dr = cmd.ExecuteReader();
@@ -179,13 +180,18 @@ namespace DALNBank
                         .Trim()
                         .ToUpper();
 
+                    long id =
+                        Convert.ToInt64(
+                            dr["AccountID"]);
+
                     if (!dict.ContainsKey(name))
-                        dict.Add(name, name);
+                        dict.Add(name, id);
                 }
             }
 
             return dict;
         }
+
 
     }
 }

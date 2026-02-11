@@ -15,7 +15,7 @@ namespace BALNBank
         List<clsSubType> list;
         List<SqlParameter> plist;
         clsSubType obj;
-        Dictionary<string, string> subTypes;
+        Dictionary<string, long> subTypes;
         public List<clsSubType> GetSubTypeList(string SubTypeName = "")
         {
             plist = new List<SqlParameter>();
@@ -32,7 +32,7 @@ namespace BALNBank
             return obj;
         }
 
-        public Dictionary<string, string> LoadSubTypes()
+        public Dictionary<string, long> LoadSubTypes()
         {
             subTypes = (new DALSubType().LoadSubTypes());
             return subTypes;

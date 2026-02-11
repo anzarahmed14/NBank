@@ -191,6 +191,62 @@ namespace DALNBank
             }
             return obj;
         }
+        public DataTable ImportChequeEntry(
+    DataTable dt,
+    long companyId,
+    long bankId,
+    long userId,
+    string fileName)
+        {
+            DataTable result = new DataTable();
+
+            using (SqlConnection con =
+                new SqlConnection(NBankConnectionString))
+            {
+                using (SqlCommand cmd =
+                    new SqlCommand(
+                        "SP_ImportChequeEntry", con))
+                {
+                    cmd.CommandType =
+                        CommandType.StoredProcedure;
+
+                    // 🔹 TVP Parameter
+                    SqlParameter tvp =
+                        cmd.Parameters.AddWithValue(
+                            "@ChequeList", dt);
+
+                    tvp.SqlDbType =
+                        SqlDbType.Structured;
+
+                    tvp.TypeName =
+                        "dbo.ChequeEntryImportType";
+
+                    // 🔹 Other Parameters
+                    cmd.Parameters.AddWithValue(
+                        "@CompanyID", companyId);
+
+                    cmd.Parameters.AddWithValue(
+                        "@BankID", bankId);
+
+                    cmd.Parameters.AddWithValue(
+                        "@UserID", userId);
+
+                    cmd.Parameters.AddWithValue(
+                        "@FileName", fileName ?? "");
+
+                    // 🔹 Fill Result
+                    using (SqlDataAdapter da =
+                        new SqlDataAdapter(cmd))
+                    {
+                        da.Fill(result);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+
 
     }
 }

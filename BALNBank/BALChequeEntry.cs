@@ -105,5 +105,25 @@ namespace BALNBank
             Message  = (new DALDataAccess().ExecuteNonQuery("ChangeChequeStatus", plist));
             return Message;
         }
+
+
+        public DataTable ImportChequeEntry(
+    DataTable dt,
+    long companyId,
+    long bankId,
+    long userId,
+    string fileName)
+        {
+            return new DALChequeEntry()
+                .ImportChequeEntry(
+                    dt,
+                    companyId,
+                    bankId,
+                    userId,
+                    fileName);
+        }
+
+
+
     }
 }
