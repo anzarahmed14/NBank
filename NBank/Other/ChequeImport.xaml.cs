@@ -30,12 +30,57 @@ namespace NBank.Other
         List<clsCompanyWiseBank> objCompanyWiseBankList;
         private long CompanyID = 0;
         List<ChequeImportModel> list;
+        string MenuName = "MenuChequeImport";
+        List<clsUserMenu> FilteredUserMenuList;
+        string MessageTitle = "Cheque Import";
         public ChequeImport()
         {
           
             InitializeComponent();
             GetCompany();
             //BindControl();
+
+        }
+        private void UserMenu()
+        {
+
+            try
+            {
+                FilteredUserMenuList = Globals.UserMenuList.Where(x => x.MenuName == MenuName).ToList();
+
+                if (FilteredUserMenuList.Count > 0)
+                {
+                    if (FilteredUserMenuList[0].AllowCreate == false)
+                    {
+                       // btnAdd.Visibility = Visibility.Collapsed;
+                    }
+                    if (FilteredUserMenuList[0].AllowEdit == false)
+                    {
+                       // btnEdit.Visibility = Visibility.Collapsed;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, MessageTitle, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+        }
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                UserMenu();
+
+                //Keyboard.Focus(txtAccountName);
+                //GetAccount();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, MessageTitle, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
         }
         private void Browse_Click(object sender, RoutedEventArgs e)

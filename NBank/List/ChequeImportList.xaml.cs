@@ -23,6 +23,9 @@ namespace NBank.List
     {
         List<ImportLogModel> list;
         string MessageTitle = "Cheque Import List";
+    
+        string MenuName = "MenuChequeImportList";
+        List<clsUserMenu> FilteredUserMenuList;
         public ChequeImportList()
         {
             InitializeComponent();
@@ -96,7 +99,7 @@ namespace NBank.List
         {
             try
             {
-                //UserMenu();
+                UserMenu();
 
                // Keyboard.Focus(txtAccountName);
                 GetImportLogList();
@@ -111,6 +114,32 @@ namespace NBank.List
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+        private void UserMenu()
+        {
+
+            try
+            {
+                FilteredUserMenuList = Globals.UserMenuList.Where(x => x.MenuName == MenuName).ToList();
+
+                if (FilteredUserMenuList.Count > 0)
+                {
+                    if (FilteredUserMenuList[0].AllowCreate == false)
+                    {
+                       // btnAdd.Visibility = Visibility.Collapsed;
+                    }
+                    if (FilteredUserMenuList[0].AllowEdit == false)
+                    {
+                       // btnEdit.Visibility = Visibility.Collapsed;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, MessageTitle, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
         }
         public void GetImportLogList()
         {

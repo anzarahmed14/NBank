@@ -168,10 +168,21 @@ namespace NBank
                             {
                                 MenuMapCompanyGroup.Visibility = Visibility.Collapsed;
                             }
+                            if (m.MenuName == "MenuChequeImportList")
+                            {
+                                MenuChequeImportList.Visibility = Visibility.Collapsed;
+                            }
+                            if (m.MenuName == "MenuChequeImport")
+                            {
+                                MenuChequeImport.Visibility = Visibility.Collapsed;
+                            }
+
                         }
                     }
                 }
                 else {
+                    MenuChequeImport.Visibility = Visibility.Collapsed;
+                    MenuChequeImportList.Visibility = Visibility.Collapsed;
                     MenuMapUserCompanyGroup.Visibility = Visibility.Collapsed;
                     MenuCompanyGroup.Visibility = Visibility.Collapsed;
                     MenuMapCompanyGroup. Visibility = Visibility.Collapsed;
