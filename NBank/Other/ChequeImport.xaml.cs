@@ -51,45 +51,67 @@ namespace NBank.Other
                // Validate();
             }
         }
-        private void Import_Click(object sender, RoutedEventArgs e)
+        private async void Import_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(txtFilePath.Text))
+            Mouse.OverrideCursor = Cursors.Wait;
+            try
             {
-                MessageBox.Show("Select file first");
-                return;
+                if (string.IsNullOrEmpty(txtFilePath.Text))
+                {
+                    MessageBox.Show("Select file first");
+                    return;
+                }
+
+                list = new List<ChequeImportModel>();
+                list = ReadExcel(txtFilePath.Text);
+                //ValidatePartyName(list);
+                //ValidateParameter(list);
+                //ValidateProject(list, CompanyID);
+
+                //ValidateSubType(list);
+                //ValidateType(list);
+
+                // 🔹 Run validations in parallel
+                await Task.WhenAll(
+                    Task.Run(() => ValidatePartyName(list)),
+                    Task.Run(() => ValidateParameter(list)),
+                    Task.Run(() => ValidateProject(list, CompanyID)),
+                    Task.Run(() => ValidateSubType(list)),
+                    Task.Run(() => ValidateType(list))
+                );
+
+
+                dgImport.ItemsSource = list;
+
+             
+                // 🔢 COUNT SUMMARY
+                int totalRows = list.Count;
+
+                int errorRows = list.Count(x =>
+                    !x.IsAccountValid ||
+                    !x.IsParameterValid ||
+                    !x.IsProjectValid ||
+                    !x.IsSubTypeValid ||
+                    !x.IsTypeValid);
+
+                int validRows = totalRows - errorRows;
+
+                // Display summary
+                txtSummary.Text =
+                    $"Total Rows: {totalRows}   |   " +
+                    $"Valid Rows: {validRows}   |   " +
+                    $"Error Rows: {errorRows}";
             }
-          //  Validate();
-            list = new List<ChequeImportModel>();
-             list = ReadExcel(txtFilePath.Text);
-            ValidatePartyName(list);
-            ValidateParameter(list);
-            ValidateProject(list,CompanyID);
+            catch (Exception ex)
+            {
+                Mouse.OverrideCursor = null;
 
-            ValidateSubType(list);
-            ValidateType(list);
-            dgImport.ItemsSource = list;
-
-            //txtSummary.Text =
-            //    $"File Rows: {list.Count}";
-
-
-            // 🔢 COUNT SUMMARY
-            int totalRows = list.Count;
-
-            int errorRows = list.Count(x =>
-                !x.IsAccountValid ||
-                !x.IsParameterValid ||
-                !x.IsProjectValid ||
-                !x.IsSubTypeValid ||
-                !x.IsTypeValid);
-
-            int validRows = totalRows - errorRows;
-
-            // Display summary
-            txtSummary.Text =
-                $"Total Rows: {totalRows}   |   " +
-                $"Valid Rows: {validRows}   |   " +
-                $"Error Rows: {errorRows}";
+                MessageBox.Show(ex.Message, "Import", MessageBoxButton.OK);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }
 
         }
         private List<ChequeImportModel> ReadExcel(string path)
