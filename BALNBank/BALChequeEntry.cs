@@ -124,6 +124,11 @@ namespace BALNBank
         }
 
 
+        public List<ImportLogModel> GetImportLogList()
+        {
+            return new DALChequeEntry()
+                .GetImportLogList();
+        }
 
     }
 }

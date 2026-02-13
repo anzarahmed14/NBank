@@ -411,6 +411,10 @@ namespace NBank.Transaction
                 obj.CreatedUserID = Globals.UserID;
                 obj.UpdatedUserID = Globals.UserID;
 
+
+                obj.CreatedDate = DateTime.Now;
+                obj.UpdatedDate = DateTime.Now;
+
                 obj.ERPID = txtERPID.Text.Trim();
 
                 Message = (new BALOperation().Create(obj));
@@ -470,7 +474,22 @@ namespace NBank.Transaction
 
                 //obj.CreatedUserID = Globals.UserID;
                 obj.UpdatedUserID = Globals.UserID;
+
+                if (obj.CreatedUserID == 0)
+                {
+                    //obj.CreatedUserID= Globals.UserID;
+                }
                 obj.ERPID = txtERPID.Text.Trim();
+
+               if ( obj.CreatedDate  == DateTime.MinValue)
+                {
+                    obj.CreatedDate = obj.ChequeEntryDate;
+                }
+
+                if (obj.UpdatedDate == DateTime.MinValue)
+                {
+                    obj.UpdatedDate = DateTime.Now;
+                }
 
                 Message = (new BALOperation().Update(obj));
 
@@ -482,6 +501,12 @@ namespace NBank.Transaction
                 {
                     lblStatus.Text = "Duplicate Cheque Number";
                     MessageBox.Show("Duplicate Cheque Number", MessageTitle, MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                }
+                else if (Message == "NOCHANGE")
+                {
+                    lblStatus.Text = "No data change";
+                    
 
                 }
                 else {
@@ -635,6 +660,33 @@ namespace NBank.Transaction
 
                 txtERPID.Text = obj.ERPID;
 
+
+                // lblCreatedDate.TextInput = obj.CreatedUserID;.
+
+                if (obj.CreatedDate == DateTime.MinValue) {
+                    lblCreatedDate.Content = GetDisplayDate(obj.CreatedDate, obj.ChequeEntryDate);
+                }
+                else
+                {
+                    lblCreatedDate.Content = GetDisplayDate(obj.CreatedDate, obj.ChequeEntryDate);
+                }
+
+                if (obj.UpdatedDate == DateTime.MinValue)
+                {
+                    lblUpdatedDate.Content = GetDisplayDate(obj.UpdatedDate, obj.ChequeEntryDate);  
+                }
+                else
+                {
+                    lblUpdatedDate.Content = GetDisplayDate(obj.UpdatedDate, obj.ChequeEntryDate);
+                }
+
+              
+
+                lblUpdatedBy.Content = obj.UpdatedUserName;
+                lblCreatedBy.Content = obj.CreatedUserName;
+
+
+
             }
             catch (Exception ex)
             {
@@ -642,6 +694,14 @@ namespace NBank.Transaction
                 MessageBox.Show(ex.Message + "012", MessageTitle, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             //.Text = obj.Narration;
+        }
+        private string GetDisplayDate(DateTime mainDate, DateTime fallbackDate)
+        {
+            DateTime dateToShow = mainDate == DateTime.MinValue
+                                  ? fallbackDate
+                                  : mainDate;
+
+            return  dateToShow.ToString("dd\\/MM\\/yyyy");
         }
         public void Print4(Window ownerWindow = null)
         {

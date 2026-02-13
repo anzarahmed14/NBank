@@ -35,5 +35,13 @@ namespace BOLNBank
         public string ERPID { get; set; }
 
 
+        public DateTime UpdatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
+
+        public string CreatedUserName { get; set; }
+        public string UpdatedUserName { get; set; }
+
+
+
     }
 }

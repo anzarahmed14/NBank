@@ -110,6 +110,9 @@
     </ApplicationDefinition>
     <Compile Include="Class1.cs" />
     <Compile Include="Globals.cs" />
+    <Compile Include="List\ChequeImportList.xaml.cs">
+      <DependentUpon>ChequeImportList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="List\CompanyGroupList.xaml.cs">
       <DependentUpon>CompanyGroupList.xaml</DependentUpon>
     </Compile>
@@ -247,6 +250,10 @@
     <Page Include="List\CategoryList.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="List\ChequeImportList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="List\CompanyGroupList.xaml">
       <SubType>Designer</SubType>

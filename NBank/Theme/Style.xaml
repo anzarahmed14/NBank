@@ -274,6 +274,9 @@
         
     </Style>
 
+    
+
+
     <Style TargetType="Label"  BasedOn="{StaticResource StyleDisplayLabel}" x:Key="StyleDisplayLabelRight">
     <Setter  Property="Background" Value="#fff29d" />
     <Setter  Property="HorizontalAlignment" Value="Right" />

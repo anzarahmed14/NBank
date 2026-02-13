@@ -492,19 +492,19 @@ namespace NBank
                 MessageBox.Show(ex.Message, MessageTitle, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        private void ChequeImport_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                ChequeImport obj = new ChequeImport();
-                obj.Show();
-            }
-            catch (Exception ex)
-            {
+        //private void ChequeImport_Click(object sender, RoutedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        ChequeImport obj = new ChequeImport();
+        //        obj.Show();
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                MessageBox.Show(ex.Message, MessageTitle, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
+        //        MessageBox.Show(ex.Message, MessageTitle, MessageBoxButton.OK, MessageBoxImage.Error);
+        //    }
+        //}
         private string GetVersion() {
             string version = "";
 
@@ -630,6 +630,32 @@ namespace NBank
         {
             Merge.MergeAccount obj = new Merge.MergeAccount();
             obj.ShowDialog();
+        }
+        private void ChequeImport_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ChequeImport obj = new ChequeImport();
+                obj.Show();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, MessageTitle, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private void ChequeImportList_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ChequeImportList obj = new ChequeImportList();
+                obj.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, MessageTitle, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

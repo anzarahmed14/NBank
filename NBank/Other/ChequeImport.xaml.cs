@@ -17,6 +17,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 using System.Runtime.InteropServices;
 using BALNBank;
 using System.Data;
+using System.Globalization;
 
 namespace NBank.Other
 {
@@ -910,11 +911,51 @@ namespace NBank.Other
                     isValid = false;
                 }
 
-
-
-
-
             }
+
+            var duplicateChequeGroups = list
+                .Where(x => !string.IsNullOrWhiteSpace(x.ChequeNo))
+                .GroupBy(x => x.ChequeNo.Trim().ToUpper())
+                .Where(g => g.Count() > 1)
+                .ToList();
+
+                        if (duplicateChequeGroups.Any())
+                        {
+                            int duplicateRowCount =
+                                duplicateChequeGroups.Sum(g => g.Count());
+
+                            string chequeList = string.Join(", ",
+                                duplicateChequeGroups
+                                    .Select(g => g.Key));
+
+                            message += $"Duplicate Cheque No found: {chequeList}"
+                                     + Environment.NewLine;
+
+                            isValid = false;
+            }
+            // 6️⃣ Issue Date Format Validation
+            var invalidDateRows = list
+                .Select((x, index) => new
+                {
+                    RowNo = index + 2, // Excel row number
+        x.IssueDate
+                })
+                .Where(x => x.IssueDate == null)
+                .ToList();
+
+            if (invalidDateRows.Any())
+            {
+                string rows = string.Join(", ",
+                    invalidDateRows.Select(x => x.RowNo));
+
+                message += $"Invalid IssueDate format in row(s): {rows}. "
+                         + "Required format: dd/MM/yyyy"
+                         + Environment.NewLine;
+
+                isValid = false;
+            }
+
+
 
             // 5️⃣ Show Message
             if (!isValid)
@@ -926,6 +967,21 @@ namespace NBank.Other
             }
 
             return isValid;
+        }
+        private bool IsValidDateFormat(object dateValue)
+        {
+            if (dateValue == null)
+                return false;
+
+            DateTime tempDate;
+
+            // Try parse exact dd/MM/yyyy
+            return DateTime.TryParseExact(
+                dateValue.ToString(),
+                "dd/MM/yyyy",
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out tempDate);
         }
 
     }

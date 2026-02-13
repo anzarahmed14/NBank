@@ -1,4 +1,4 @@
-﻿ALTER PROCEDURE SP_ImportChequeEntry
+﻿CREATE PROCEDURE SP_ImportChequeEntry
 (
     @ChequeList dbo.ChequeEntryImportType READONLY,
     @CompanyID BIGINT,
@@ -16,7 +16,7 @@ BEGIN
         BEGIN TRAN;
 
         -------------------------------------------------
-        -- 1️⃣ DUPLICATE CHECK (WITH NAME RETURN)
+        -- 1️ DUPLICATE CHECK (WITH NAME RETURN)
         -------------------------------------------------
      
 IF EXISTS
@@ -191,7 +191,7 @@ END
                 NULL,
                 ChequeAmount,
                 0,
-                'Imported from Excel',
+                '',
                 CompanyID,
                 @UserID,
                 @UserID,

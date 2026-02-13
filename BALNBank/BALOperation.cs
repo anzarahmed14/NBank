@@ -21,10 +21,18 @@ namespace BALNBank
         {
             // Type t = typeof(obj);
 
-
+            
 
             ClassName = obj.GetType().Name;
             list = (new BALDynamicProperty().GetSQLParameter(obj, plist));
+
+            if (ClassName == "clsChequeEntry")
+            {
+                list.RemoveAll(p =>
+                p.ParameterName.Equals("CreatedUserName", StringComparison.OrdinalIgnoreCase) ||
+                p.ParameterName.Equals("UpdatedUserName", StringComparison.OrdinalIgnoreCase)
+            );
+            }
             list.Add(new SqlParameter("@Message", SqlDbType.NVarChar,400) {  Direction = ParameterDirection.Output});
 
              Message = (new DALDataAccess().ExecuteNonQuery(ClassName.Replace("cls", "Create"), list));
@@ -34,6 +42,16 @@ namespace BALNBank
         {
             ClassName = obj.GetType().Name;
             list = (new BALDynamicProperty().GetSQLParameter(obj, plist));
+
+            if (ClassName == "clsChequeEntry") {
+                list.RemoveAll(p =>
+                p.ParameterName.Equals("CreatedUserName", StringComparison.OrdinalIgnoreCase) ||
+                p.ParameterName.Equals("UpdatedUserName", StringComparison.OrdinalIgnoreCase)
+            );
+            }
+            
+
+
             list.Add(new SqlParameter("@Message", SqlDbType.NVarChar, 400) { Direction = ParameterDirection.Output });
 
             Message = (new DALDataAccess().ExecuteNonQuery(ClassName.Replace("cls", "Update"), list));

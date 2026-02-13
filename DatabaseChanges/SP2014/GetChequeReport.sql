@@ -85,6 +85,7 @@ BEGIN
             WHEN 'CED' THEN V.ChequeEntryDate
             WHEN 'CID' THEN V.ChequeIssueDate
             WHEN 'CCD' THEN V.ChequeClearDate
+			ELSE V.ChequeEntryDate 
         END DESC,
         V.ChequeEntryID DESC;
 END;

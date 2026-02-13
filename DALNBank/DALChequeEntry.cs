@@ -169,6 +169,10 @@ namespace DALNBank
                                     obj.Narration       = NullReader.GetString("Narration");
                                     obj.CompanyID       = NullReader.GetInt64("CompanyID");
                                     obj.ERPID           = NullReader.GetString("ERPID");
+                                    obj.CreatedUserName = NullReader.GetString("CreatedUserName");
+                                    obj.UpdatedUserName = NullReader.GetString("UpdatedUserName");
+                                    obj.CreatedDate = NullReader.GetDateTime("CreatedDate");
+                                    obj.UpdatedDate = NullReader.GetDateTime("UpdatedDate");
 
                                 }
                             }
@@ -246,6 +250,77 @@ namespace DALNBank
             return result;
         }
 
+        public List<ImportLogModel> GetImportLogList()
+        {
+            List<ImportLogModel> list =
+                new List<ImportLogModel>();
+
+            using (SqlConnection con =
+                new SqlConnection(NBankConnectionString))
+            {
+                using (SqlCommand cmd =
+                    new SqlCommand(
+                        "SP_GetImportLogList", con))
+                {
+                    cmd.CommandType =
+                        CommandType.StoredProcedure;
+
+                    con.Open();
+
+                    using (SqlDataReader dr =
+                        cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            list.Add(new ImportLogModel
+                            {
+                                ImportLogID =
+                                    Convert.ToInt64(
+                                        dr["ImportLogID"]),
+
+                                CompanyID =
+                                    Convert.ToInt64(
+                                        dr["CompanyID"]),
+
+                                CompanyName =
+                                    dr["CompanyName"]
+                                    .ToString(),
+
+                                BankID =
+                                    Convert.ToInt64(
+                                        dr["BankID"]),
+
+                                BankName =
+                                    dr["BankName"]
+                                    .ToString(),
+
+                                TotalRows =
+                                    Convert.ToInt32(
+                                        dr["TotalRows"]),
+
+                                FileName =
+                                    dr["FileName"]
+                                    .ToString(),
+
+                                CreatedUserID =
+                                    Convert.ToInt64(
+                                        dr["CreatedUserID"]),
+
+                                CreatedUserName =
+                                    dr["CreatedUserName"]
+                                    .ToString(),
+
+                                CreatedDate =
+                                    Convert.ToDateTime(
+                                        dr["CreatedDate"])
+                            });
+                        }
+                    }
+                }
+            }
+
+            return list;
+        }
 
 
     }
