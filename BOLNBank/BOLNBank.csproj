@@ -76,6 +76,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChequeDuplicateKey.cs" />
     <Compile Include="ChequeImportModel.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="clsAccount.cs" />

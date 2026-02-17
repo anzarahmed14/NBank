@@ -48,5 +48,8 @@ namespace BOLNBank
         public bool IsSubTypeValid { get; set; } = true;
         public bool IsTypeValid { get; set; } = true;
         public bool IsProjectValid { get; set; } = true;
+
+
+        public bool IsDuplicate { get; set; } = false;
     }
 }

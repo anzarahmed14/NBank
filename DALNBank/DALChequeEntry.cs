@@ -196,59 +196,57 @@ namespace DALNBank
             return obj;
         }
         public DataTable ImportChequeEntry(
-    DataTable dt,
-    long companyId,
-    long bankId,
-    long userId,
-    string fileName)
+     DataTable dt,
+     long companyId,
+     long bankId,
+     long userId,
+     string fileName)
         {
             DataTable result = new DataTable();
 
             using (SqlConnection con =
                 new SqlConnection(NBankConnectionString))
+            using (SqlCommand cmd =
+                new SqlCommand(
+                    "SP_ImportChequeEntry", con))
             {
-                using (SqlCommand cmd =
-                    new SqlCommand(
-                        "SP_ImportChequeEntry", con))
+                cmd.CommandType =
+                    CommandType.StoredProcedure;
+
+                // TVP
+                var tvp =
+                    cmd.Parameters.AddWithValue(
+                        "@ChequeList", dt);
+
+                tvp.SqlDbType =
+                    SqlDbType.Structured;
+
+                tvp.TypeName =
+                    "dbo.ChequeEntryImportType";
+
+                // Other params
+                cmd.Parameters.AddWithValue(
+                    "@CompanyID", companyId);
+
+                cmd.Parameters.AddWithValue(
+                    "@BankID", bankId);
+
+                cmd.Parameters.AddWithValue(
+                    "@UserID", userId);
+
+                cmd.Parameters.AddWithValue(
+                    "@FileName", fileName ?? "");
+
+                using (SqlDataAdapter da =
+                    new SqlDataAdapter(cmd))
                 {
-                    cmd.CommandType =
-                        CommandType.StoredProcedure;
-
-                    // 🔹 TVP Parameter
-                    SqlParameter tvp =
-                        cmd.Parameters.AddWithValue(
-                            "@ChequeList", dt);
-
-                    tvp.SqlDbType =
-                        SqlDbType.Structured;
-
-                    tvp.TypeName =
-                        "dbo.ChequeEntryImportType";
-
-                    // 🔹 Other Parameters
-                    cmd.Parameters.AddWithValue(
-                        "@CompanyID", companyId);
-
-                    cmd.Parameters.AddWithValue(
-                        "@BankID", bankId);
-
-                    cmd.Parameters.AddWithValue(
-                        "@UserID", userId);
-
-                    cmd.Parameters.AddWithValue(
-                        "@FileName", fileName ?? "");
-
-                    // 🔹 Fill Result
-                    using (SqlDataAdapter da =
-                        new SqlDataAdapter(cmd))
-                    {
-                        da.Fill(result);
-                    }
+                    da.Fill(result);
                 }
             }
 
             return result;
         }
+
 
         public List<ImportLogModel> GetImportLogList()
         {
@@ -321,6 +319,64 @@ namespace DALNBank
 
             return list;
         }
+
+
+        public HashSet<ChequeDuplicateKey>
+    ValidateDuplicateCheque(DataTable chequeTable)
+        {
+            var set = new HashSet<ChequeDuplicateKey>();
+
+            using (SqlConnection con =
+                new SqlConnection(NBankConnectionString))
+            {
+                con.Open();
+
+                SqlCommand cmd = new SqlCommand(
+                    "SP_ValidateDuplicateCheque",
+                    con);
+
+                cmd.CommandType =
+                    CommandType.StoredProcedure;
+
+                var tvp =
+                    cmd.Parameters.AddWithValue(
+                        "@ChequeList",
+                        chequeTable);
+
+                tvp.SqlDbType =
+                    SqlDbType.Structured;
+
+                tvp.TypeName =
+                    "dbo.ChequeEntryImportType";
+
+                SqlDataReader dr =
+                    cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    set.Add(new ChequeDuplicateKey
+                    {
+                        ChequeNo =
+                            dr["ChequeNo"].ToString().Trim(),
+
+                        IssueDate =
+                            Convert.ToDateTime(
+                                dr["IssueDate"]),
+
+                        BankID =
+                            Convert.ToInt64(
+                                dr["BankID"]),
+
+                        CompanyID =
+                            Convert.ToInt64(
+                                dr["CompanyID"])
+                    });
+                }
+            }
+
+            return set;
+        }
+
 
 
     }

@@ -18,6 +18,7 @@ using System.Runtime.InteropServices;
 using BALNBank;
 using System.Data;
 using System.Globalization;
+using System.Threading;
 
 namespace NBank.Other
 {
@@ -33,6 +34,7 @@ namespace NBank.Other
         string MenuName = "MenuChequeImport";
         List<clsUserMenu> FilteredUserMenuList;
         string MessageTitle = "Cheque Import";
+        DataTable dt;
         public ChequeImport()
         {
           
@@ -96,8 +98,65 @@ namespace NBank.Other
                // Validate();
             }
         }
+
+        public Task<List<ChequeImportModel>>
+    ReadExcelAsync(string path)
+        {
+            var tcs =
+                new TaskCompletionSource<
+                    List<ChequeImportModel>>();
+
+            Thread thread = new Thread(() =>
+            {
+                try
+                {
+                    var result = ReadExcel(path);
+                    tcs.SetResult(result);
+                }
+                catch (Exception ex)
+                {
+                    tcs.SetException(ex);
+                }
+            });
+
+            // 🔴 VERY IMPORTANT — Excel Interop needs STA
+            thread.SetApartmentState(
+                ApartmentState.STA);
+
+            thread.Start();
+
+            return tcs.Task;
+        }
+
         private async void Import_Click(object sender, RoutedEventArgs e)
         {
+            long companyId = Convert.ToInt64(cmbCompanyName.SelectedValue);
+            long bankId = Convert.ToInt64(cmbBankName.SelectedValue);
+
+            // Both not selected
+            if (companyId == -1 && bankId == -1)
+            {
+                MessageBox.Show("Please select Company and Bank");
+                return;
+            }
+
+            // Company not selected
+            if (companyId == -1)
+            {
+                MessageBox.Show("Please select Company");
+                return;
+            }
+
+            // Bank not selected
+            if (bankId == -1)
+            {
+                MessageBox.Show("Please select Bank");
+                return;
+            }
+
+
+
+
             Mouse.OverrideCursor = Cursors.Wait;
             try
             {
@@ -108,25 +167,18 @@ namespace NBank.Other
                 }
 
                 list = new List<ChequeImportModel>();
-                list = ReadExcel(txtFilePath.Text);
-                //ValidatePartyName(list);
-                //ValidateParameter(list);
-                //ValidateProject(list, CompanyID);
-
-                //ValidateSubType(list);
-                //ValidateType(list);
-
-                // 🔹 Run validations in parallel
+                list = await ReadExcelAsync(txtFilePath.Text);
+                
+                //  Run validations in parallel
                 await Task.WhenAll(
                     Task.Run(() => ValidatePartyName(list)),
                     Task.Run(() => ValidateParameter(list)),
                     Task.Run(() => ValidateProject(list, CompanyID)),
                     Task.Run(() => ValidateSubType(list)),
-                    Task.Run(() => ValidateType(list))
+                    Task.Run(() => ValidateType(list)),
+                    Task.Run(() => ValidateDuplicateCheque(list, bankId, companyId)) // NEW
                 );
-                list = list
-        .OrderBy(x => x.IssueDate)   // Change property name if different
-        .ToList();
+                list = list   .OrderBy(x => x.IssueDate)    .ToList();
 
                 dgImport.ItemsSource = list;
 
@@ -139,6 +191,7 @@ namespace NBank.Other
                     !x.IsParameterValid ||
                     !x.IsProjectValid ||
                     !x.IsSubTypeValid ||
+                    x.IsDuplicate ||
                     !x.IsTypeValid);
 
                 int validRows = totalRows - errorRows;
@@ -436,6 +489,9 @@ namespace NBank.Other
                 Mouse.OverrideCursor = Cursors.Wait;
 
                 UploadData();
+            }catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message,"File Uplaod Failed");
             }
             finally
             {
@@ -448,15 +504,14 @@ namespace NBank.Other
         public void UploadData()
         {
 
-            var list =
-                (List<ChequeImportModel>)
-                dgImport.ItemsSource;
+            var list =    (List<ChequeImportModel>) dgImport.ItemsSource;
 
             int errorRows = list.Count(x =>
                 !x.IsAccountValid ||
                 !x.IsParameterValid ||
                 !x.IsProjectValid ||
                 !x.IsSubTypeValid ||
+                 x.IsDuplicate ||
                 !x.IsTypeValid);
 
             if (errorRows > 0)
@@ -476,8 +531,7 @@ namespace NBank.Other
                 Convert.ToInt64(
                     cmbBankName.SelectedValue);
 
-            DataTable dt =
-               ConvertToDataTable(list, companyId, bankId);
+             dt =   ConvertToDataTable(list, companyId, bankId);
 
             long userId = Globals.UserID;   // Login UserID
 
@@ -485,77 +539,48 @@ namespace NBank.Other
                 System.IO.Path.GetFileName(
                     txtFilePath.Text);
 
-            DataTable dupTable =
-      new BALChequeEntry()
-      .ImportChequeEntry(
-          dt,
-          companyId,
-          bankId,
-          userId,
-          fileName);
+            DataTable result =  new BALChequeEntry().ImportChequeEntry(   dt,  companyId,  bankId,   userId,  fileName);
 
 
-            if (dupTable.Rows.Count > 0)
+            if (result.Rows.Count > 0)
             {
-                int totalDuplicates = dupTable.Rows.Count;
+                bool status =
+                    Convert.ToBoolean(
+                        result.Rows[0]["Status"]);
 
-                // Decide how many to display
-                int displayCount = Math.Min(5, totalDuplicates);
+                string message =
+                    result.Rows[0]["Message"]
+                    .ToString();
 
-                // Dynamic Header
-                string msg =
-                    $"Duplicate Found: {totalDuplicates} record(s)\n\n";
-
-                if (totalDuplicates > 5)
+                if (status)
                 {
-                    msg += "Showing Top 5 Records:\n\n";
+                    int rows =
+                        Convert.ToInt32(
+                            result.Rows[0]["InsertedRows"]);
+
+                    MessageBox.Show(
+                        $"{message}\nInserted Rows: {rows}",
+                        "Import",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Information);
                 }
                 else
                 {
-                    msg += "Duplicate Records:\n\n";
+                    MessageBox.Show(
+                        message,
+                        "Import Failed",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
                 }
-
-                msg +=
-                    "ChequeNo | Issue Date | Bank | Company \n" +
-                    "------------------------------------------------\n";
-
-                // Loop records
-                for (int i = 0; i < displayCount; i++)
-                {
-                    DataRow row = dupTable.Rows[i];
-
-                    msg +=
-                        $"{row["ChequeNo"]} | " +
-                        $"{Convert.ToDateTime(row["ChequeDate"]) .ToString("dd/MM/yyyy")} | " +
-                        $"{row["BankName"]} | " +
-                        $"{row["CompanyName"]}  \n";
-                       
-                }
-
-                // More records note
-                if (totalDuplicates > 5)
-                {
-                    msg += "\n...and more duplicate records exist.";
-                }
-
-                MessageBox.Show(msg,
-                                "Duplicate Validation",
-                                MessageBoxButton.OK,
-                                MessageBoxImage.Warning);
-
-                return;
             }
 
 
-            MessageBox.Show(  "Import Completed Successfully");
+           
         }
 
-        private DataTable ConvertToDataTable(
-     List<ChequeImportModel> list,
-     long companyId,
-     long bankId)
+        private DataTable ConvertToDataTable( List<ChequeImportModel> list,   long companyId,  long bankId)
         {
-            DataTable dt = new DataTable();
+             dt = new DataTable();
 
             dt.Columns.Add("EntryDate", typeof(DateTime));
             dt.Columns.Add("IssueDate", typeof(DateTime));
@@ -593,6 +618,48 @@ namespace NBank.Other
             }
 
             return dt;
+        }
+
+
+        private void ValidateDuplicateCheque( List<ChequeImportModel> list,  long BankID, long CompanyID)
+        {
+            try
+            {
+                var duplicateSet =
+                    new BALChequeEntry()
+                    .ValidateDuplicateCheque(list, BankID, CompanyID);
+
+                foreach (var item in list)
+                {
+                    var key = new ChequeDuplicateKey
+                    {
+                        ChequeNo =
+                            item.ChequeNo?.Trim(),
+
+                        IssueDate =
+                            item.IssueDate ?? DateTime.MinValue,
+
+                        BankID =
+                            BankID,
+
+                        CompanyID =
+                            CompanyID
+                    };
+
+                    if (duplicateSet.Contains(key))
+                    {
+                        item.IsDuplicate = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Duplicate Validation",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
         }
 
 
@@ -1307,6 +1374,7 @@ namespace NBank.Other
                       !x.IsParameterValid ||
                       !x.IsProjectValid ||
                       !x.IsSubTypeValid ||
+                      x.IsDuplicate ||
                       !x.IsTypeValid);
 
                 if (errorRows > 0)

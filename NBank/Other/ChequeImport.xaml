@@ -253,7 +253,24 @@
                             Binding="{Binding Narration}"
                             Width="120"/>
             </DataGrid.Columns>
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
 
+                    <Style.Triggers>
+
+                        <!-- Duplicate row -->
+                        <DataTrigger Binding="{Binding IsDuplicate}"
+                             Value="True">
+                            <Setter Property="Background"
+                            Value="#FF9E9E"/>
+                            <Setter Property="Foreground"
+                            Value="Black"/>
+                        </DataTrigger>
+
+                    </Style.Triggers>
+
+                </Style>
+            </DataGrid.RowStyle>
         </DataGrid>
 
 

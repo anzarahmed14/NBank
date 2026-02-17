@@ -129,6 +129,54 @@ namespace BALNBank
             return new DALChequeEntry()
                 .GetImportLogList();
         }
+        public HashSet<ChequeDuplicateKey>   ValidateDuplicateCheque( List<ChequeImportModel> list, long BankID, long CompanyID)
+        {
+            DataTable dt = ToDataTable(list, BankID, CompanyID);
+
+            return new DALChequeEntry()
+                .ValidateDuplicateCheque(dt);
+        }
+        private DataTable ToDataTable( List<ChequeImportModel> list, long BankID, long CompanyID)
+        {
+            DataTable dt = new DataTable();
+
+            dt.Columns.Add("EntryDate", typeof(DateTime));
+            dt.Columns.Add("IssueDate", typeof(DateTime));
+            dt.Columns.Add("ProjectID", typeof(long));
+            dt.Columns.Add("AccountID", typeof(long));
+            dt.Columns.Add("AccountSubName", typeof(string));
+            dt.Columns.Add("BankID", typeof(long));
+            dt.Columns.Add("ChequeNo", typeof(string));
+            dt.Columns.Add("TypeID", typeof(long));
+            dt.Columns.Add("SubTypeID", typeof(long));
+            dt.Columns.Add("ParameterID", typeof(long));
+            dt.Columns.Add("ChequeAmount", typeof(decimal));
+            dt.Columns.Add("CompanyID", typeof(long));
+            dt.Columns.Add("Narration", typeof(string));
+
+            foreach (var item in list)
+            {
+                dt.Rows.Add(
+                    item.EntryDate,
+                    item.IssueDate,
+                    item.ProjectID,
+                    item.AccountID,
+                    item.AccountName,
+                   BankID,
+                    item.ChequeNo,
+                    item.TypeID,
+                    item.SubTypeID,
+                    item.ParameterID,
+                    item.ChequeAmount,
+                    CompanyID,
+                    item.Narration
+                );
+            }
+
+            return dt;
+        }
+
+
 
     }
 }
