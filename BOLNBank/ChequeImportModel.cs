@@ -8,8 +8,10 @@ namespace BOLNBank
 {
     public class ChequeImportModel
     {
+        public DateTime? EntryDate { get; set; }
         public DateTime? IssueDate { get; set; }
 
+       
 
         public long CompanyID { get; set; }
         public string CompanyCode { get; set; }
@@ -36,6 +38,8 @@ namespace BOLNBank
 
         public long ParameterID { get; set; }   
         public string Parameter { get; set; }
+
+        public string Narration { get; set; }
 
 
         public bool IsAccountValid { get; set; } = true;

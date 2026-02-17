@@ -124,7 +124,9 @@ namespace NBank.Other
                     Task.Run(() => ValidateSubType(list)),
                     Task.Run(() => ValidateType(list))
                 );
-
+                list = list
+        .OrderBy(x => x.IssueDate)   // Change property name if different
+        .ToList();
 
                 dgImport.ItemsSource = list;
 
@@ -159,37 +161,40 @@ namespace NBank.Other
             }
 
         }
-        private List<ChequeImportModel> ReadExcel(string path)
+        private List<ChequeImportModel> ReadExcel2(string path)
         {
-            var list = new List<ChequeImportModel>();
-
-            Excel.Application xlApp = new Excel.Application();
-            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(path);
-            Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
-            Excel.Range xlRange = xlWorksheet.UsedRange;
-
-            int rowCount = xlRange.Rows.Count;
-            int colCount = xlRange.Columns.Count;
-
-            // 1️⃣ Header Dictionary
-            Dictionary<string, int> headers =
-                new Dictionary<string, int>(
-                    StringComparer.OrdinalIgnoreCase);
-
-            for (int col = 1; col <= colCount; col++)
+            try
             {
-                string header =
-                    xlRange.Cells[1, col]?.Value2?
-                    .ToString()?.Trim();
+                var list = new List<ChequeImportModel>();
 
-                if (!string.IsNullOrEmpty(header))
-                    headers[header] = col;
-            }
+                Excel.Application xlApp = new Excel.Application();
+                Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(path);
+                Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
+                Excel.Range xlRange = xlWorksheet.UsedRange;
 
-            // 2️⃣ ✅ REQUIRED COLUMN VALIDATION (CALL HERE)
+                int rowCount = xlRange.Rows.Count;
+                int colCount = xlRange.Columns.Count;
 
-            string[] requiredColumns =
-            {
+                // 1️⃣ Header Dictionary
+                Dictionary<string, int> headers =
+                    new Dictionary<string, int>(
+                        StringComparer.OrdinalIgnoreCase);
+
+                for (int col = 1; col <= colCount; col++)
+                {
+                    string header =
+                        xlRange.Cells[1, col]?.Value2?
+                        .ToString()?.Trim();
+
+                    if (!string.IsNullOrEmpty(header))
+                        headers[header] = col;
+                }
+
+                // 2️⃣ ✅ REQUIRED COLUMN VALIDATION (CALL HERE)
+
+                string[] requiredColumns =
+                {
+                "EntryDate",
         "IssueDate",
         "ProjectCode",
         "Type",
@@ -197,169 +202,228 @@ namespace NBank.Other
         "Parameter",
         "ChequeNo",
         "PartyName",
-        "ChequeAmount"
+        "ChequeAmount",
+        "Narration"
     };
 
-            foreach (var col in requiredColumns)
-            {
-                if (!headers.ContainsKey(col))
+                foreach (var col in requiredColumns)
                 {
-                    MessageBox.Show(
-                        $"Excel missing column: {col}",
-                        "Header Validation",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
+                    if (!headers.ContainsKey(col))
+                    {
+                        MessageBox.Show(
+                            $"Excel missing column: {col}",
+                            "Header Validation",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Error);
 
-                    // Close Excel before return
-                    xlWorkbook.Close(false);
-                    xlApp.Quit();
+                        // Close Excel before return
+                        xlWorkbook.Close(false);
+                        xlApp.Quit();
 
-                    Marshal.ReleaseComObject(xlWorksheet);
-                    Marshal.ReleaseComObject(xlWorkbook);
-                    Marshal.ReleaseComObject(xlApp);
+                        Marshal.ReleaseComObject(xlWorksheet);
+                        Marshal.ReleaseComObject(xlWorkbook);
+                        Marshal.ReleaseComObject(xlApp);
 
-                    return new List<ChequeImportModel>();
+                        return new List<ChequeImportModel>();
+                    }
                 }
-            }
 
-            // 3️⃣ Helper Function
-            object GetCell(int row, string column)
-            {
-                if (!headers.ContainsKey(column))
-                    return null;
-
-                return xlRange.Cells[row,
-                       headers[column]]?.Value2;
-            }
-
-            // 4️⃣ Read Data Rows
-            for (int i = 2; i <= rowCount; i++)
-            {
-                list.Add(new ChequeImportModel
+                // 3️⃣ Helper Function
+                object GetCell(int row, string column)
                 {
-                    IssueDate =
-                        GetCell(i, "IssueDate") != null
-                        ? DateTime.FromOADate(
-                            Convert.ToDouble(
-                                GetCell(i, "IssueDate")))
-                        : (DateTime?)null,
+                    if (!headers.ContainsKey(column))
+                        return null;
 
-                    ProjectCode =
-                        GetCell(i, "ProjectCode")?.ToString(),
+                    return xlRange.Cells[row,
+                           headers[column]]?.Value2;
+                }
 
-                    Type =
-                        GetCell(i, "Type")?.ToString(),
+                // 4️⃣ Read Data Rows
+                for (int i = 2; i <= rowCount; i++)
+                {
+                    list.Add(new ChequeImportModel
+                    {
 
-                    SubType =
-                        GetCell(i, "SubType")?.ToString(),
+                        EntryDate =
+                            GetCell(i, "EntryDate") != null
+                            ? DateTime.FromOADate(
+                                Convert.ToDouble(
+                                    GetCell(i, "EntryDate")))
+                            : (DateTime?)null,
 
-                    Parameter =
-                        GetCell(i, "Parameter")?.ToString(),
+                        IssueDate =
+                            GetCell(i, "IssueDate") != null
+                            ? DateTime.FromOADate(
+                                Convert.ToDouble(
+                                    GetCell(i, "IssueDate")))
+                            : (DateTime?)null,
 
-                    ChequeNo =
-                        GetCell(i, "ChequeNo")?.ToString(),
+                        ProjectCode =
+                            GetCell(i, "ProjectCode")?.ToString(),
 
-                    AccountName =
-                        GetCell(i, "PartyName")?.ToString(),
+                        Type =
+                            GetCell(i, "Type")?.ToString(),
 
-                    ChequeAmount =
-                        Convert.ToDecimal(
-                            GetCell(i, "ChequeAmount") ?? 0)
-                });
+                        SubType =
+                            GetCell(i, "SubType")?.ToString(),
+
+                        Parameter =
+                            GetCell(i, "Parameter")?.ToString(),
+
+                        ChequeNo =
+                            GetCell(i, "ChequeNo")?.ToString(),
+
+                        AccountName =
+                            GetCell(i, "PartyName")?.ToString(),
+
+                        ChequeAmount =
+                            Convert.ToDecimal(
+                                GetCell(i, "ChequeAmount") ?? 0),
+
+                        Narration =
+                            GetCell(i, "Narration")?.ToString(),
+                    });
+                }
+
+                // 5️⃣ Close Excel
+                xlWorkbook.Close(false);
+                xlApp.Quit();
+
+                Marshal.ReleaseComObject(xlWorksheet);
+                Marshal.ReleaseComObject(xlWorkbook);
+                Marshal.ReleaseComObject(xlApp);
+
+              
             }
-
-            // 5️⃣ Close Excel
-            xlWorkbook.Close(false);
-            xlApp.Quit();
-
-            Marshal.ReleaseComObject(xlWorksheet);
-            Marshal.ReleaseComObject(xlWorkbook);
-            Marshal.ReleaseComObject(xlApp);
-
+            catch ( Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Reading Excel File");
+            }
             return list;
         }
 
 
-        private List<ChequeImportModel> ReadExcel_2(string path)
+        private List<ChequeImportModel> ReadExcel(string path)
         {
             var list = new List<ChequeImportModel>();
+            Excel.Application xlApp = null;
+            Excel.Workbook xlWorkbook = null;
+            Excel._Worksheet xlWorksheet = null;
+            Excel.Range xlRange = null;
 
-            Excel.Application xlApp = new Excel.Application();
-            Excel.Workbook xlWorkbook =
-                xlApp.Workbooks.Open(path);
-
-            Excel._Worksheet xlWorksheet =
-                xlWorkbook.Sheets[1];
-
-            Excel.Range xlRange =
-                xlWorksheet.UsedRange;
-
-            int rowCount = xlRange.Rows.Count;
-
-            // Start from row 2 (Skip Header)
-            for (int i = 2; i <= rowCount; i++)
+            try
             {
-                list.Add(new ChequeImportModel
+                xlApp = new Excel.Application();
+                xlWorkbook = xlApp.Workbooks.Open(path);
+                xlWorksheet = xlWorkbook.Sheets[1];
+                xlRange = xlWorksheet.UsedRange;
+
+                int rowCount = xlRange.Rows.Count;
+                int colCount = xlRange.Columns.Count;
+
+                // 1️⃣ Header Dictionary
+                Dictionary<string, int> headers =
+                    new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+
+                for (int col = 1; col <= colCount; col++)
                 {
-                    // 1️⃣ Issue Date
-                    IssueDate =
-                        xlRange.Cells[i, 1]?.Value2 != null
-                        ? DateTime.FromOADate(
-                            xlRange.Cells[i, 1].Value2)
-                        : (DateTime?)null,
+                    string header = xlRange.Cells[1, col]?.Value2?.ToString()?.Trim();
+                    if (!string.IsNullOrEmpty(header))
+                        headers[header] = col;
+                }
 
-                    // 2️⃣ Project Code
-                    ProjectCode =
-                        xlRange.Cells[i, 2]?.Value2?.ToString(),
+                // 2️⃣ Required Column Validation
+                string[] requiredColumns =
+                {
+            "EntryDate","IssueDate","ProjectCode","Type","SubType",
+            "Parameter","ChequeNo","PartyName","ChequeAmount","Narration"
+        };
 
-                    // 3️⃣ Type
-                    Type =
-                        xlRange.Cells[i, 3]?.Value2?.ToString(),
+                foreach (var col in requiredColumns)
+                {
+                    if (!headers.ContainsKey(col))
+                    {
+                        MessageBox.Show(
+                            $"Excel missing column: {col}",
+                            "Header Validation",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Error);
 
-                    // 4️⃣ SubType
-                    SubType =
-                        xlRange.Cells[i, 4]?.Value2?.ToString(),
+                        return new List<ChequeImportModel>();
+                    }
+                }
 
-                    // 5️⃣ Parameter
-                    Parameter =
-                        xlRange.Cells[i, 5]?.Value2?.ToString(),
+                // 3️⃣ Helper Function
+                object GetCell(int row, string column)
+                {
+                    if (!headers.ContainsKey(column))
+                        return null;
+                    return xlRange.Cells[row, headers[column]]?.Value2;
+                }
 
-                    // 6️⃣ Cheque No
-                    ChequeNo =
-                        xlRange.Cells[i, 6]?.Value2?.ToString(),
+                // 4️⃣ Read Data Rows with Error Context
+                for (int i = 2; i <= rowCount; i++)
+                {
+                    try
+                    {
+                        var model = new ChequeImportModel
+                        {
+                            EntryDate = GetCell(i, "EntryDate") != null
+                                ? DateTime.FromOADate(Convert.ToDouble(GetCell(i, "EntryDate")))
+                                : (DateTime?)null,
 
-                    // 7️⃣ Party Name
-                    AccountName =
-                        xlRange.Cells[i, 7]?.Value2?.ToString(),
+                            IssueDate = GetCell(i, "IssueDate") != null
+                                ? DateTime.FromOADate(Convert.ToDouble(GetCell(i, "IssueDate")))
+                                : (DateTime?)null,
 
-                    // 8️⃣ Cheque Amount
-                    ChequeAmount =
-                        Convert.ToDecimal(
-                            xlRange.Cells[i, 8]?.Value2 ?? 0),
+                            ProjectCode = GetCell(i, "ProjectCode")?.ToString(),
+                            Type = GetCell(i, "Type")?.ToString(),
+                            SubType = GetCell(i, "SubType")?.ToString(),
+                            Parameter = GetCell(i, "Parameter")?.ToString(),
+                            ChequeNo = GetCell(i, "ChequeNo")?.ToString(),
+                            AccountName = GetCell(i, "PartyName")?.ToString(),
+                            ChequeAmount = Convert.ToDecimal(GetCell(i, "ChequeAmount") ?? 0),
+                            Narration = GetCell(i, "Narration")?.ToString(),
+                        };
 
-                    // Validation mapping
-                  //  NBankAccountName = ""
-                });
+                        list.Add(model);
+                    }
+                    catch (Exception exRow)
+                    {
+                        // Collect snapshot of row values for debugging
+                        string rowSnapshot = string.Join(", ",
+                            headers.Keys.Select(h => $"{h}={GetCell(i, h)}"));
+
+                        MessageBox.Show(
+                            $"Error at Row {i}: {exRow.Message}\n" +
+                            $"Row Snapshot: {rowSnapshot}",
+                            "Excel Read Error",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Error
+                        );
+                    }
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Reading Excel File");
+            }
+            finally
+            {
+                // 5️⃣ Ensure Excel is closed
+                if (xlWorkbook != null) xlWorkbook.Close(false);
+                if (xlApp != null) xlApp.Quit();
 
-            // Close Excel
-            xlWorkbook.Close(false);
-            xlApp.Quit();
-
-            // Release COM Objects
-            Marshal.ReleaseComObject(xlWorksheet);
-            Marshal.ReleaseComObject(xlWorkbook);
-            Marshal.ReleaseComObject(xlApp);
+                if (xlRange != null) Marshal.ReleaseComObject(xlRange);
+                if (xlWorksheet != null) Marshal.ReleaseComObject(xlWorksheet);
+                if (xlWorkbook != null) Marshal.ReleaseComObject(xlWorkbook);
+                if (xlApp != null) Marshal.ReleaseComObject(xlApp);
+            }
 
             return list;
         }
-        //Import_Click
 
-        //private void Refresh_Click(object sender, RoutedEventArgs e)
-        //{
-        //    dgImport.ItemsSource = null;
-        //    txtSummary.Text = "";
-        //}
+
 
         private void Upload_Click(object sender, RoutedEventArgs e)
         {
@@ -452,7 +516,7 @@ namespace NBank.Other
                 }
 
                 msg +=
-                    "ChequeNo | Date | Bank | Company | Account\n" +
+                    "ChequeNo | Issue Date | Bank | Company \n" +
                     "------------------------------------------------\n";
 
                 // Loop records
@@ -464,8 +528,8 @@ namespace NBank.Other
                         $"{row["ChequeNo"]} | " +
                         $"{Convert.ToDateTime(row["ChequeDate"]) .ToString("dd/MM/yyyy")} | " +
                         $"{row["BankName"]} | " +
-                        $"{row["CompanyName"]} | " +
-                        $"{row["AccountName"]}\n";
+                        $"{row["CompanyName"]}  \n";
+                       
                 }
 
                 // More records note
@@ -493,7 +557,8 @@ namespace NBank.Other
         {
             DataTable dt = new DataTable();
 
-            dt.Columns.Add("ChequeEntryDate", typeof(DateTime));
+            dt.Columns.Add("EntryDate", typeof(DateTime));
+            dt.Columns.Add("IssueDate", typeof(DateTime));
             dt.Columns.Add("ProjectID", typeof(long));
             dt.Columns.Add("AccountID", typeof(long));
             dt.Columns.Add("AccountSubName", typeof(string));
@@ -504,10 +569,12 @@ namespace NBank.Other
             dt.Columns.Add("ParameterID", typeof(long));
             dt.Columns.Add("ChequeAmount", typeof(decimal));
             dt.Columns.Add("CompanyID", typeof(long));
+            dt.Columns.Add("Narration", typeof(string));
 
             foreach (var item in list)
             {
                 dt.Rows.Add(
+                    item.EntryDate,
                     item.IssueDate,
                     item.ProjectID,
                     item.AccountID,
@@ -520,7 +587,8 @@ namespace NBank.Other
                     item.SubTypeID,
                     item.ParameterID,
                     item.ChequeAmount,
-                    companyId
+                    companyId,
+                    item.Narration
                 );
             }
 
@@ -528,8 +596,60 @@ namespace NBank.Other
         }
 
 
+        private void ValidateBankCode(List<ChequeImportModel> list)
+        {
+            try
+            {
+                var bankDict = new BALBank().LoadBanks();
 
-        private void ValidateBankCode( List<ChequeImportModel> list)
+                foreach (var item in list)
+                {
+                    try
+                    {
+                        if (string.IsNullOrWhiteSpace(item.BankCode))
+                        {
+                            item.IsBankValid = false;
+                            continue;
+                        }
+
+                        string excelBank = item.BankCode.Trim().ToUpper();
+
+                        if (bankDict.ContainsKey(excelBank))
+                        {
+                            item.IsBankValid = true;
+                        }
+                        else
+                        {
+                            item.IsBankValid = false;
+                        }
+                    }
+                    catch (Exception exItem)
+                    {
+                        // Row-level error handling
+                        item.IsBankValid = false;
+
+                        MessageBox.Show(
+                            $"Error validating BankCode '{item?.BankCode}'.\n" +
+                            $"Details: {exItem.Message}",
+                            "Bank Validation Error",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Warning
+                        );
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Critical error (e.g., LoadBanks failed)
+                MessageBox.Show(
+                    $"Critical error during bank validation.\nDetails: {ex.Message}",
+                    "Bank Validation Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error
+                );
+            }
+        }
+        private void ValidateBankCode2( List<ChequeImportModel> list)
         {
             var bankDict = (new BALBank(). LoadBanks());
 
@@ -556,7 +676,80 @@ namespace NBank.Other
                 }
             }
         }
-        private void ValidatePartyName(
+        private void ValidatePartyName(List<ChequeImportModel> list)
+        {
+            try
+            {
+                var accountDict = new BALAccount().LoadAccounts();
+
+                int matched = 0;
+                int notMatched = 0;
+
+                foreach (var item in list)
+                {
+                    try
+                    {
+                        if (string.IsNullOrWhiteSpace(item.AccountName))
+                        {
+                            item.IsAccountValid = false;
+                            item.AccountID = 0;
+                            notMatched++;
+                            continue;
+                        }
+
+                        string excelName = item.AccountName.Trim().ToUpper();
+
+                        if (accountDict.ContainsKey(excelName))
+                        {
+                            // ✅ VALID
+                            item.AccountID = accountDict[excelName];
+                            item.IsAccountValid = true;
+                            matched++;
+                        }
+                        else
+                        {
+                            // ❌ INVALID
+                            item.AccountID = 0;
+                            item.IsAccountValid = false;
+                            notMatched++;
+                        }
+                    }
+                    catch (Exception exItem)
+                    {
+                        // Catch unexpected issues for this row
+                        item.IsAccountValid = false;
+                        item.AccountID = 0;
+                        notMatched++;
+
+                        MessageBox.Show(
+                            $"Error validating AccountName '{item?.AccountName}' in list item.\n" +
+                            $"Details: {exItem.Message}",
+                            "Validation Error",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Warning
+                        );
+                    }
+                }
+
+                // Optional summary message
+                //MessageBox.Show(
+                //    $"Validation complete.\nMatched: {matched}, Not Matched: {notMatched}",
+                //    "Validation Summary",
+                //    MessageBoxButton.OK,
+                //    MessageBoxImage.Information
+                //);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Critical error during account validation.\nDetails: {ex.Message}",
+                    "Validation Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error
+                );
+            }
+        }
+        private void ValidatePartyName2(
      List<ChequeImportModel> list)
         {
             var accountDict =
@@ -600,7 +793,7 @@ namespace NBank.Other
             }
         }
 
-        private void ValidateParameter(
+        private void ValidateParameter2(
      List<ChequeImportModel> list)
         {
             var paramDict =
@@ -610,8 +803,8 @@ namespace NBank.Other
             {
                 if (string.IsNullOrWhiteSpace(item.Parameter))
                 {
-                    item.ParameterID = 0;
-                    item.IsParameterValid = false;
+                    item.ParameterID = -1;
+                    item.IsParameterValid = true;
                     continue;
                 }
 
@@ -631,13 +824,73 @@ namespace NBank.Other
                 else
                 {
                     // ❌ INVALID
-                    item.ParameterID = 0;
+                    item.ParameterID = -1;
                     item.IsParameterValid = false;
                 }
             }
         }
+        private void ValidateParameter(List<ChequeImportModel> list)
+        {
+            try
+            {
+                var paramDict = new BALParameter().LoadParameters();
 
-        private void ValidateSubType(
+                foreach (var item in list)
+                {
+                    try
+                    {
+                        if (string.IsNullOrWhiteSpace(item.Parameter))
+                        {
+                            item.ParameterID = -1;
+                            item.IsParameterValid = true; // treat blank as valid
+                            continue;
+                        }
+
+                        string excelParam = item.Parameter.Trim().ToUpper();
+
+                        if (paramDict.ContainsKey(excelParam))
+                        {
+                            // ✅ VALID → Assign ID
+                            item.ParameterID = paramDict[excelParam];
+                            item.IsParameterValid = true;
+                        }
+                        else
+                        {
+                            // ❌ INVALID
+                            item.ParameterID = -1;
+                            item.IsParameterValid = false;
+                        }
+                    }
+                    catch (Exception exItem)
+                    {
+                        // Row-level error handling
+                        item.ParameterID = -1;
+                        item.IsParameterValid = false;
+
+                        MessageBox.Show(
+                            $"Error validating Parameter '{item?.Parameter}'.\n" +
+                            $"Details: {exItem.Message}",
+                            "Parameter Validation Error",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Warning
+                        );
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Critical error (e.g., LoadParameters failed)
+                MessageBox.Show(
+                    $"Critical error during parameter validation.\nDetails: {ex.Message}",
+                    "Parameter Validation Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error
+                );
+            }
+        }
+
+
+        private void ValidateSubType2(
     List<ChequeImportModel> list)
         {
             var subTypeDict =
@@ -674,7 +927,67 @@ namespace NBank.Other
             }
         }
 
-        private void ValidateType(
+        private void ValidateSubType(List<ChequeImportModel> list)
+        {
+            try
+            {
+                var subTypeDict = new BALSubType().LoadSubTypes();
+
+                foreach (var item in list)
+                {
+                    try
+                    {
+                        if (string.IsNullOrWhiteSpace(item.SubType))
+                        {
+                            item.SubTypeID = 0;
+                            item.IsSubTypeValid = false;
+                            continue;
+                        }
+
+                        string excelSubType = item.SubType.Trim().ToUpper();
+
+                        if (subTypeDict.ContainsKey(excelSubType))
+                        {
+                            // ✅ VALID → Assign ID
+                            item.SubTypeID = subTypeDict[excelSubType];
+                            item.IsSubTypeValid = true;
+                        }
+                        else
+                        {
+                            // ❌ INVALID
+                            item.SubTypeID = 0;
+                            item.IsSubTypeValid = false;
+                        }
+                    }
+                    catch (Exception exItem)
+                    {
+                        // Row-level error handling
+                        item.SubTypeID = 0;
+                        item.IsSubTypeValid = false;
+
+                        MessageBox.Show(
+                            $"Error validating SubType '{item?.SubType}'.\n" +
+                            $"Details: {exItem.Message}",
+                            "SubType Validation Error",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Warning
+                        );
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Critical error (e.g., LoadSubTypes failed)
+                MessageBox.Show(
+                    $"Critical error during subtype validation.\nDetails: {ex.Message}",
+                    "SubType Validation Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error
+                );
+            }
+        }
+
+        private void ValidateType2(
      List<ChequeImportModel> list)
         {
             var typeDict =
@@ -710,10 +1023,68 @@ namespace NBank.Other
                 }
             }
         }
+        private void ValidateType(List<ChequeImportModel> list)
+        {
+            try
+            {
+                var typeDict = new BALType().LoadTypes();
+
+                foreach (var item in list)
+                {
+                    try
+                    {
+                        if (string.IsNullOrWhiteSpace(item.Type))
+                        {
+                            item.TypeID = 0;
+                            item.IsTypeValid = false;
+                            continue;
+                        }
+
+                        string excelType = item.Type.Trim().ToUpper();
+
+                        if (typeDict.ContainsKey(excelType))
+                        {
+                            // ✅ VALID → Assign ID
+                            item.TypeID = typeDict[excelType];
+                            item.IsTypeValid = true;
+                        }
+                        else
+                        {
+                            // ❌ INVALID
+                            item.TypeID = 0;
+                            item.IsTypeValid = false;
+                        }
+                    }
+                    catch (Exception exItem)
+                    {
+                        // Row-level error handling
+                        item.TypeID = 0;
+                        item.IsTypeValid = false;
+
+                        MessageBox.Show(
+                            $"Error validating Type '{item?.Type}'.\n" +
+                            $"Details: {exItem.Message}",
+                            "Type Validation Error",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Warning
+                        );
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Critical error (e.g., LoadTypes failed)
+                MessageBox.Show(
+                    $"Critical error during type validation.\nDetails: {ex.Message}",
+                    "Type Validation Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error
+                );
+            }
+        }
 
 
-
-        private void ValidateProject(
+        private void ValidateProject2(
       List<ChequeImportModel> list,
       long companyId)
         {
@@ -751,7 +1122,65 @@ namespace NBank.Other
                 }
             }
         }
+        private void ValidateProject(List<ChequeImportModel> list, long companyId)
+        {
+            try
+            {
+                var projectDict = new BALProject().LoadProjects(companyId);
 
+                foreach (var item in list)
+                {
+                    try
+                    {
+                        if (string.IsNullOrWhiteSpace(item.ProjectCode))
+                        {
+                            item.ProjectID = 0;
+                            item.IsProjectValid = false;
+                            continue;
+                        }
+
+                        string excelProject = item.ProjectCode.Trim().ToUpper();
+
+                        if (projectDict.ContainsKey(excelProject))
+                        {
+                            // ✅ VALID → Assign ID
+                            item.ProjectID = projectDict[excelProject];
+                            item.IsProjectValid = true;
+                        }
+                        else
+                        {
+                            // ❌ INVALID
+                            item.ProjectID = 0;
+                            item.IsProjectValid = false;
+                        }
+                    }
+                    catch (Exception exItem)
+                    {
+                        // Row-level error handling
+                        item.ProjectID = 0;
+                        item.IsProjectValid = false;
+
+                        MessageBox.Show(
+                            $"Error validating ProjectCode '{item?.ProjectCode}'.\n" +
+                            $"Details: {exItem.Message}",
+                            "Project Validation Error",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Warning
+                        );
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Critical error (e.g., LoadProjects failed)
+                MessageBox.Show(
+                    $"Critical error during project validation.\nDetails: {ex.Message}",
+                    "Project Validation Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error
+                );
+            }
+        }
 
         private void GetCompany()
         {
@@ -833,71 +1262,7 @@ namespace NBank.Other
             }
         }
 
-        public void Validate2()
-        {
-            long companyId =
-               Convert.ToInt64(
-                   cmbCompanyName.SelectedValue);
-
-            long bankId =
-                Convert.ToInt64(
-                    cmbBankName.SelectedValue);
-
-
-            if (companyId > 0)
-            {
-                cmbBankName.IsEnabled = true;
-            }
-            else
-            {
-                cmbBankName.IsEnabled = false;
-            }
-
-
-            if (companyId > 0 && bankId > 0)
-            {
-                btnBrowse.IsEnabled = true;
-            }
-            else
-            {
-                btnBrowse.IsEnabled = false;
-            }
-
-            if (list != null)
-            {
-                int errorRows = list.Count(x =>
-              !x.IsAccountValid ||
-              !x.IsParameterValid ||
-              !x.IsProjectValid ||
-              !x.IsSubTypeValid ||
-              !x.IsTypeValid);
-
-
-                if (errorRows == 0)
-                {
-                    btnUpload.IsEnabled = true;
-                }
-                else
-                {
-                    btnUpload.IsEnabled = false;
-                }
-            }
-            else
-            {
-                btnUpload.IsEnabled = false;
-            }
-
-            if (txtFilePath.Text.Trim().Length > 0  && companyId > 0 && bankId > 0)
-            {
-                btnImport.IsEnabled = true;
-            }
-            else
-            {
-                btnImport.IsEnabled = false;
-            }
-            
-
-        }
+       
         public void BindControl()
         {
             cmbBankName.IsEnabled = false;
@@ -1000,28 +1365,52 @@ namespace NBank.Other
 
                             isValid = false;
             }
-            // 6️⃣ Issue Date Format Validation
-            var invalidDateRows = list
+
+
+
+
+
+            // 6️⃣ EntryDate NULL + FORMAT Validation
+            var invalidEntryRows = list
                 .Select((x, index) => new
                 {
-                    RowNo = index + 2, // Excel row number
-        x.IssueDate
-                })
-                .Where(x => x.IssueDate == null)
+                    RowNo = index + 2,
+                    EntryDate = NormalizeExcelDate(x.EntryDate) // <-- FIX
+        })
+                .Where(x => x.EntryDate == null || !IsDateInDDMMYYYY(x.EntryDate))
                 .ToList();
 
-            if (invalidDateRows.Any())
+            if (invalidEntryRows.Any())
             {
-                string rows = string.Join(", ",
-                    invalidDateRows.Select(x => x.RowNo));
+                string rows = string.Join(", ", invalidEntryRows.Select(x => x.RowNo));
 
-                message += $"Invalid IssueDate format in row(s): {rows}. "
+                message += $"EntryDate invalid in row(s): {rows}. "
                          + "Required format: dd/MM/yyyy"
                          + Environment.NewLine;
 
                 isValid = false;
             }
 
+            // 7️⃣ IssueDate NULL + FORMAT Validation
+            var invalidIssueRows = list
+                .Select((x, index) => new
+                {
+                    RowNo = index + 2,
+                    IssueDate = NormalizeExcelDate(x.IssueDate) // <-- FIX
+        })
+                .Where(x => x.IssueDate == null || !IsDateInDDMMYYYY(x.IssueDate))
+                .ToList();
+
+            if (invalidIssueRows.Any())
+            {
+                string rows = string.Join(", ", invalidIssueRows.Select(x => x.RowNo));
+
+                message += $"IssueDate invalid in row(s): {rows}. "
+                         + "Required format: dd/MM/yyyy"
+                         + Environment.NewLine;
+
+                isValid = false;
+            }
 
 
             // 5️⃣ Show Message
@@ -1033,8 +1422,45 @@ namespace NBank.Other
                                 MessageBoxImage.Warning);
             }
 
+
+
             return isValid;
         }
+        // Helper: Convert Excel serials or DateTime into nullable DateTime
+        private DateTime? NormalizeExcelDate(object rawValue)
+        {
+            if (rawValue == null || rawValue == DBNull.Value)
+                return null;
+
+            if (int.TryParse(rawValue.ToString(), out int serial))
+                return new DateTime(1899, 12, 30).AddDays(serial);
+
+            if (rawValue is DateTime dt)
+                return dt;
+
+            return null;
+        }
+
+        private bool IsDateInDDMMYYYY(DateTime? date)
+        {
+            if (date == null)
+                return false;
+
+            // string formatted = date.Value.ToString("dd/MM/yyyy");
+
+            string formatted =
+    date.Value.ToString("dd/MM/yyyy")
+              .Replace("-", "/");
+            DateTime tempDate;
+
+            return DateTime.TryParseExact(
+                formatted,
+                "dd/MM/yyyy",
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out tempDate);
+        }
+
         private bool IsValidDateFormat(object dateValue)
         {
             if (dateValue == null)

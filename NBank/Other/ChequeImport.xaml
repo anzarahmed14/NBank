@@ -101,6 +101,13 @@
 
             <DataGrid.Columns>
 
+
+                <!-- Issue Date -->
+                <DataGridTextColumn Header="Entry Date"
+                            Binding="{Binding EntryDate,
+                            StringFormat=dd/MM/yyyy}"
+                            Width="120"/>
+
                 <!-- Issue Date -->
                 <DataGridTextColumn Header="Issue Date"
                             Binding="{Binding IssueDate,
@@ -241,6 +248,10 @@
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
 
+
+                <DataGridTextColumn Header="Narration"
+                            Binding="{Binding Narration}"
+                            Width="120"/>
             </DataGrid.Columns>
 
         </DataGrid>

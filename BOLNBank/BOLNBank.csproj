@@ -104,6 +104,7 @@
     <Compile Include="clsUser.cs" />
     <Compile Include="clsUserCompanyGroupMapping.cs" />
     <Compile Include="clsUserMenu.cs" />
+    <Compile Include="ExcelImportError.cs" />
     <Compile Include="ImportLogModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,5 +1,4 @@
-
-ALTER Procedure [dbo].[CreateChequeEntry]
+﻿ALTER Procedure [dbo].[CreateChequeEntry]
 @Message  NVARCHAR(4000) OUTPUT
 ,@ChequeEntryID BIGINT = null
 ,@ChequeEntryDate datetime= null
@@ -30,12 +29,36 @@ BEGIN
 BEGIN TRANSACTION
 	BEGIN TRY
 		/*Check duplicate cheque no*/
-		IF EXISTS(SELECT * FROM ChequeEntry WHERE BankID=@BankID AND  CompanyID=@CompanyID AND ChequeNo=@ChequeNo)
-		BEGIN
-				SET @Message='DUCH'
+		IF EXISTS
+			(
+				SELECT 1
+				FROM ChequeEntry
+				WHERE BankID = @BankID
+				  AND CompanyID = @CompanyID
+				  AND ChequeNo = @ChequeNo
+				  AND
+				  (
+						-- Case 1: IssueDate provided → check date also
+						(
+							@ChequeIssueDate IS NOT NULL
+							AND CAST(ChequeIssueDate AS DATE) =
+								CAST(@ChequeIssueDate AS DATE)
+						)
+
+						OR
+
+						-- Case 2: IssueDate NULL → ignore date
+						(
+							@ChequeIssueDate IS NULL
+						)
+				  )
+			)
+			BEGIN
+				SET @Message = 'DUCH'
 				ROLLBACK TRANSACTION
-			RETURN	
-		END 
+				RETURN
+			END
+
 
 		/*Get New Code No*/
 		DECLARE @NewNo NVARCHAR(20) 
